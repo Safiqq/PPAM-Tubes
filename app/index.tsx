@@ -2,9 +2,9 @@ import { Image } from 'expo-image';
 import { Pressable, StyleSheet } from 'react-native';
 import { Link } from 'expo-router';
 
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
+import { View } from '@/components/Themed';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { LexendText } from '@/components/StyledText';
 
 export default function HomeScreen() {
   const insets = useSafeAreaInsets();
@@ -13,15 +13,24 @@ export default function HomeScreen() {
     <View style={[styles.container, { paddingTop: insets.top }]}>
       <Image
         style={styles.image}
-        source={require('../assets/images/home-hero.svg')}
-        contentFit="cover"
-        transition={1000}
+        source={require('@/assets/images/home-hero.svg')}
       />
-      <Text style={styles.title}>Making finance more accessible, transparent, and fair</Text>
-      <Text style={styles.text}>Empowering people around the world to live a more fulfilling life through financial independence</Text>
-      <Link href="/" asChild>
+      <LexendText
+        bold={true}
+        style={styles.title}
+      >
+        Making finance more accessible, transparent, and fair
+      </LexendText>
+      <LexendText style={styles.text}>
+        Empowering people around the world to live a more fulfilling life through financial
+        independence
+      </LexendText>
+      <Link
+        href='/signup'
+        asChild
+      >
         <Pressable style={styles.button}>
-          <Text style={styles.buttonText}>Get started</Text>
+          <LexendText style={styles.buttonText}>Get started</LexendText>
         </Pressable>
       </Link>
     </View>
@@ -40,12 +49,10 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   title: {
-    fontSize: 36,
-    fontWeight: 'bold',
+    fontSize: 32,
     width: '80%',
   },
   text: {
-    flex: 1,
     fontSize: 16,
     width: '80%',
   },
@@ -53,11 +60,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     width: '80%',
     paddingVertical: 20,
-    margin: 12,
+    margin: 32,
     borderRadius: 32,
   },
   buttonText: {
     color: 'white',
     textAlign: 'center',
-  }
+  },
 });

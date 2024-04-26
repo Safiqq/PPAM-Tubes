@@ -1,12 +1,11 @@
+// import { router } from 'expo-router'
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
-import { SafeAreaView } from 'react-native';
 
-import { useColorScheme } from '@/components/useColorScheme';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 export {
@@ -23,8 +22,14 @@ export {
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  // Don't forget to delete! This is only used to bypass the screens (for development only)
+  // useEffect(() => {
+  //   router.navigate('/home')
+  // }, []);
+
   const [loaded, error] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    Lexend: require('@/assets/fonts/Lexend-Regular.ttf'),
+    LexendBold: require('@/assets/fonts/Lexend-Bold.ttf'),
     ...FontAwesome.font,
   });
 
@@ -47,14 +52,25 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
-  const colorScheme = useColorScheme();
+  // const colorScheme = useColorScheme();
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    // <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <ThemeProvider value={DefaultTheme}>
       <SafeAreaProvider>
         <Stack>
-          <Stack.Screen name="index" options={{ headerShown: false }} />
-          <Stack.Screen name="modal" options={{ headerShown: false, presentation: 'modal' }} />
+          <Stack.Screen
+            name='index'
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name='(guest)'
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name='(user)'
+            options={{ headerShown: false }}
+          />
         </Stack>
       </SafeAreaProvider>
     </ThemeProvider>
