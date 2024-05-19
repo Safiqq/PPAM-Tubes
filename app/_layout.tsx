@@ -1,17 +1,17 @@
 // import { router } from 'expo-router'
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { DefaultTheme, ThemeProvider } from "@react-navigation/native";
+import { useFonts } from "expo-font";
+import { Stack } from "expo-router";
+import * as SplashScreen from "expo-splash-screen";
+import { useEffect } from "react";
 
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
-} from 'expo-router';
+} from "expo-router";
 
 // export const unstable_settings = {
 // Ensure that reloading on `/modal` keeps a back button present.
@@ -28,8 +28,8 @@ export default function RootLayout() {
   // }, []);
 
   const [loaded, error] = useFonts({
-    Lexend: require('@/assets/fonts/Lexend-Regular.ttf'),
-    LexendBold: require('@/assets/fonts/Lexend-Bold.ttf'),
+    Lexend: require("@/assets/fonts/Lexend-Regular.ttf"),
+    LexendBold: require("@/assets/fonts/Lexend-Bold.ttf"),
   });
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
@@ -58,18 +58,9 @@ function RootLayoutNav() {
     <ThemeProvider value={DefaultTheme}>
       <SafeAreaProvider>
         <Stack>
-          <Stack.Screen
-            name='index'
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name='(guest)'
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name='(tabs)'
-            options={{ headerShown: false }}
-          />
+          <Stack.Screen name="(guest)" options={{ headerShown: false }} />
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="index" options={{ headerShown: false }} />
         </Stack>
       </SafeAreaProvider>
     </ThemeProvider>

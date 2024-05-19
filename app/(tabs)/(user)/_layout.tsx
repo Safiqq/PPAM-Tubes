@@ -56,17 +56,17 @@ function UserLayoutNav() {
             name="kalkulatorinvestasi"
             options={{ headerShown: false }}
           />
+            <Stack.Screen
+              name="panduanaplikasi"
+              options={{ headerShown: false }}
+            />
           <Stack.Screen
-            name="simulasikpr-biayalain"
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="simulasikpr-strategi"
+            name="simulasikpr-analisa"
             options={{ headerShown: false }}
           />
           <Stack.Screen name="simulasikpr" options={{ headerShown: false }} />
           <Stack.Screen
-            name="tambahtransaksi-panduanaplikasi"
+            name="panduanaplikasi"
             options={{ headerShown: false }}
           />
           <Stack.Screen

@@ -68,7 +68,7 @@ function TabsLayoutNav() {
             }}
           />
           <Tabs.Screen
-            name="transaksi-riwayattransaksi"
+            name="transaksi"
             options={{
               title: "",
               tabBarIcon: ({ focused }) => (
