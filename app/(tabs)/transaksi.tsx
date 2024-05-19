@@ -5,14 +5,15 @@ import {
   Image,
   Pressable,
 } from "react-native";
-
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LexendText } from "@/components/StyledText";
 import { Shadow } from "react-native-shadow-2";
 import Spacer from "@/components/Spacer";
 import { useState } from "react";
+import TransaksiBerulang from "@/components/TransaksiBerulang";
+import RiwayatTransaksi from "@/components/RiwayatTransaksi";
 
-export default function TransaksiRiwayatTransaksiScreen() {
+export default function TransaksiScreen() {
   const [tab, setTab] = useState("Riwayat Transaksi");
 
   return (
@@ -101,67 +102,21 @@ export default function TransaksiRiwayatTransaksiScreen() {
             <Spacer size={8} />
           </Pressable>
           <Pressable
-            className={`w-1/2 text-center ${tab == "Transaksi Berutang" ? "border-b" : ""}`}
-            onPress={() => setTab("Transaksi Berutang")}
+            className={`w-1/2 text-center ${tab == "Transaksi Berulang" ? "border-b" : ""}`}
+            onPress={() => setTab("Transaksi Berulang")}
           >
             <LexendText
-              className={`text-center text-[14px] font-semibold ${tab == "Transaksi Berutang" ? "" : "text-[#C5C5C5]"}`}
+              className={`text-center text-[14px] font-semibold ${tab == "Transaksi Berulang" ? "" : "text-[#C5C5C5]"}`}
             >
-              Transaksi Berutang
+              Transaksi Berulang
             </LexendText>
             <Spacer size={8} />
           </Pressable>
         </View>
         <Spacer size={20} />
-        <View className="mx-5">
-          <LexendText className="text-[#C5C5C5]">14 Apr 2024</LexendText>
-          <Spacer size={4} />
-          <Shadow className="flex w-full flex-row items-center justify-between rounded-[16px] px-4 py-4">
-            <View className="flex flex-row items-center gap-3">
-              <Image source={require("@/assets/images/logo/gaji.png")} />
-              <View>
-                <LexendText bold={true} className="text-[16px]">
-                  Design
-                </LexendText>
-                <LexendText className="text-[10px]">Gaji</LexendText>
-              </View>
-            </View>
-            <LexendText className="text-[16px] text-[#EF4E4E]">
-              - Rp50.000
-            </LexendText>
-          </Shadow>
-          <Spacer size={20} />
-          <LexendText>13 Apr 2024</LexendText>
-          <Spacer size={4} />
-          <Shadow className="w-full rounded-[16px] px-4 py-4">
-            <View className="flex flex-row items-center justify-between">
-              <View className="flex flex-row items-center gap-3">
-                <Image source={require("@/assets/images/logo/gaji.png")} />
-                <View>
-                  <LexendText bold={true} className="text-[16px]">
-                    Design
-                  </LexendText>
-                  <LexendText className="text-[10px]">Gaji</LexendText>
-                </View>
-              </View>
-              <LexendText className="text-[16px] text-[#76C063]">
-                + Rp50.000
-              </LexendText>
-            </View>
-            <Spacer size={28} />
-            <View className="flex flex-row items-center justify-between">
-              <View className="flex flex-row items-center gap-3">
-                <Image source={require("@/assets/images/logo/tabungan.png")} />
-                <View>
-                  <LexendText bold={true} className="text-[16px]">
-                    Tabungan
-                  </LexendText>
-                </View>
-              </View>
-              <LexendText className="text-[16px]">+ Rp600.000</LexendText>
-            </View>
-          </Shadow>
-        </View>
+
+        {tab == "Riwayat Transaksi" && <RiwayatTransaksi />}
+        {tab == "Riwayat Transaksi" && <TransaksiBerulang />}
         <Spacer size={8} />
       </ScrollView>
     </SafeAreaView>
