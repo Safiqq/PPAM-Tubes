@@ -1,5 +1,8 @@
 import { ImageBackground, Pressable, StyleSheet, TextInput } from 'react-native';
 import { Link } from 'expo-router';
+import { useState } from 'react';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { FIREBASE_AUTH } from '@/FirebaseConfig';
 
 import { View } from '@/components/Themed';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -7,6 +10,25 @@ import { LexendText } from '@/components/StyledText';
 
 export default function HomeScreen() {
   const insets = useSafeAreaInsets();
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const auth = FIREBASE_AUTH
+
+  const signIn = async () => {
+    setLoading(true)
+    try {
+      const response = await signInWithEmailAndPassword(auth, email, password);
+      console.log(response);
+      alert('Sign in berhasil!');
+    } catch (error: any) {
+      console.log(error);
+      alert('Sign in gagal: ' + error.message)
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <View style={[styles.container, { paddingTop: insets.top }]}>
@@ -21,14 +43,23 @@ export default function HomeScreen() {
           Login
         </LexendText>
         <LexendText style={styles.subtitle}>Email</LexendText>
-        <TextInput style={styles.input} />
+        <TextInput
+          style={styles.input}
+          onChangeText={(newText) => setEmail(newText)}
+          defaultValue={''}
+        />
         <LexendText style={styles.subtitle}>Password</LexendText>
-        <TextInput style={styles.input} />
+        <TextInput
+          secureTextEntry={true}
+          style={styles.input}
+          onChangeText={(newText) => setPassword(newText)}
+          defaultValue={''}
+        />
         <Link
           href='/home'
           asChild
         >
-          <Pressable style={styles.button}>
+          <Pressable style={styles.button} onPress={()=>signIn()}>
             <LexendText style={styles.buttonText}>Login</LexendText>
           </Pressable>
         </Link>

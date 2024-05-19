@@ -5,31 +5,33 @@ import { Link } from 'expo-router';
 import { View } from '@/components/Themed';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LexendText } from '@/components/StyledText';
+import React, { useState } from 'react';
+import { FIREBASE_AUTH } from '@/FirebaseConfig';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 export default function HomeScreen() {
   const insets = useSafeAreaInsets();
-  let data = {
-    email: '',
-    name: '',
-    password: '',
-    referralCode: '',
-  };
+  const [isSignUpSuccess, setIsSignUpSuccess] = useState(false);
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [referralCode, setReferralCode] = useState('');
+  
+  const auth = FIREBASE_AUTH
 
-  const setEmail = (email: string) => {
-    data.email = email;
-  };
-
-  const setName = (name: string) => {
-    data.name = name;
-  };
-
-  const setPassword = (password: string) => {
-    data.password = password;
-  };
-
-  const setReferralCode = (referralCode: string) => {
-    data.referralCode = referralCode;
-  };
+  const signUp = async () => {
+    try {
+      // const response = "tes"
+      const response = await createUserWithEmailAndPassword(auth, email, password);
+      console.log(response);
+      setIsSignUpSuccess(true);
+      alert('Sign up berhasil!')
+     } catch (error: any) {
+      console.log(error)
+      alert('Sign up gagal: ' + error.message)
+     }
+  }
 
   return (
     <View style={[styles.container, { paddingTop: insets.top }]}>
@@ -57,6 +59,7 @@ export default function HomeScreen() {
         />
         <LexendText style={styles.subtitle}>Password</LexendText>
         <TextInput
+          secureTextEntry={true}
           style={styles.input}
           onChangeText={(newText) => setPassword(newText)}
           defaultValue={data.password}
@@ -71,7 +74,7 @@ export default function HomeScreen() {
           href='/home'
           asChild
         >
-          <Pressable style={styles.button}>
+          <Pressable style={styles.button} onPress={()=>signUp()}>
             <LexendText style={styles.buttonText}>Create an Account</LexendText>
           </Pressable>
         </Link>
