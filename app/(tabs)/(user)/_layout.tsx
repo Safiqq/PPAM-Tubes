@@ -35,7 +35,7 @@ function UserLayoutNav() {
   return (
     <ThemeProvider value={DefaultTheme}>
       <SafeAreaProvider>
-        <Stack initialRouteName="tambahtransaksi-pengeluaran">
+        <Stack initialRouteName="tambahtransaksi">
           <Stack.Screen name="danadarurat" options={{ headerShown: false }} />
           <Stack.Screen name="danamenikah" options={{ headerShown: false }} />
           <Stack.Screen name="danapensiun" options={{ headerShown: false }} />
@@ -70,19 +70,7 @@ function UserLayoutNav() {
             options={{ headerShown: false }}
           />
           <Stack.Screen
-            name="tambahtransaksi-pendapatan"
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="tambahtransaksi-pengeluaran"
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="tambahtransaksi-tabungan"
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="transaksi-transaksiberulang"
+            name="tambahtransaksi"
             options={{ headerShown: false }}
           />
         </Stack>
