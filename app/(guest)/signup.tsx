@@ -49,26 +49,26 @@ export default function HomeScreen() {
         <TextInput
           style={styles.input}
           onChangeText={(newText) => setEmail(newText)}
-          defaultValue={data.email}
+          defaultValue={email}
         />
         <LexendText style={styles.subtitle}>Name</LexendText>
         <TextInput
           style={styles.input}
           onChangeText={(newText) => setName(newText)}
-          defaultValue={data.name}
+          defaultValue={name}
         />
         <LexendText style={styles.subtitle}>Password</LexendText>
         <TextInput
           secureTextEntry={true}
           style={styles.input}
           onChangeText={(newText) => setPassword(newText)}
-          defaultValue={data.password}
+          defaultValue={password}
         />
         <LexendText style={styles.subtitle}>Referral Code</LexendText>
         <TextInput
           style={styles.input}
           onChangeText={(newText) => setReferralCode(newText)}
-          defaultValue={data.referralCode}
+          defaultValue={referralCode}
         />
         <Link
           href='/home'
