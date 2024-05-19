@@ -1,70 +1,57 @@
-import { Image } from 'expo-image';
-import { Pressable, StyleSheet } from 'react-native';
+import { Image, Pressable, View } from 'react-native';
 import { Link } from 'expo-router';
 
-import { View } from '@/components/Themed';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { LexendText } from '@/components/StyledText';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { LexendText, LexendTextInput } from '@/components/StyledText';
+import Spacer from '@/components/Spacer';
 
 export default function HomeScreen() {
   const insets = useSafeAreaInsets();
 
   return (
-    <View style={[styles.container, { paddingTop: insets.top }]}>
-      <Image
-        style={styles.image}
-        source={require('@/assets/images/home-hero.svg')}
-      />
-      <LexendText
-        bold={true}
-        style={styles.title}
+    <SafeAreaView className='flex-1 bg-white'>
+      {/* <ScrollView className='flex-1'> */}
+      <Image source={require('@/assets/images/log-bg.png')} />
+      <View
+        className='absolute items-center justify-center w-full h-full mt-8'
+        paddingTop={insets.top}
       >
-        Making finance more accessible, transparent, and fair
-      </LexendText>
-      <LexendText style={styles.text}>
-        Empowering people around the world to live a more fulfilling life through financial
-        independence
-      </LexendText>
-      <Link
-        href='/signup'
-        asChild
-      >
-        <Pressable style={styles.button}>
-          <LexendText style={styles.buttonText}>Get started</LexendText>
-        </Pressable>
-      </Link>
-    </View>
+        <LexendText
+          bold={true}
+          className='text-[36px]'
+        >
+          Login
+        </LexendText>
+        <Spacer size={100} />
+        <View className='px-11 w-full'>
+          <LexendText className='text-[20px]'>Email</LexendText>
+          <Spacer size={8} />
+          <LexendTextInput className='text-[16px] h-12 w-full border rounded-[24px] px-4' />
+          <Spacer size={16} />
+          <LexendText className='text-[20px]'>Password</LexendText>
+          <Spacer size={8} />
+          <LexendTextInput className='text-[16px] h-12 w-full border rounded-[24px]' />
+          <Spacer size={172} />
+          <Link
+            href='/home'
+            asChild
+          >
+            <Pressable className='bg-[#76C063] rounded-[32px]'>
+              <LexendText className='py-4 text-center text-[16px]'>Login</LexendText>
+            </Pressable>
+          </Link>
+          <Spacer size={16} />
+          <LexendText className='text-[16px] text-center'>Don't have an account?</LexendText>
+          <Spacer size={4} />
+          <Link
+            href='/signup'
+            asChild
+          >
+            <LexendText className='text-[#76C063] text-[16px] text-center'>Register</LexendText>
+          </Link>
+        </View>
+      </View>
+      {/* </ScrollView> */}
+    </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  image: {
-    flex: 5,
-    height: '100%',
-    width: '100%',
-  },
-  title: {
-    fontSize: 32,
-    width: '80%',
-  },
-  text: {
-    fontSize: 16,
-    width: '80%',
-  },
-  button: {
-    backgroundColor: 'black',
-    width: '80%',
-    paddingVertical: 20,
-    margin: 32,
-    borderRadius: 32,
-  },
-  buttonText: {
-    color: 'white',
-    textAlign: 'center',
-  },
-});

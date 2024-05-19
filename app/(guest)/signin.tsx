@@ -1,4 +1,3 @@
-import { Image } from 'expo-image';
 import { ImageBackground, Pressable, StyleSheet, TextInput } from 'react-native';
 import { Link } from 'expo-router';
 

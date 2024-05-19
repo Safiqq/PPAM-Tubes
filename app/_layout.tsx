@@ -30,7 +30,6 @@ export default function RootLayout() {
   const [loaded, error] = useFonts({
     Lexend: require('@/assets/fonts/Lexend-Regular.ttf'),
     LexendBold: require('@/assets/fonts/Lexend-Bold.ttf'),
-    ...FontAwesome.font,
   });
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
@@ -68,7 +67,7 @@ function RootLayoutNav() {
             options={{ headerShown: false }}
           />
           <Stack.Screen
-            name='(user)'
+            name='(tabs)'
             options={{ headerShown: false }}
           />
         </Stack>
