@@ -36,11 +36,14 @@ function UserLayoutNav() {
     <ThemeProvider value={DefaultTheme}>
       <SafeAreaProvider>
         <Stack initialRouteName="tambahtransaksi-pengeluaran">
+          <Stack.Screen name="danadarurat" options={{ headerShown: false }} />
+          <Stack.Screen name="danamenikah" options={{ headerShown: false }} />
           <Stack.Screen name="danapensiun" options={{ headerShown: false }} />
           <Stack.Screen
             name="detailpengingat"
             options={{ headerShown: false }}
           />
+          <Stack.Screen name="dpproperti" options={{ headerShown: false }} />
           <Stack.Screen
             name="kalkulatorinvestasi-rekomendasi"
             options={{ headerShown: false }}
