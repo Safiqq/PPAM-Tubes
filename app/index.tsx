@@ -1,66 +1,40 @@
-import Spacer from "@/components/Spacer";
-import { LexendText } from "@/components/StyledText";
-import React, { useState } from "react";
-import {
-  View,
-  Image,
-  ScrollView,
-  TouchableOpacity,
-  Pressable,
-} from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import KalkulatorInvestasiStrategi from "@/components/KalkulatorInvestasiStrategi";
-import KalkulatorInvestasiRekomendasi from "@/components/KalkulatorInvestasiRekomendasi";
+import { Image, Pressable, ScrollView } from 'react-native';
+import { Link } from 'expo-router';
 
-export default function KalkulatorInvestasiAnalisa() {
-  const [tab, setTab] = useState("Strategi");
-  const investasi = {
-    pokok: 725_000_000,
-    bunga: 937_550_228,
-  };
+import { View } from '@/components/Themed';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { LexendText } from '@/components/StyledText';
+import Spacer from '@/components/Spacer';
 
-  console.log("here" + investasi);
-
+export default function HomeScreen() {
   return (
-    <SafeAreaView className="flex-1 bg-white">
-      <Spacer size={40} />
-      <LexendText bold={true} className="text-center text-[20px]">
-        Analisa
-      </LexendText>
-      <Image
-        className="absolute right-7 top-[49px]"
-        source={require("@/assets/images/logo/close.png")}
-      />
-      <Spacer size={12} />
-      <View className="mx-5 flex flex-row justify-between">
-        <Pressable
-          className={`w-1/2 text-center ${tab == "Strategi" ? "border-b" : ""}`}
-          onPress={() => setTab("Strategi")}
-        >
+    <SafeAreaView className='flex-1 bg-white'>
+      <ScrollView className='flex-1'>
+        <Image source={require('@/assets/images/hero.png')} />
+        <Spacer size={8} />
+        <View className='mx-8'>
           <LexendText
-            className={`text-center text-[14px] font-semibold ${tab == "Strategi" ? "" : "text-[#C5C5C5]"}`}
+            bold={true}
+            className='text-[32px]'
           >
-            Strategi
+            Making finance more accessible, transparent, and fair
           </LexendText>
-          <Spacer size={8} />
-        </Pressable>
-        <Pressable
-          className={`w-1/2 text-center ${tab == "Biaya Lain" ? "border-b" : ""}`}
-          onPress={() => setTab("Biaya Lain")}
-        >
-          <LexendText
-            className={`text-center text-[14px] font-semibold ${tab == "Biaya Lain" ? "" : "text-[#C5C5C5]"}`}
+          <Spacer size={4} />
+          <LexendText className='text-[16px]'>
+            Empowering people around the world to live a more fulfilling life through financial
+            independence
+          </LexendText>
+          <Spacer size={36} />
+          <Link
+            href='/signup'
+            asChild
           >
-            Biaya Lain
-          </LexendText>
-          <Spacer size={8} />
-        </Pressable>
-      </View>
-
-      {tab == "Strategi" && (
-        <KalkulatorInvestasiStrategi investasi={investasi} />
-      )}
-      {tab == "Biaya Lain" && <KalkulatorInvestasiRekomendasi />}
+            <Pressable className='bg-black rounded-[32px]'>
+              <LexendText className='text-white text-[16px] text-center py-5'>Get started</LexendText>
+            </Pressable>
+          </Link>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }

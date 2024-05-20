@@ -149,7 +149,7 @@ const KalkulatorInvestasiStrategi = ({ investasi }) => {
       </View>
       <Spacer size={12} />
       {/* <StickyHeaderComponent */}
-      <TouchableOpacity className="rounded-lg bg-black py-3" style={{flex: 0.1}}>
+      <TouchableOpacity className="absolute bottom-7 rounded-lg bg-black py-3" style={{flex: 0.1}}>
         <LexendText bold={true} className="text-center text-[16px] text-white">
           Tambah ke Pengingat Pembayaran
         </LexendText>
