@@ -24,7 +24,7 @@ const RiwayatTransaksi = () => {
         </LexendText>
       </Shadow>
       <Spacer size={20} />
-      <LexendText>13 Apr 2024</LexendText>
+      <LexendText className="text-[#C5C5C5]">13 Apr 2024</LexendText>
       <Spacer size={4} />
       <Shadow className="w-full rounded-[16px] px-4 py-4">
         <View className="flex flex-row items-center justify-between">
