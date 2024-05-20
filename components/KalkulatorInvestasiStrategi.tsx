@@ -1,29 +1,38 @@
 import { View, Image, TouchableOpacity, ScrollView } from "react-native";
 import Spacer from "./Spacer";
 import { LexendText } from "./StyledText";
+import TimelineInvestasi from "./TimelineInvestasi";
+import AnalisaRow from "./AnalisaRow";
+import AnalisaBreakdown from "./AnalisaBreakdown";
+import BlackButton from "./BlackButton";
+import Images from "@/constants/Images";
 
-const KalkulatorInvestasiStrategi = ({ investasi }) => {
+const KalkulatorInvestasiStrategi = ({ investasi, cocok = false }) => {
   const { pokok, bunga } = investasi;
   const pokok_percentage = (pokok / (pokok + bunga)) * 100;
   const bunga_percentage = (bunga / (pokok + bunga)) * 100;
 
   return (
-    <ScrollView className="mx-6">
+    <ScrollView className="px-6">
       <Spacer size={28} />
       <View className="flex flex-row items-center rounded-[16px] bg-black px-3 py-6">
         <View className="w-2/3">
           <LexendText className="text-[14px] text-white">
             Strateginya
-            <LexendText bold={true} className="text-[14px] text-[#FF4848]">
+            <LexendText
+              bold={true}
+              className={`text-[14px] ${cocok ? "text-[#76C063]" : "text-[#FF4848]"}`}
+            >
               {" "}
-              belum cocok{" "}
+              {!cocok && "belum "}cocok{" "}
             </LexendText>
             untuk mimpi kamu
           </LexendText>
         </View>
         <Image
           className="absolute -bottom-[1px] right-2"
-          source={require("@/assets/images/hero-kalkulatorinvestasi.png")}
+          source={cocok ? Images["heroanalisa4"] : Images["heroanalisa2"]}
+          // source={require("@/assets/images/hero-analisa-2.png")}
         />
       </View>
       <Spacer size={16} />
@@ -39,7 +48,7 @@ const KalkulatorInvestasiStrategi = ({ investasi }) => {
         </View>
         <Image
           className="absolute -bottom-[13px] left-5"
-          source={require("@/assets/images/hero-kalkulatorinvestasi-1.png")}
+          source={require("@/assets/images/hero-analisa-3.png")}
         />
       </View>
       <Spacer size={16} />
@@ -49,112 +58,50 @@ const KalkulatorInvestasiStrategi = ({ investasi }) => {
         </LexendText>
         <Spacer size={12} />
         <View className="mx-4">
-          <View className="flex flex-row items-center gap-4 border-b border-b-[#BDBDBD] py-2">
-            <Image source={require("@/assets/images/logo/koin.png")} />
-            <View>
-              <LexendText className="text-[10px]">Uangmu saat ini</LexendText>
-              <Spacer size={4} />
-              <LexendText bold={true}>Rp5.000.000</LexendText>
-            </View>
-          </View>
-          <View className="flex flex-row items-center gap-4 border-b border-b-[#BDBDBD] py-2">
-            <Image source={require("@/assets/images/logo/kalender.png")} />
-            <View>
-              <LexendText className="text-[10px]">
-                Jumlah investasi / bulan
-              </LexendText>
-              <Spacer size={4} />
-              <LexendText bold={true}>Rp3.000.000</LexendText>
-            </View>
-          </View>
-          <View className="flex flex-row items-center gap-4 border-b border-b-[#BDBDBD] py-2">
-            <Image source={require("@/assets/images/logo/diskon.png")} />
-            <View>
-              <LexendText className="text-[10px]">Return investasi</LexendText>
-              <Spacer size={4} />
-              <LexendText bold={true}>7.3% / tahun</LexendText>
-            </View>
-          </View>
-          <View className="flex flex-row items-center gap-4 border-b border-b-[#BDBDBD] py-2">
-            <Image source={require("@/assets/images/logo/jam.png")} />
-            <View>
-              <LexendText className="text-[10px]">Lama investasi</LexendText>
-              <Spacer size={4} />
-              <LexendText bold={true}>20 tahun</LexendText>
-            </View>
-          </View>
-          <View className="flex flex-row items-center gap-4 border-b border-b-[#BDBDBD] py-2">
-            <Image source={require("@/assets/images/logo/piala.png")} />
-            <View>
-              <LexendText className="text-[10px]">Hasil investasi</LexendText>
-              <Spacer size={4} />
-              <LexendText bold={true}>Rp1.662.550.228</LexendText>
-              <Spacer size={4} />
-              <LexendText className="text-[10px] text-[#FF4848]">
-                Kurang Rp3.596.145.316
-              </LexendText>
-            </View>
-          </View>
-          <View className="flex flex-row items-center gap-4 border-b border-b-[#BDBDBD] py-2">
-            <Image source={require("@/assets/images/logo/koin.png")} />
-            <View>
-              <LexendText className="text-[10px]">
-                Total bunga periode floating
-              </LexendText>
-              <Spacer size={4} />
-              <LexendText bold={true}>Rp89.490.012</LexendText>
-            </View>
-          </View>
-          <View className="flex flex-row items-center gap-4 py-2">
-            <Image source={require("@/assets/images/logo/jam.png")} />
-            <View className="flex-1">
-              <LexendText className="text-[10px]">Breakdown</LexendText>
-              <Spacer size={8} />
-              <View className="flex h-5 flex-row rounded-[8px]">
-                <View
-                  className="justify-center rounded-l-[8px] bg-[#76C063]"
-                  style={{ width: pokok_percentage * 2.8 }}
-                >
-                  <LexendText bold={true} className="text-center text-[10px]">
-                    {pokok_percentage.toFixed(2)}%
-                  </LexendText>
-                </View>
-                <View
-                  className="justify-center rounded-r-[8px] bg-[#BDBDBD]"
-                  style={{ width: bunga_percentage * 2.8 }}
-                >
-                  <LexendText bold={true} className="text-center text-[10px]">
-                    {bunga_percentage.toFixed(2)}%
-                  </LexendText>
-                </View>
-              </View>
-              <Spacer size={8} />
-              <View className="flex flex-row justify-between">
-                <View>
-                  <LexendText className="text-[8px]">Rp725.000.000</LexendText>
-                  <LexendText className="text-[8px]">
-                    Pokok investasi
-                  </LexendText>
-                </View>
-                <View>
-                  <LexendText className="text-[8px]">Rp937.550.228</LexendText>
-                  <LexendText className="text-[8px]">
-                    Bunga investasi
-                  </LexendText>
-                </View>
-              </View>
-            </View>
-          </View>
+          <AnalisaRow
+            image="koin"
+            title="Uangmu saat ini"
+            content="Rp5.000.000"
+          />
+          <AnalisaRow
+            image="kalender"
+            title="Jumlah investasi / bulan"
+            content="Rp3.000.000"
+          />
+          <AnalisaRow
+            image="diskon"
+            title="Return investasi"
+            content="7.35% / tahun"
+          />
+          <AnalisaRow image="jam" title="Lama investasi" content="5 tahun" />
+          <AnalisaRow
+            image="piala"
+            title="Hasil investasi"
+            content="Rp79.457.735"
+            content2={cocok ? "" : "Kurang Rp20.542.265"}
+          />
+          <AnalisaBreakdown
+            pokok={pokok}
+            bunga={bunga}
+            pokok_percentage={pokok_percentage}
+            bunga_percentage={bunga_percentage}
+          />
         </View>
       </View>
+      <Spacer size={8} />
+      {cocok && (
+        <>
+          <View>
+            <LexendText bold={true}>Timeline Investasi</LexendText>
+            <Spacer size={8} />
+            <TimelineInvestasi />
+          </View>
+          <Spacer size={12} />
+          <BlackButton text="Tambah ke Pengingat Pembayaran" />
+        </>
+      )}
+
       <Spacer size={12} />
-      {/* <StickyHeaderComponent */}
-      <TouchableOpacity className="absolute bottom-7 rounded-lg bg-black py-3" style={{flex: 0.1}}>
-        <LexendText bold={true} className="text-center text-[16px] text-white">
-          Tambah ke Pengingat Pembayaran
-        </LexendText>
-      </TouchableOpacity>
-      <Spacer size={28} />
     </ScrollView>
   );
 };

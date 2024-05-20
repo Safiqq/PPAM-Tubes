@@ -24,7 +24,7 @@ const SimulasiKPRStrategi = () => {
         </View>
         <Image
           className="absolute -bottom-[5px] right-2"
-          source={require("@/assets/images/hero-simulasikpr.png")}
+          source={require("@/assets/images/hero-analisa-1.png")}
         />
       </View>
       <Spacer size={16} />

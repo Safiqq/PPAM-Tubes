@@ -1,122 +1,111 @@
-import { View, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+  Pressable,
+} from "react-native";
 import Spacer from "./Spacer";
 import { LexendText } from "./StyledText";
+import TimelineInvestasi from "@/components/TimelineInvestasi";
+import AnalisaBreakdown from "@/components/AnalisaBreakdown";
+import BlackButton from "@/components/BlackButton";
+import AnalisaRow from "@/components/AnalisaRow";
+import AnalisaPilihanInvestasi from "@/components/AnalisaPilihanInvestasi";
+import AnalisaGreenHero from "@/components/AnalisaGreenHero";
+import React, { useState } from "react";
 
-const KalkulatorInvestasiRekomendasi = () => {
+const KalkulatorInvestasiRekomendasi = ({ investasi }) => {
+  const { pokok, bunga } = investasi;
+  const pokok_percentage = (pokok / (pokok + bunga)) * 100;
+  const bunga_percentage = (bunga / (pokok + bunga)) * 100;
+
+  const [tab, setTab] = useState("Nominal");
+
   return (
-    <View className="mx-6">
-      <Spacer size={28} />
-      <View className="flex flex-row items-center rounded-[16px] bg-[#76C063] px-3 py-4">
-        <View className="w-2/3">
-          <LexendText className="text-[10px]">Total biaya lain</LexendText>
-          <LexendText bold={true} className="text-[20px]">
-            Rp45.000.000
+    <ScrollView className="px-6">
+      <Spacer size={12} />
+      <View className="flex flex-row gap-6">
+        <Pressable
+          className={`flex-1 rounded-[8px] ${tab == "Nominal" ? "bg-black" : "bg-[#C5C5C5] "}`}
+          onPress={() => setTab("Nominal")}
+        >
+          <LexendText
+            className={`py-2 text-center ${tab == "Nominal" ? "text-white" : "text-[#8E8E8E]"} `}
+          >
+            Nominal
           </LexendText>
-          <LexendText className="text-[10px]">
-            Belum termasuk biaya BPHTB & Asuransi
+        </Pressable>
+        <Pressable
+          className={`flex-1 rounded-[8px] ${tab == "Durasi" ? "bg-black" : "bg-[#C5C5C5] "}`}
+          onPress={() => setTab("Durasi")}
+        >
+          <LexendText
+            className={`py-2 text-center ${tab == "Durasi" ? "text-white" : "text-[#8E8E8E]"} `}
+          >
+            Durasi
           </LexendText>
-        </View>
-        <Image
-          className="absolute -bottom-[5px] right-2"
-          source={require("@/assets/images/hero-simulasikpr.png")}
-        />
+        </Pressable>
       </View>
+      <Spacer size={20} />
+      <AnalisaGreenHero uang={5_258_695_543} />
       <Spacer size={16} />
       <View>
-        <LexendText bold={true} className="text-[16px]">
-          Strategimu
-        </LexendText>
-        <Spacer size={12} />
         <View className="mx-4">
-          <View className="flex flex-row items-center gap-4 border-b border-b-[#BDBDBD] py-2">
-            <Image source={require("@/assets/images/logo/koin.png")} />
-            <View>
-              <LexendText className="text-[10px]">Biaya BPHTB</LexendText>
-              <Spacer size={4} />
-              <LexendText className="text-[#EF4E4E] underline">
-                Isi NJOP-TKP
-              </LexendText>
-            </View>
-          </View>
-          <View className="flex flex-row items-center gap-4 border-b border-b-[#BDBDBD] py-2">
-            <Image source={require("@/assets/images/logo/koin.png")} />
-            <View>
-              <LexendText className="text-[10px]">Biaya AJB</LexendText>
-              <Spacer size={4} />
-              <LexendText bold={true}>Rp10.000.000</LexendText>
-            </View>
-          </View>
-          <View className="flex flex-row items-center gap-4 border-b border-b-[#BDBDBD] py-2">
-            <Image source={require("@/assets/images/logo/koin.png")} />
-            <View>
-              <LexendText className="text-[10px]">Biaya balik nama</LexendText>
-              <Spacer size={4} />
-              <LexendText bold={true}>Rp10.000.000</LexendText>
-            </View>
-          </View>
-          <View className="flex flex-row items-center gap-4 border-b border-b-[#BDBDBD] py-2">
-            <Image source={require("@/assets/images/logo/koin.png")} />
-            <View>
-              <LexendText className="text-[10px]">Biaya notaris</LexendText>
-              <Spacer size={4} />
-              <LexendText bold={true}>Rp15.000.000</LexendText>
-            </View>
-          </View>
-          <View className="flex flex-row items-center gap-4 py-2">
-            <Image source={require("@/assets/images/logo/koin.png")} />
-            <View>
-              <LexendText className="text-[10px]">Biaya bank</LexendText>
-              <Spacer size={4} />
-              <LexendText bold={true}>+- Rp10.000.000</LexendText>
-            </View>
-          </View>
-        </View>
-        <View className="ml-12 rounded-[16px] bg-[#F5F5F5] px-4 py-1">
-          <View className="border-b border-b-[#BDBDBD] py-2">
-            <LexendText className="text-[10px]">Appraisal</LexendText>
-            <Spacer size={4} />
-            <LexendText bold={true} className="text-[10px]">
-              Rp1.000.000
-            </LexendText>
-          </View>
-          <View className="border-b border-b-[#BDBDBD] py-2">
-            <LexendText className="text-[10px]">Administrasi</LexendText>
-            <Spacer size={4} />
-            <LexendText bold={true} className="text-[10px]">
-              Rp1.000.000
-            </LexendText>
-          </View>
-          <View className="border-b border-b-[#BDBDBD] py-2">
-            <LexendText className="text-[10px]">Provinsi</LexendText>
-            <Spacer size={4} />
-            <LexendText bold={true} className="text-[10px]">
-              Rp8.000.000
-            </LexendText>
-          </View>
-          <View className="border-b border-b-[#BDBDBD] py-2">
-            <LexendText className="text-[10px]">Asuransi jiwa</LexendText>
-            <Spacer size={4} />
-            <LexendText bold={true} className="text-[10px]">
-              Sesuai umur
-            </LexendText>
-          </View>
-          <View className="py-2">
-            <LexendText className="text-[10px]">Asuransi kebakaran</LexendText>
-            <Spacer size={4} />
-            <LexendText bold={true} className="text-[10px]">
-              Sesuai nilai rumah
-            </LexendText>
-          </View>
+          <AnalisaRow
+            image="koin"
+            title="Uangmu saat ini"
+            content="Rp5.000.000"
+          />
+          <AnalisaRow
+            image="kalender"
+            title="Jumlah investasi / bulan"
+            content="Rp1.000.000"
+            content2={tab == "Nominal" ? "Rp1.300.000" : ""}
+            type={tab == "Nominal" ? 2 : 1}
+          />
+          <AnalisaRow
+            image="diskon"
+            title="Return investasi"
+            content="7.35% / tahun"
+          />
+          <AnalisaRow
+            image="jam"
+            title="Lama investasi"
+            content="5 tahun"
+            content2={tab == "Durasi" ? "7 tahun" : ""}
+            type={tab == "Durasi" ? 2 : 1}
+          />
+          <AnalisaRow
+            image="piala"
+            title="Hasil investasi"
+            content="Rp101.131.302"
+          />
+          <AnalisaPilihanInvestasi
+            pilihans={[
+              "Reksadana Pendapatan Tetap",
+              "P2P Lending",
+              "Obligasi Negara",
+            ]}
+          />
+          <AnalisaBreakdown
+            pokok={pokok}
+            bunga={bunga}
+            pokok_percentage={pokok_percentage}
+            bunga_percentage={bunga_percentage}
+          />
         </View>
       </View>
-      <Spacer size={16} />
-      <TouchableOpacity className="rounded-lg bg-black py-3">
-        <LexendText bold={true} className="text-center text-[16px] text-white">
-          Tambah ke Pengingat Pembayaran
-        </LexendText>
-      </TouchableOpacity>
-      <Spacer size={28} />
-    </View>
+      <Spacer size={8} />
+      <View>
+        <LexendText bold={true}>Timeline Investasi</LexendText>
+        <Spacer size={8} />
+        <TimelineInvestasi />
+      </View>
+      <Spacer size={12} />
+      <BlackButton text="Tambah ke Pengingat Pembayaran" />
+      <Spacer size={12} />
+    </ScrollView>
   );
 };
 
