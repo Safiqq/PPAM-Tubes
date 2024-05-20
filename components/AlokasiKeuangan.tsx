@@ -9,6 +9,14 @@ const screenWidth = Dimensions.get("window").width;
 const AlokasiKeuangan = ({ data, interval, barData, content }) => {
   const totalAmount = data[interval].reduce((sum, item) => sum + item.amount, 0);
 
+  const getColor = () => {
+    if (content === 'Pengeluaran') {
+      return 'red';
+    } else if (content === 'Pendapatan' || content === 'Tabungan') {
+      return 'green';
+    }
+  };
+
   return (
     <View className="">
       <PieChart
@@ -65,9 +73,9 @@ const AlokasiKeuangan = ({ data, interval, barData, content }) => {
         <View key={index} className="flex-row items-center bg-white shadow-md shadow-black p-4 mb-4 mx-2 rounded-lg">
           <View className="flex-1">
             <LexendText className="text-base font-semibold" style={{ color: item.color }}>{item.name}</LexendText>
-            <Text className="text-xs text-gray-500">Rp {item.amount}</Text>
+            <Text className="text-xs text-gray-500" style={{ color: getColor() }}>Rp {item.amount}</Text>
           </View>
-          <LexendText className="text-base font-semibold">{item.amount*100/totalAmount}%</LexendText>
+          <LexendText className="text-base font-semibold" >{(item.amount * 100 / totalAmount)}%</LexendText>
         </View>
       ))}
       <Spacer size={40} />
