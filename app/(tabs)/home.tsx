@@ -110,11 +110,12 @@ export default function HomeScreen() {
           <LexendText bold={true} style={{ fontSize: 16 }}>
             Pengingat Pembayaran
           </LexendText>
-          <LexendText
-            style={{ color: "#76C063", textDecorationLine: "underline" }}
-          >
-            Detail
-          </LexendText>
+           <Link href="(user)/detailpengingat" style={styles.card}>
+              <LexendText
+                style={{ color: "#76C063", textDecorationLine: "underline" }}>
+                Detail
+              </LexendText>
+           </Link>
         </View>
         <View style={{ marginTop: 20, flexDirection: "row", gap: 12 }}>
           <View
