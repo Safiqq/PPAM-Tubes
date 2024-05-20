@@ -1,117 +1,41 @@
-import { ImageBackground, ScrollView } from 'react-native';
-import { Image } from 'expo-image';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import React from 'react';
+import { ScrollView, View, Text, Image, Pressable } from 'react-native';
+import ArticleListItem from '@/components/ArticleListItem'; // Adjust the import path as necessary
 import { LexendText } from '@/components/StyledText';
-import { Shadow } from 'react-native-shadow-2';
 
-export default function EdukasiScreen() {
-  const insets = useSafeAreaInsets();
+const EdukasiKeuanganScreen = () => {
+  const articles = [
+    { id: 1, title: 'Pentingnya Melek Keuangan', imageSrc: require('@/assets/images/dummyimage.png') },
+    { id: 2, title: 'Top 10 Instrumen Investasi yang Bikin Cepet Kaya!', imageSrc: require('@/assets/images/dummyimage.png') },
+    { id: 3, title: '3 Crypto ini Akan Membuat Kamu Bisa Beli McLaren Besok!', imageSrc: require('@/assets/images/dummyimage.png') },
+  ];
 
   return (
-    <ScrollView
-      style={{ backgroundColor: 'white', paddingTop: insets.top }}
-      contentContainerStyle={{ flexGrow: 1 }}
-    >
-      <LexendText>Edukasi Keuangan</LexendText>
-      <ImageBackground>{/* Gambar panduan aplikasi */}</ImageBackground>
-      <LexendText>Artikel Keuangan</LexendText>
-      {/* Loop artikel keuangan */}
-      <Shadow style={{ flexDirection: 'row', borderRadius: 12 }}>
-        <Image
-          source={require('@/assets/images/dummyimage.png')}
-          style={{ width: 56, height: 56, borderRadius: 12 }}
+    <ScrollView className="bg-white pt-11 px-5">
+      <Text className="text-2xl font-bold mb-4">Edukasi Keuangan</Text>
+
+      <Pressable className="mb-8 bg-black rounded-xl flex flex-row">
+        <LexendText className="text-xl text-white py-7 ml-3">Panduan Aplikasi</LexendText>
+        <Image 
+          source={require('@/assets/images/logo/panduan.png')}
+          className="absolute right-1 -bottom-8 w-44 h-44"
         />
-        <LexendText
-          bold={true}
-          style={{ fontSize: 12 }}
-        >
-          Pentingnya Melek Keuangan
-        </LexendText>
-        <Image
-          source={require('@/assets/images/logo/detail.png')}
-          style={{ width: 56, height: 56 }}
+      </Pressable>
+
+      <Text className="text-xl font-semibold mb-4">Artikel Keuangan</Text>
+
+      {articles.map(article => (
+        <View className="pl-3">
+        <ArticleListItem
+          key={article.id}
+          title={article.title}
+          imageSrc={article.imageSrc}
+          onPress={() => console.log('Article pressed', article.id)}
         />
-      </Shadow>
-      <Shadow style={{ flexDirection: 'row', borderRadius: 12 }}>
-        <Image
-          source={require('@/assets/images/dummyimage.png')}
-          style={{ width: 56, height: 56, borderRadius: 12 }}
-        />
-        <LexendText
-          bold={true}
-          style={{ fontSize: 12 }}
-        >
-          Pentingnya Melek Keuangan
-        </LexendText>
-        <Image
-          source={require('@/assets/images/logo/detail.png')}
-          style={{ width: 56, height: 56 }}
-        />
-      </Shadow>
-      <Shadow style={{ flexDirection: 'row', borderRadius: 12 }}>
-        <Image
-          source={require('@/assets/images/dummyimage.png')}
-          style={{ width: 56, height: 56, borderRadius: 12 }}
-        />
-        <LexendText
-          bold={true}
-          style={{ fontSize: 12 }}
-        >
-          Pentingnya Melek Keuangan
-        </LexendText>
-        <Image
-          source={require('@/assets/images/logo/detail.png')}
-          style={{ width: 56, height: 56 }}
-        />
-      </Shadow>
-      <Shadow style={{ flexDirection: 'row', borderRadius: 12 }}>
-        <Image
-          source={require('@/assets/images/dummyimage.png')}
-          style={{ width: 56, height: 56, borderRadius: 12 }}
-        />
-        <LexendText
-          bold={true}
-          style={{ fontSize: 12 }}
-        >
-          Pentingnya Melek Keuangan
-        </LexendText>
-        <Image
-          source={require('@/assets/images/logo/detail.png')}
-          style={{ width: 56, height: 56 }}
-        />
-      </Shadow>
-      <Shadow style={{ flexDirection: 'row', borderRadius: 12 }}>
-        <Image
-          source={require('@/assets/images/dummyimage.png')}
-          style={{ width: 56, height: 56, borderRadius: 12 }}
-        />
-        <LexendText
-          bold={true}
-          style={{ fontSize: 12 }}
-        >
-          Pentingnya Melek Keuangan
-        </LexendText>
-        <Image
-          source={require('@/assets/images/logo/detail.png')}
-          style={{ width: 56, height: 56 }}
-        />
-      </Shadow>
-      <Shadow style={{ flexDirection: 'row', borderRadius: 12 }}>
-        <Image
-          source={require('@/assets/images/dummyimage.png')}
-          style={{ width: 56, height: 56, borderRadius: 12 }}
-        />
-        <LexendText
-          bold={true}
-          style={{ fontSize: 12 }}
-        >
-          Pentingnya Melek Keuangan
-        </LexendText>
-        <Image
-          source={require('@/assets/images/logo/detail.png')}
-          style={{ width: 56, height: 56 }}
-        />
-      </Shadow>
+        </View>
+      ))}
     </ScrollView>
   );
-}
+};
+
+export default EdukasiKeuanganScreen;
