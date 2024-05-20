@@ -50,7 +50,7 @@ const data = {
 
 const FinancialReportScreen = () => {
   const [selectedSegment, setSelectedSegment] = useState('Mingguan');
-  const [selectedContent, setSelectedContent] = useState('pengeluaran');
+  const [selectedContent, setSelectedContent] = useState('Pengeluaran');
   const segments = ['Mingguan', 'Bulanan', 'Tahunan'];
   const contentOptions = ['Pengeluaran', 'Pendapatan', 'Tabungan'];
 
