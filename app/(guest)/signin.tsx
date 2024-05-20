@@ -77,7 +77,7 @@ export default function HomeScreen() {
           </LexendText>
           <Spacer size={4} />
           <Link href="/signup" asChild>
-            <LexendText className="text-center text-[16px] text-[#76C063]">
+            <LexendText className="text-center text-[16px] text-[#76C063] underline">
               Register
             </LexendText>
           </Link>

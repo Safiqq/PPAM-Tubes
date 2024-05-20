@@ -58,9 +58,27 @@ function RootLayoutNav() {
     <ThemeProvider value={DefaultTheme}>
       <SafeAreaProvider>
         <Stack>
-          <Stack.Screen name="(guest)" options={{ headerShown: false }} />
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="index" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="(guest)"
+            options={{
+              headerShown: false,
+              contentStyle: { backgroundColor: "white" },
+            }}
+          />
+          <Stack.Screen
+            name="(tabs)"
+            options={{
+              headerShown: false,
+              contentStyle: { backgroundColor: "white" },
+            }}
+          />
+          <Stack.Screen
+            name="index"
+            options={{
+              headerShown: false,
+              contentStyle: { backgroundColor: "white" },
+            }}
+          />
         </Stack>
       </SafeAreaProvider>
     </ThemeProvider>

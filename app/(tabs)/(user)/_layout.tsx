@@ -45,28 +45,24 @@ function UserLayoutNav() {
           />
           <Stack.Screen name="dpproperti" options={{ headerShown: false }} />
           <Stack.Screen
-            name="kalkulatorinvestasi-rekomendasi"
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="kalkulatorinvestasi-strategi"
+            name="kalkulatorinvestasi-analisa"
             options={{ headerShown: false }}
           />
           <Stack.Screen
             name="kalkulatorinvestasi"
             options={{ headerShown: false }}
           />
-            <Stack.Screen
-              name="panduanaplikasi"
-              options={{ headerShown: false }}
-            />
+          <Stack.Screen
+            name="panduanaplikasi"
+            options={{ headerShown: false }}
+          />
           <Stack.Screen
             name="simulasikpr-analisa"
             options={{ headerShown: false }}
           />
           <Stack.Screen name="simulasikpr" options={{ headerShown: false }} />
           <Stack.Screen
-            name="panduanaplikasi"
+            name="tambahpengingat"
             options={{ headerShown: false }}
           />
           <Stack.Screen
