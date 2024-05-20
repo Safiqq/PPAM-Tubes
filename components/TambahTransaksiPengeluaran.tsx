@@ -3,7 +3,7 @@ import { Pressable, TextInput, View, Text, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { LexendText } from '@/components/StyledText';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+// import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const Pengeluaran = ({ categories, intervals }) => {
   const [amount, setAmount] = useState('');

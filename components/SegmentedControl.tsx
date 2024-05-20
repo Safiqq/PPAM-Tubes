@@ -1,11 +1,10 @@
 import React from 'react';
 import { View, Pressable, Text } from 'react-native';
 
-const SegmentedControl = ({ selectedSegment, setSelectedSegment }) => {
-  const segments = ['Pengeluaran', 'Pendapatan', 'Tabungan'];
+const SegmentedControl = ({segments, selectedSegment, setSelectedSegment }) => {
 
   return (
-    <View className="flex-row bg-gray-200 rounded-full overflow-hidden mb-4">
+    <View className="flex-row bg-gray-200 rounded-full overflow-hidden">
       {segments.map((segment) => (
         <Pressable
           key={segment}

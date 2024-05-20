@@ -28,6 +28,11 @@ export default function TambahTransaksiScreen() {
     'Harian', 'Mingguan', 'Bulanan', 'Tahunan'
   ];
 
+  const segments = [
+    'Pengeluaran', 'Pendapatan', 'Tabungan'
+  ];
+
+
   const renderComponent = () => {
     switch (transactionType) {
       case 'Pendapatan':
@@ -44,7 +49,7 @@ export default function TambahTransaksiScreen() {
       <LexendText className="text-xl font-bold mb-2 text-center pt-11">Tambah Transaksi</LexendText>
       <Spacer size={28} />
       <View className="mb-4">
-        <SegmentedControl selectedSegment={transactionType} setSelectedSegment={setTransactionType} />
+        <SegmentedControl segments={segments} selectedSegment={transactionType} setSelectedSegment={setTransactionType} />
         {renderComponent()}
       </View>
     </ScrollView>
