@@ -10,7 +10,7 @@ import { LexendText, LexendTextInput } from "@/components/StyledText";
 import Spacer from "@/components/Spacer";
 import { useState } from "react";
 
-export default function HomeScreen() {
+export default function SignInScreen() {
   const insets = useSafeAreaInsets();
 
   const [email, setEmail] = useState("");
