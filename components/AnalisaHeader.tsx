@@ -2,7 +2,9 @@ import { Pressable, View, Image } from "react-native";
 import { LexendText } from "./StyledText";
 import Spacer from "./Spacer";
 
-const AnalisaHeader = ({tab, setTab}) => {
+const AnalisaHeader = ({ tab, setTab, type = 1 }) => {
+  const second_tab = type == 1 ? "Rekomendasi" : "Biaya Lain";
+
   return (
     <>
       <LexendText bold={true} className="text-center text-[20px]">
@@ -26,13 +28,13 @@ const AnalisaHeader = ({tab, setTab}) => {
           <Spacer size={8} />
         </Pressable>
         <Pressable
-          className={`w-1/2 text-center ${tab == "Rekomendasi" ? "border-b" : ""}`}
-          onPress={() => setTab("Rekomendasi")}
+          className={`w-1/2 text-center ${tab == second_tab ? "border-b" : ""}`}
+          onPress={() => setTab(second_tab)}
         >
           <LexendText
-            className={`text-center text-[14px] font-semibold ${tab == "Rekomendasi" ? "" : "text-[#C5C5C5]"}`}
+            className={`text-center text-[14px] font-semibold ${tab == second_tab ? "" : "text-[#C5C5C5]"}`}
           >
-            Rekomendasi
+            {second_tab}
           </LexendText>
           <Spacer size={8} />
         </Pressable>

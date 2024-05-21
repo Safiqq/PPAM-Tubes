@@ -11,6 +11,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import KalkulatorInvestasiStrategi from "@/components/KalkulatorInvestasiStrategi";
 import KalkulatorInvestasiRekomendasi from "@/components/KalkulatorInvestasiRekomendasi";
+import AnalisaHeader from "@/components/AnalisaHeader";
 
 export default function KalkulatorInvestasiAnalisa() {
   const [tab, setTab] = useState("Strategi");
@@ -19,48 +20,17 @@ export default function KalkulatorInvestasiAnalisa() {
     bunga: 937_550_228,
   };
 
-  console.log("here" + investasi);
-
   return (
     <SafeAreaView className="flex-1 bg-white">
       <Spacer size={40} />
-      <LexendText bold={true} className="text-center text-[20px]">
-        Analisa
-      </LexendText>
-      <Image
-        className="absolute right-7 top-[49px]"
-        source={require("@/assets/images/logo/close.png")}
-      />
-      <Spacer size={12} />
-      <View className="mx-5 flex flex-row justify-between">
-        <Pressable
-          className={`w-1/2 text-center ${tab == "Strategi" ? "border-b" : ""}`}
-          onPress={() => setTab("Strategi")}
-        >
-          <LexendText
-            className={`text-center text-[14px] font-semibold ${tab == "Strategi" ? "" : "text-[#C5C5C5]"}`}
-          >
-            Strategi
-          </LexendText>
-          <Spacer size={8} />
-        </Pressable>
-        <Pressable
-          className={`w-1/2 text-center ${tab == "Rekomendasi" ? "border-b" : ""}`}
-          onPress={() => setTab("Rekomendasi")}
-        >
-          <LexendText
-            className={`text-center text-[14px] font-semibold ${tab == "Rekomendasi" ? "" : "text-[#C5C5C5]"}`}
-          >
-            Rekomendasi
-          </LexendText>
-          <Spacer size={8} />
-        </Pressable>
-      </View>
+      <AnalisaHeader tab={tab} setTab={setTab} />
 
       {tab == "Strategi" && (
         <KalkulatorInvestasiStrategi investasi={investasi} />
       )}
-      {tab == "Rekomendasi" && <KalkulatorInvestasiRekomendasi />}
+      {tab == "Rekomendasi" && (
+        <KalkulatorInvestasiRekomendasi investasi={investasi} />
+      )}
     </SafeAreaView>
   );
 }
