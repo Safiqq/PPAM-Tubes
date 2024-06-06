@@ -3,74 +3,90 @@ import {
   SafeAreaView,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
-import { Link } from "expo-router";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { FIREBASE_AUTH } from "@/FirebaseConfig";
+import { Link, useRouter } from "expo-router";
 import { LexendText, LexendTextInput } from "@/components/StyledText";
 import Spacer from "@/components/Spacer";
 import { useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { signIn } from "@/services/AuthService";
 
 export default function SignInScreen() {
+  const router = useRouter();
   const insets = useSafeAreaInsets();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const auth = FIREBASE_AUTH;
 
-  const signIn = async () => {
-    setLoading(true);
+  const handleSignIn = async () => {
     try {
-      const response = await signInWithEmailAndPassword(auth, email, password);
-      console.log(response);
-      alert("Sign in berhasil!");
+      if (email == "") {
+        alert("Email tidak boleh kosong!");
+      } else if (password == "") {
+        alert("Password tidak boleh kosong!");
+      } else {
+        await signIn({ email, password });
+        AsyncStorage.setItem("email", email);
+        AsyncStorage.setItem("password", password);
+        router.push({
+          pathname: "/home",
+        });
+      }
     } catch (error: any) {
-      console.log(error);
-      alert("Sign in gagal: " + error.message);
-    } finally {
-      setLoading(false);
+      alert(error);
     }
   };
 
   return (
     <SafeAreaView className="flex-1 bg-white">
       {/* <ScrollView className='flex-1'> */}
-      <Image source={require("@/assets/images/log-bg.png")} />
       <View
-        className="absolute mt-8 h-full w-full items-center justify-center"
-        paddingTop={insets.top}
-      >
+        className="absolute z-10 w-full bg-white"
+        style={{ height: insets.top }}
+      />
+      <Image
+        className="absolute"
+        source={require("@/assets/images/log-bg.png")}
+      />
+      <View className="h-full items-center justify-center">
         <LexendText bold={true} className="text-[36px]">
           Login
         </LexendText>
         <Spacer size={100} />
         <View className="w-full px-11">
-          <LexendText className="text-[20px]">Email</LexendText>
+          <LexendText className="text-[20px]">
+            Email
+            <LexendText className="text-[20px] text-[#EF4E4E]">*</LexendText>
+          </LexendText>
           <Spacer size={8} />
           <LexendTextInput
             className="h-12 w-full rounded-[24px] border px-4 text-[16px]"
             onChangeText={(newText) => setEmail(newText)}
-            defaultValue={""}
+            defaultValue=""
+            autoFocus={true}
+            autoComplete="email"
           />
           <Spacer size={16} />
-          <LexendText className="text-[20px]">Password</LexendText>
+          <LexendText className="text-[20px]">
+            Password
+            <LexendText className="text-[20px] text-[#EF4E4E]">*</LexendText>
+          </LexendText>
           <Spacer size={8} />
           <LexendTextInput
-            className="h-12 w-full rounded-[24px] border text-[16px]"
+            className="h-12 w-full rounded-[24px] border px-4 text-[16px]"
+            secureTextEntry={true}
             onChangeText={(newText) => setPassword(newText)}
-            defaultValue={""}
+            defaultValue=""
+            autoComplete="password"
           />
           <Spacer size={172} />
-          <Link href="/home" asChild>
-            <Pressable
-              className="rounded-[32px] bg-[#76C063]"
-              onPress={() => signIn()}
-            >
-              <LexendText className="py-4 text-center text-[16px]">
-                Login
-              </LexendText>
-            </Pressable>
-          </Link>
+          <Pressable
+            className="rounded-[32px] bg-[#76C063]"
+            onPress={() => handleSignIn()}
+          >
+            <LexendText className="py-4 text-center text-[16px]">
+              Login
+            </LexendText>
+          </Pressable>
           <Spacer size={16} />
           <LexendText className="text-center text-[16px]">
             Don't have an account?

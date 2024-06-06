@@ -66,7 +66,7 @@ function RootLayoutNav() {
             }}
           />
           <Stack.Screen
-            name="(tabs)"
+            name="(user)"
             options={{
               headerShown: false,
               contentStyle: { backgroundColor: "white" },
