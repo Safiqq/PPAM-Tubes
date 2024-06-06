@@ -5,6 +5,7 @@ import { getFirestore } from 'firebase/firestore';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 //@ts-ignore
 import { getReactNativePersistence } from '@firebase/auth/dist/rn/index.js';
+import { getStorage } from "firebase/storage";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -12,18 +13,19 @@ import { getReactNativePersistence } from '@firebase/auth/dist/rn/index.js';
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyBY3uFrZPR4obNoKPa5iIWb6dRrIHUPjx8",
-  authDomain: "finoplano-538c8.firebaseapp.com",
-  projectId: "finoplano-538c8",
-  storageBucket: "finoplano-538c8.appspot.com",
-  messagingSenderId: "509949558227",
-  appId: "1:509949558227:web:e4358c6c545a9f08140326",
-  measurementId: "G-42P9LGE5QL"
+  apiKey: process.env.EXPO_PUBLIC_API_KEY,
+  authDomain: process.env.EXPO_PUBLIC_AUTH_DOMAIN,
+  projectId: process.env.EXPO_PUBLIC_PROJECT_ID,
+  storageBucket: process.env.EXPO_PUBLIC_STORAGE_BUCKET,
+  messagingSenderId: process.env.EXPO_PUBLIC_MESSAGING_SENDER_ID,
+  appId: process.env.EXPO_PUBLIC_APP_ID,
+  measurementId: process.env.EXPO_PUBLIC_MEASUREMENT_ID
 };
 
 // Initialize Firebase
-export const FIREBASE_APP = initializeApp(firebaseConfig);
-export const FIREBASE_AUTH = initializeAuth(FIREBASE_APP, {
+export const app = initializeApp(firebaseConfig);
+export const auth = initializeAuth(app, {
   persistence: getReactNativePersistence(AsyncStorage)
 });
-export const FIREBASE_DB = getFirestore(FIREBASE_APP);
+export const firestore = getFirestore(app);
+export const storage = getStorage(app);
