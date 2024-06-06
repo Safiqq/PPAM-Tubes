@@ -1,9 +1,9 @@
 export default {
   // hero
-  heroanalisa1: require('@/assets/images/hero-analisa-1.png'),
-  heroanalisa2: require('@/assets/images/hero-analisa-2.png'),
-  heroanalisa3: require('@/assets/images/hero-analisa-3.png'),
-  heroanalisa4: require('@/assets/images/hero-analisa-4.png'),
+  heroanalisa1: require("@/assets/images/hero-analisa-1.png"),
+  heroanalisa2: require("@/assets/images/hero-analisa-2.png"),
+  heroanalisa3: require("@/assets/images/hero-analisa-3.png"),
+  heroanalisa4: require("@/assets/images/hero-analisa-4.png"),
   // green
   bahanmakanan: require("@/assets/images/logo/bahanmakanan.png"),
   diskon: require("@/assets/images/logo/diskon.png"),
@@ -16,4 +16,14 @@ export default {
   makandanminum: require("@/assets/images/logo/makandanminum.png"),
   piala: require("@/assets/images/logo/piala.png"),
   tabungan: require("@/assets/images/logo/tabungan.png"),
+  // navbar
+  home: require("@/assets/images/logo/navbar/home.png"),
+  homeFill: require("@/assets/images/logo/navbar/home-fill.png"),
+  transaksi: require("@/assets/images/logo/navbar/transaksi.png"),
+  transaksiFill: require("@/assets/images/logo/navbar/transaksi-fill.png"),
+  edukasi: require("@/assets/images/logo/navbar/edukasi.png"),
+  edukasiFill: require("@/assets/images/logo/navbar/edukasi-fill.png"),
+  laporan: require("@/assets/images/logo/navbar/laporan.png"),
+  laporanFill: require("@/assets/images/logo/navbar/laporan-fill.png"),
+  tambahtransaksi: require("@/assets/images/logo/navbar/tambahtransaksi.png"),
 };
