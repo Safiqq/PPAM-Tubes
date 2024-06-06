@@ -8,8 +8,12 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LexendText, LexendTextInput } from "@/components/StyledText";
 import Spacer from "@/components/Spacer";
+import { useRouter } from "expo-router";
+import BlackButton from "@/components/BlackButton";
 
 export default function SimulasiKPRScreen() {
+  const router = useRouter();
+
   return (
     <SafeAreaView className="flex-1 bg-white">
       <ScrollView className="flex-1">
@@ -114,14 +118,7 @@ export default function SimulasiKPRScreen() {
             0 bulan
           </LexendText>
           <Spacer size={32} />
-          <Pressable className="h-11 rounded-[12px] bg-black">
-            <LexendText
-              bold={true}
-              className="py-3 text-center text-[16px] text-white"
-            >
-              Lihat Hasil Strategi
-            </LexendText>
-          </Pressable>
+          <BlackButton text="Lihat Hasil Analisa" href="/simulasikpr-analisa" />
           <Spacer size={32} />
         </View>
       </ScrollView>

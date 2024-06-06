@@ -10,8 +10,14 @@ import { LexendText, LexendTextInput } from "@/components/StyledText";
 import Spacer from "@/components/Spacer";
 import { useState } from "react";
 
-export default function DanaDaruratScreen() {
-  const [sudahMenikah, setSudahMenikah] = useState("Sudah");
+export default function DanaMenikahScreen() {
+  const [totalBiaya, setTotalBiaya] = useState('');
+  const [menikahDalam, setMenikahDalam] = useState('');
+  const [asumsiInflasi, setAsumsiInflasi] = useState('');
+  const [uangDiperlukan, setUangDiperlukan] = useState('');
+  const [uangDimiliki, setUangDimiliki] = useState('');
+  const [targetInvestasi, setTargetInvestasi] = useState('');
+  const [returnInvestasi, setReturnInvestasi] = useState('');
 
   return (
     <SafeAreaView className="flex-1 bg-white">
@@ -25,78 +31,64 @@ export default function DanaDaruratScreen() {
             source={require("@/assets/images/logo/backbutton.png")}
           />
           <LexendText bold={true} className="text-[20px]">
-            Dana Darurat
+            Dana Menikah
           </LexendText>
         </ImageBackground>
         <View className="px-7">
           <Spacer size={24} />
-          <LexendText bold={true}>Pengeluaran wajibmu setiap bulan</LexendText>
+          <LexendText bold={true}>Total biaya pernikahan</LexendText>
           <Spacer size={8} />
           <LexendTextInput
             className="h-9 rounded-[8px] border border-[#C5C5C5] px-3"
             placeholder="0"
+            value={totalBiaya}
+            onChangeText={setTotalBiaya}
           />
           <Spacer size={20} />
-          <LexendText bold={true}>Apakah sudah menikah</LexendText>
-          <Spacer size={8} />
-          <View className="flex flex-row gap-4">
-            <Pressable
-              className={`px-7 py-2 ${
-                sudahMenikah == "Sudah"
-                  ? "bg-[#76c063]"
-                  : "border border-[#c5c5c5]"
-              } rounded-[8px]`}
-              onPress={() => setSudahMenikah("Sudah")}
-            >
-              <LexendText
-                className={sudahMenikah == "Sudah" ? "" : "text-[#c5c5c5]"}
-              >
-                Sudah
-              </LexendText>
-            </Pressable>
-            <Pressable
-              className={`px-7 py-2 ${
-                sudahMenikah == "Belum"
-                  ? "bg-[#76c063]"
-                  : "border border-[#c5c5c5]"
-              } rounded-[8px]`}
-              onPress={() => setSudahMenikah("Belum")}
-            >
-              <LexendText
-                className={sudahMenikah == "Belum" ? "" : "text-[#c5c5c5]"}
-              >
-                Belum
-              </LexendText>
-            </Pressable>
-          </View>
-          <Spacer size={20} />
-          <LexendText bold={true}>Jumlah tanggungan</LexendText>
+          <LexendText bold={true}>Akan menikah dalam</LexendText>
           <Spacer size={8} />
           <View className="flex flex-row items-center gap-3">
             <LexendTextInput
               className="h-9 w-28 rounded-[8px] border border-[#C5C5C5] px-3"
               placeholder="0"
+              value={menikahDalam}
+              onChangeText={setMenikahDalam}
             />
-            <LexendText>orang</LexendText>
+            <LexendText>tahun</LexendText>
           </View>
           <Spacer size={20} />
-          <LexendText bold={true}>Target mengumpulkan dana darurat</LexendText>
+          <LexendText bold={true}>Asumsi inflasi</LexendText>
           <Spacer size={8} />
           <View className="flex flex-row items-center gap-3">
             <LexendTextInput
               className="h-9 w-28 rounded-[8px] border border-[#C5C5C5] px-3"
               placeholder="0"
+              value={asumsiInflasi}
+              onChangeText={setAsumsiInflasi}
             />
-            <LexendText>bulan</LexendText>
+            <LexendText>% / tahun</LexendText>
           </View>
           <Spacer size={20} />
           <LexendText bold={true}>
-            Jumlah dana yang dimiliki saat ini
+            Total uang yang diperlukan 5 tahun lagi sebesar
           </LexendText>
           <Spacer size={8} />
           <LexendTextInput
             className="h-9 rounded-[8px] border border-[#C5C5C5] px-3"
             placeholder="0"
+            value={uangDiperlukan}
+            onChangeText={setUangDiperlukan}
+          />
+          <Spacer size={20} />
+          <LexendText bold={true}>
+            Uang yang dimiliki saat ini untuk menikah sebesar
+          </LexendText>
+          <Spacer size={8} />
+          <LexendTextInput
+            className="h-9 rounded-[8px] border border-[#C5C5C5] px-3"
+            placeholder="0"
+            value={uangDimiliki}
+            onChangeText={setUangDimiliki}
           />
           <Spacer size={20} />
           <LexendText bold={true}>Target investasi setiap bulan</LexendText>
@@ -104,6 +96,8 @@ export default function DanaDaruratScreen() {
           <LexendTextInput
             className="h-9 rounded-[8px] border border-[#C5C5C5] px-3"
             placeholder="0"
+            value={targetInvestasi}
+            onChangeText={setTargetInvestasi}
           />
           <Spacer size={20} />
           <LexendText bold={true}>
@@ -114,9 +108,17 @@ export default function DanaDaruratScreen() {
             <LexendTextInput
               className="h-9 w-28 rounded-[8px] border border-[#C5C5C5] px-3"
               placeholder="0"
+              value={returnInvestasi}
+              onChangeText={setReturnInvestasi}
             />
             <LexendText>% / tahun</LexendText>
           </View>
+          <Spacer size={20} />
+          <LexendText bold={true}>Akan rutin berinvestasi selama</LexendText>
+          <Spacer size={8} />
+          <LexendText className="w-20 rounded-[8px] bg-[#d9d9d9] p-2 text-center">
+            5 tahun
+          </LexendText>
           <Spacer size={32} />
           <Pressable className="h-11 rounded-[12px] bg-black">
             <LexendText

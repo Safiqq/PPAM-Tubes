@@ -1,17 +1,42 @@
 import React, { useState } from "react";
-import { ScrollView, View, Image, Pressable } from "react-native";
+import {
+  ScrollView,
+  View,
+  Image,
+  Pressable,
+  TouchableOpacity,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LexendText, LexendTextInput } from "@/components/StyledText";
 import Spacer from "@/components/Spacer";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
+import { Reminder } from "@/constants/Types";
+import { createReminder } from "@/services/ReminderService";
+import { useRouter } from "expo-router";
 
 export default function TambahTransaksiScreen() {
+  const router = useRouter();
+  
+  const [title, setTitle] = useState("");
   const [date, setDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [repeatInterval, setRepeatInterval] = useState("");
+  const [description, setDescription] = useState("");
 
   const intervals = ["Harian", "Mingguan", "Bulanan", "Tahunan"];
+
+  const handleAddReminder = () => {
+    const reminder: Reminder = {
+      title,
+      type: repeatInterval,
+      date,
+      description,
+    };
+    createReminder(reminder);
+    alert("Berhasil menambahkan ke pengingat pembayaran!");
+    router.navigate("/detailpengingat");
+  };
 
   return (
     <SafeAreaView className="flex-1 bg-white">
@@ -31,7 +56,9 @@ export default function TambahTransaksiScreen() {
           <Spacer size={8} />
           <LexendTextInput
             className="h-9 rounded-[8px] border border-[#C5C5C5] px-3"
-            placeholder="0"
+            onChangeText={(newText) => setTitle(newText)}
+            placeholder="Nama pengingat"
+            value={title}
           />
           <Spacer size={20} />
           <LexendText bold={true}>Tanggal</LexendText>
@@ -84,10 +111,20 @@ export default function TambahTransaksiScreen() {
           <LexendTextInput
             className="h-9 rounded-[8px] border border-[#C5C5C5] px-3"
             placeholder="Deskripsi singkat"
+            onChangeText={(newText) => setDescription(newText)}
+            value={description}
           />
         </View>
-        <View></View>
       </ScrollView>
+      <TouchableOpacity
+        className="mx-4 rounded-[12px] bg-black py-3"
+        onPress={handleAddReminder}
+      >
+        <LexendText bold={true} className="text-center text-[16px] text-white">
+          Tambah ke Pengingat Pembayaran
+        </LexendText>
+      </TouchableOpacity>
+      <Spacer size={16} />
     </SafeAreaView>
   );
 }

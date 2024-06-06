@@ -4,10 +4,10 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LexendText } from '@/components/StyledText';
 // import { useTailwind } from 'nativewind';
 import SegmentedControl from '@/components/SegmentedControl';
-import Pengeluaran from '@/components/TambahTransaksiPengeluaran';
+import Pengeluaran from '@/components/TambahTransaksi/Pengeluaran';
 import Spacer from '@/components/Spacer';
-import Pendapatan from '@/components/TambahTransaksiPendapatan';
-import Tabungan from '@/components/TambahTransaksiTabungan';
+import Pendapatan from '@/components/TambahTransaksi/Pendapatan';
+import Tabungan from '@/components/TambahTransaksi/Tabungan';
 
 export default function TambahTransaksiScreen() {
   const insets = useSafeAreaInsets();

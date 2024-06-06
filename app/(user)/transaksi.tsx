@@ -12,6 +12,7 @@ import Spacer from "@/components/Spacer";
 import { useState } from "react";
 import TransaksiBerulang from "@/components/TransaksiBerulang";
 import RiwayatTransaksi from "@/components/RiwayatTransaksi";
+import BottomNavBar from "@/components/BottomNavBar";
 
 export default function TransaksiScreen() {
   const [tab, setTab] = useState("Riwayat Transaksi");
@@ -117,8 +118,9 @@ export default function TransaksiScreen() {
 
         {tab == "Riwayat Transaksi" && <RiwayatTransaksi />}
         {tab == "Riwayat Transaksi" && <TransaksiBerulang />}
-        <Spacer size={8} />
+        <Spacer size={100} />
       </ScrollView>
+      <BottomNavBar />
     </SafeAreaView>
   );
 }
