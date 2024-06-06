@@ -1,30 +1,10 @@
-type InputSimulasiKPR = {
-  hargaPropertiImpian: number;
-  persentaseDP: number;
-  penghasilanBulanan: number;
-  lamaKPRBulan: number;
-  persenBungaFix: number;
-  periodeBungaFixBulan: number;
-  persenBungaFloating: number;
-};
+import { InputSimulasiKPR, OutputSimulasiKPR } from "@/constants/Types";
 
-type OutputSimulasiKPR = {
-  totalBungaKPR: number;
-  periodeBungaFloating: number;
-  pokokPinjaman: number;
-  jumlahPeriode: number;
-  bungaFix: number;
-  totalBungaPeriodeFix: number;
-  bungaFloating: number;
-  totalBungaPeriodeFloating: number;
-  totalHasilBungaDariPokokPinjaman: number;
-  sisaPokokPinjamanSetelahPeriodeFix: number;
-  totalBungaKPRYangHarusDibayar: number;
-  kategoriRasioPembayaran: string;
-};
-
-function hitungPeriodeBungaFloating(lamaKPRBulan: number, periodeBungaFix: number): number {
-  return lamaKPRBulan = periodeBungaFix;
+function hitungPeriodeBungaFloating(
+  lamaKPRBulan: number,
+  periodeBungaFix: number,
+): number {
+  return (lamaKPRBulan = periodeBungaFix);
 }
 
 function hitungSimulasiKPR(input: InputSimulasiKPR): OutputSimulasiKPR {
@@ -35,7 +15,7 @@ function hitungSimulasiKPR(input: InputSimulasiKPR): OutputSimulasiKPR {
     lamaKPRBulan,
     persenBungaFix,
     periodeBungaFixBulan,
-    persenBungaFloating
+    persenBungaFloating,
   } = input;
 
   const dp = (hargaPropertiImpian * persentaseDP) / 100;
@@ -55,22 +35,26 @@ function hitungSimulasiKPR(input: InputSimulasiKPR): OutputSimulasiKPR {
   for (let i = 0; i < periodeBungaFix; i++) {
     const bunga = sisaPokokPinjaman * bungaBulananFix;
     totalBungaPeriodeFix += bunga;
-    const angsuranPokok = (sisaPokokPinjaman * bungaBulananFix) / (1 - Math.pow(1 + bungaBulananFix, -periodeBungaFix + i));
-    sisaPokokPinjaman -= (angsuranPokok - bunga);
+    const angsuranPokok =
+      (sisaPokokPinjaman * bungaBulananFix) /
+      (1 - Math.pow(1 + bungaBulananFix, -periodeBungaFix + i));
+    sisaPokokPinjaman -= angsuranPokok - bunga;
   }
 
   // Hitung periode bunga floating
   for (let i = 0; i < periodeBungaFloating; i++) {
     const bunga = sisaPokokPinjaman * bungaBulananFloating;
     totalBungaPeriodeFloating += bunga;
-    const angsuranPokok = (sisaPokokPinjaman * bungaBulananFloating) / (1 - Math.pow(1 + bungaBulananFloating, -periodeBungaFloating + i));
-    sisaPokokPinjaman -= (angsuranPokok - bunga);
+    const angsuranPokok =
+      (sisaPokokPinjaman * bungaBulananFloating) /
+      (1 - Math.pow(1 + bungaBulananFloating, -periodeBungaFloating + i));
+    sisaPokokPinjaman -= angsuranPokok - bunga;
   }
 
   const totalBungaKPR = totalBungaPeriodeFix + totalBungaPeriodeFloating;
   const totalBungaKPRYangHarusDibayar = totalBungaKPR + pokokPinjaman;
 
-  const rasioPembayaran = (totalBungaKPR / lamaKPRBulan) / penghasilanBulanan;
+  const rasioPembayaran = totalBungaKPR / lamaKPRBulan / penghasilanBulanan;
   const kategoriRasioPembayaran = rasioPembayaran > 0.3 ? "Berbahaya" : "Aman";
 
   return {
@@ -85,7 +69,7 @@ function hitungSimulasiKPR(input: InputSimulasiKPR): OutputSimulasiKPR {
     totalHasilBungaDariPokokPinjaman: totalBungaKPR,
     sisaPokokPinjamanSetelahPeriodeFix: sisaPokokPinjaman,
     totalBungaKPRYangHarusDibayar,
-    kategoriRasioPembayaran
+    kategoriRasioPembayaran,
   };
 }
 
@@ -97,8 +81,10 @@ const input: InputSimulasiKPR = {
   lamaKPRBulan: 240,
   persenBungaFix: 5,
   periodeBungaFixBulan: 60,
-  persenBungaFloating: 7
+  persenBungaFloating: 7,
 };
 
 const hasil = hitungSimulasiKPR(input);
 console.log(hasil);
+
+export default hitungSimulasiKPR;
