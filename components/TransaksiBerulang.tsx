@@ -1,6 +1,6 @@
 import { View, Image } from "react-native";
-import { LexendText } from "./StyledText";
-import Spacer from "./Spacer";
+import { LexendText } from "@/components/StyledText";
+import Spacer from "@/components/Spacer";
 import { Shadow } from "react-native-shadow-2";
 
 const TransaksiBerulang = () => {

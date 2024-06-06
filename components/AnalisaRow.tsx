@@ -1,6 +1,6 @@
 import { View, Image } from "react-native";
-import Spacer from "./Spacer";
-import { LexendText } from "./StyledText";
+import Spacer from "@/components/Spacer";
+import { LexendText } from "@/components/StyledText";
 import Images from "@/constants/Images";
 
 const AnalisaRow = ({
@@ -10,6 +10,13 @@ const AnalisaRow = ({
   content2 = "",
   border = true,
   type = 1,
+}: {
+  image: string;
+  title: string;
+  content?: string;
+  content2?: string;
+  border?: boolean;
+  type?: number;
 }) => {
   return (
     <View
@@ -40,6 +47,15 @@ const AnalisaRow = ({
                 {content}
               </LexendText>{" "}
               {content2}
+            </LexendText>
+          </>
+        )}
+        {type == 3 && (
+          <>
+            <LexendText className="text-[10px]">{title}</LexendText>
+            <Spacer size={4} />
+            <LexendText className="text-[#EF4E4E] underline">
+              {content}
             </LexendText>
           </>
         )}

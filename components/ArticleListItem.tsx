@@ -1,16 +1,17 @@
-import React from 'react';
-import { View, Text, Image, Pressable } from 'react-native';
+import React from "react";
+import { View, Text, Image, Pressable } from "react-native";
 
 const ArticleListItem = ({ title, imageSrc, onPress }) => {
   return (
-    <Pressable onPress={onPress} className="flex-row items-center ml-2 mr-2 mb-4 bg-white rounded-lg p-4 shadow-md shadow-black gap-2">
-      <Image source={imageSrc} className="w-16 h-16 rounded-lg" />
+    <Pressable
+      onPress={onPress}
+      className="mb-4 ml-2 mr-2 flex-row items-center gap-2 rounded-lg bg-white p-4 shadow-md shadow-black"
+    >
+      <Image source={imageSrc} className="h-16 w-16 rounded-lg" />
       <View className="flex-1">
-        <Text className="font-semibold text-base">{title}</Text>
+        <Text className="text-base font-semibold">{title}</Text>
       </View>
-      <Image 
-      source={require('@/assets/images/logo/detail.png')}
-      className="" />
+      <Image source={require("@/assets/images/logo/detail.png")} />
     </Pressable>
   );
 };

@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import { Text, TextProps, TextInput, TextInputProps } from './Themed';
+import { Text, TextProps, TextInput, TextInputProps } from '@/components/Themed';
 
 interface LexendTextProps extends TextProps {
   bold?: boolean;

@@ -1,26 +1,21 @@
-import React from 'react';
-import {View} from 'react-native';
-import PropTypes from 'prop-types';
+import React from "react";
+import { View } from "react-native";
 
-const Spacer = ({horizontal, size}) => {
-  const defaultValue = 'auto';
-
+const Spacer = ({
+  size,
+  horizontal = false,
+}: {
+  size: number;
+  horizontal?: boolean;
+}) => {
   return (
     <View
       style={{
-        width: horizontal ? size : defaultValue,
-        height: !horizontal ? size : defaultValue,
+        width: horizontal ? size : "auto",
+        height: !horizontal ? size : "auto",
       }}
     />
   );
-};
-
-Spacer.propTypes = {
-  size: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string
-  ]).isRequired,
-  horizontal: PropTypes.bool,
 };
 
 export default Spacer;

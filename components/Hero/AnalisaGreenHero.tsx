@@ -1,7 +1,13 @@
 import { View, Image } from "react-native";
-import { LexendText } from "./StyledText";
+import { LexendText } from "@/components/StyledText";
 
-const AnalisaGreenHero = ({ uang, rule = false }) => {
+const AnalisaGreenHero = ({
+  uang,
+  rule = false,
+}: {
+  uang: number;
+  rule?: boolean;
+}) => {
   return (
     <View className="flex flex-row items-center justify-end rounded-[16px] bg-[#76C063] px-7 py-3">
       <View className="w-3/5">
@@ -9,7 +15,7 @@ const AnalisaGreenHero = ({ uang, rule = false }) => {
           Total uang yang kamu butuhkan
         </LexendText>
         <LexendText bold={true} className="text-[20px]">
-          Rp{uang.toLocaleString('id')}
+          Rp{uang.toLocaleString("id")}
         </LexendText>
         {rule && (
           <LexendText className="text-[10px]">Berdasarkan 4% rule</LexendText>

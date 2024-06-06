@@ -1,20 +1,21 @@
-import React, { useState } from 'react';
-import { Pressable, TextInput, View, Text, Alert } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
-import { LexendText } from '@/components/StyledText';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import React, { useState } from "react";
+import { Pressable, TextInput, View, Text, Alert } from "react-native";
+import { Picker } from "@react-native-picker/picker";
+import { LexendText } from "@/components/StyledText";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import Icon from "react-native-vector-icons/MaterialIcons";
 
-const Pendapatan = ({ categories, intervals }) => {
-  const [amount, setAmount] = useState('');
+const Tabungan = ({ intervals }: { intervals: string[] }) => {
+  const [amount, setAmount] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [date, setDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [recurring, setRecurring] = useState(false);
-  const [repeatInterval, setRepeatInterval] = useState('');
+  const [repeatInterval, setRepeatInterval] = useState("");
   const [repeatUntil, setRepeatUntil] = useState(new Date());
-  const [showRepeatUntilDatePicker, setShowRepeatUntilDatePicker] = useState(false);
-  const [description, setDescription] = useState('');
+  const [showRepeatUntilDatePicker, setShowRepeatUntilDatePicker] =
+    useState(false);
+  const [description, setDescription] = useState("");
 
   const handleTambah = () => {
     const data = {
@@ -23,52 +24,35 @@ const Pendapatan = ({ categories, intervals }) => {
       tanggal: date.toLocaleDateString(),
       ...(recurring && {
         berulangSetiap: repeatInterval,
-        berulangHingga: repeatUntil.toLocaleDateString()
+        berulangHingga: repeatUntil.toLocaleDateString(),
       }),
-      keterangan: description
+      keterangan: description,
     };
 
-    if (data.nominal === "" || data.kategori === null) {
+    if (data.nominal === "") {
       Alert.alert("Data transaksi BELUM LENGKAP!");
-      console.log("data transaksi belum lengkap")
+      console.log("data transaksi belum lengkap");
     } else {
       // console.log("dordor")
       console.log(JSON.stringify(data));
       Alert.alert("Data transaksi BERHASIL DITAMBAHKAN!");
     }
+    // Alert.alert("Data Submitted", JSON.stringify(data, null, 2));
   };
 
   return (
-    <View className="mb-4">      
-      <LexendText className="text-lg mb-2">Nominal</LexendText>
+    <View className="mb-4">
+      <LexendText className="mb-2 text-lg">Nominal</LexendText>
       <TextInput
-        className="border border-gray-400 rounded-lg p-2 mb-4"
+        className="mb-4 rounded-lg border border-gray-400 p-2"
         placeholder="0"
         value={amount}
         onChangeText={setAmount}
         keyboardType="numeric"
       />
-
-      <LexendText className="text-lg mb-2">Kategori</LexendText>
-      <View className="flex-row flex-wrap mb-4">
-        {categories.map((category, index) => (
-          <Pressable
-            key={index}
-            className={`p-2 border rounded-full m-1 ${
-              selectedCategory === category ? 'bg-[#76C063] border-green-500' : 'border-gray-400'
-            }`}
-            onPress={() => setSelectedCategory(category)}
-          >
-            <LexendText className={selectedCategory === category ? 'text-white' : 'text-gray-600'}>
-              {category}
-            </LexendText>
-          </Pressable>
-        ))}
-      </View>
-
-      <LexendText className="text-lg mb-2">Tanggal</LexendText>
+      <LexendText className="mb-2 text-lg">Tanggal</LexendText>
       <Pressable
-        className="border border-gray-400 rounded-lg p-2 mb-4"
+        className="mb-4 rounded-lg border border-gray-400 p-2"
         onPress={() => setShowDatePicker(true)}
       >
         <Text>{date.toLocaleDateString()}</Text>
@@ -87,12 +71,11 @@ const Pendapatan = ({ categories, intervals }) => {
         />
       )}
 
-      <View className="flex-row items-center mb-4">
-        <Pressable
-          className="mr-2"
-          onPress={() => setRecurring(!recurring)}
-        >
-          <View className={`h-6 w-6 border rounded ${recurring ? 'bg-[#76C063]' : 'border-gray-400'} flex items-center justify-center`}>
+      <View className="mb-4 flex-row items-center">
+        <Pressable className="mr-2" onPress={() => setRecurring(!recurring)}>
+          <View
+            className={`h-6 w-6 rounded border ${recurring ? "bg-[#76C063]" : "border-gray-400"} flex items-center justify-center`}
+          >
             {recurring && <Icon name="check" size={18} color="white" />}
           </View>
         </Pressable>
@@ -101,31 +84,35 @@ const Pendapatan = ({ categories, intervals }) => {
 
       {recurring && (
         <>
-          <View className="flex-row justify-between mb-4">
-            <View className="flex-1 mr-2">
+          <View className="mb-4 flex-row justify-between">
+            <View className="mr-2 flex-1">
               <LexendText className="mb-2">Berulang Setiap</LexendText>
-              <View className="border border-gray-400 rounded-lg h-10 justify-center">
+              <View className="h-10 justify-center rounded-lg border border-gray-400">
                 <Picker
                   selectedValue={repeatInterval}
                   onValueChange={(itemValue) => setRepeatInterval(itemValue)}
                   style={{ height: 35 }}
-                  itemStyle={{ textAlign: 'center', height: 35, justifyContent: 'center' }}
+                  itemStyle={{
+                    textAlign: "center",
+                    height: 35,
+                    justifyContent: "center",
+                  }}
                 >
                   {intervals.map((interval, index) => (
                     <Picker.Item
                       key={index}
                       label={interval}
                       value={interval}
-                      style={{ textAlign: 'center' }}
+                      style={{ textAlign: "center" }}
                     />
                   ))}
                 </Picker>
               </View>
             </View>
-            <View className="flex-1 ml-2">
+            <View className="ml-2 flex-1">
               <LexendText className="mb-2">Berulang Hingga</LexendText>
               <Pressable
-                className="border border-gray-400 rounded-lg p-2"
+                className="rounded-lg border border-gray-400 p-2"
                 onPress={() => setShowRepeatUntilDatePicker(true)}
               >
                 <Text>{repeatUntil.toLocaleDateString()}</Text>
@@ -148,19 +135,22 @@ const Pendapatan = ({ categories, intervals }) => {
         </>
       )}
 
-      <LexendText className="text-lg mb-2">Keterangan</LexendText>
+      <LexendText className="mb-2 text-lg">Keterangan</LexendText>
       <TextInput
-        className="border border-gray-400 rounded-lg p-2 mb-4"
+        className="mb-4 rounded-lg border border-gray-400 p-2"
         placeholder="Deskripsi singkat"
         value={description}
         onChangeText={setDescription}
       />
 
-      <Pressable className="bg-black rounded-full py-3 px-6 mt-4" onPress={handleTambah}>
-        <LexendText className="text-white text-center">Tambah</LexendText>
+      <Pressable
+        className="mt-4 rounded-full bg-black px-6 py-3"
+        onPress={handleTambah}
+      >
+        <LexendText className="text-center text-white">Tambah</LexendText>
       </Pressable>
     </View>
   );
 };
 
-export default Pendapatan;
+export default Tabungan;

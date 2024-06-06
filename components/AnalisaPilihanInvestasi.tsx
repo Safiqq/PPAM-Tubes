@@ -1,6 +1,6 @@
 import { View, Image } from "react-native";
-import { LexendText } from "./StyledText";
-import Spacer from "./Spacer";
+import { LexendText } from "@/components/StyledText";
+import Spacer from "@/components/Spacer";
 
 const AnalisaPilihanInvestasi = ({ pilihans }) => {
   return (
@@ -10,8 +10,8 @@ const AnalisaPilihanInvestasi = ({ pilihans }) => {
         <LexendText className="text-[10px]">Pilihan investasi</LexendText>
         <Spacer size={4} />
         <View className='flex flex-row gap-1 flex-wrap'>
-          {pilihans.map((pilihan) => (
-            <LexendText bold={true} className="bg-[#76C063] px-2 py-0.5 rounded-[8px]">
+          {pilihans.map((pilihan, index) => (
+            <LexendText key={index} bold={true} className="bg-[#76C063] px-2 py-0.5 rounded-[8px]">
               {pilihan}
             </LexendText>
           ))}
