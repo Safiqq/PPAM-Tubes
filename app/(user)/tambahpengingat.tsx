@@ -24,7 +24,7 @@ export default function TambahTransaksiScreen() {
   const [repeatInterval, setRepeatInterval] = useState("");
   const [description, setDescription] = useState("");
 
-  const intervals = ["Harian", "Mingguan", "Bulanan", "Tahunan"];
+  const intervals = ["Hari", "Minggu", "Bulan", "Tahun"];
 
   const handleAddReminder = () => {
     const reminder: Reminder = {

@@ -11,6 +11,38 @@ import {
   DocumentReference,
 } from "firebase/firestore";
 
+// Get user balance
+export const getBalance = async (): Promise<{
+  Pendapatan: number;
+  Pengeluaran: number;
+  Tabungan: number;
+}> => {
+  if (!auth.currentUser) {
+    throw new Error("User is not authenticated");
+  }
+
+  try {
+    const transactions = await getAllTransactions();
+    return transactions.reduce(
+      (acc, transaction) => {
+        if (!acc[transaction.category]) {
+          acc[transaction.category] = 0;
+        }
+        acc[transaction.category] += transaction.amount;
+        return acc;
+      },
+      {
+        Pendapatan: 0,
+        Pengeluaran: 0,
+        Tabungan: 0,
+      } as { [key: string]: number },
+    );
+  } catch (error) {
+    console.error("Failed to get balances:", error);
+    throw new Error("Internal Server Error");
+  }
+};
+
 // Fetch all transactions
 export const getAllTransactions = async (): Promise<Transaction[]> => {
   if (!auth.currentUser) {
@@ -18,12 +50,14 @@ export const getAllTransactions = async (): Promise<Transaction[]> => {
   }
 
   try {
-    const querySnapshot = await getDocs(collection(firestore, "transactions"));
+    const querySnapshot = await getDocs(
+      collection(firestore, "users/" + auth.currentUser.uid + "/transactions"),
+    );
     const transactions = querySnapshot.docs.map((doc) => {
       const data = doc.data();
       return {
         id: doc.id,
-        accountID: data.accountID as DocumentReference,
+        userID: data.userID as DocumentReference,
         type: data.type,
         amount: data.amount,
         category: data.category,
@@ -50,14 +84,18 @@ export const getTransactionById = async (
   }
 
   try {
-    const docRef = doc(firestore, "transactions", id);
+    const docRef = doc(
+      firestore,
+      "users/" + auth.currentUser.uid + "/transactions",
+      id,
+    );
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
       const data = docSnap.data();
       return {
         id: docSnap.id,
-        accountID: data.accountID as DocumentReference,
+        userID: data.userID as DocumentReference,
         type: data.type,
         amount: data.amount,
         category: data.category,
@@ -84,7 +122,15 @@ export const createTransaction = async (
   }
 
   try {
-    await addDoc(collection(firestore, "transactions"), transaction);
+    transaction.userID = doc(
+      firestore,
+      "users",
+      auth.currentUser.uid,
+    ) as DocumentReference;
+    await addDoc(
+      collection(firestore, "users/" + auth.currentUser.uid + "/transactions"),
+      transaction,
+    );
   } catch (error) {
     console.error("Error creating transaction:", error);
     throw new Error("Internal Server Error");
@@ -101,7 +147,11 @@ export const updateTransaction = async (
   }
 
   try {
-    const docRef = doc(firestore, "transactions", id);
+    const docRef = doc(
+      firestore,
+      "users/" + auth.currentUser.uid + "/transactions",
+      id,
+    );
     await updateDoc(docRef, updatedTransaction);
   } catch (error) {
     console.error("Error updating transaction:", error);
@@ -116,7 +166,11 @@ export const deleteTransaction = async (id: string): Promise<void> => {
   }
 
   try {
-    const docRef = doc(firestore, "transactions", id);
+    const docRef = doc(
+      firestore,
+      "users/" + auth.currentUser.uid + "/transactions",
+      id,
+    );
     await deleteDoc(docRef);
   } catch (error) {
     console.error("Error deleting transaction:", error);

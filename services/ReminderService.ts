@@ -18,7 +18,9 @@ export const getAllReminders = async (): Promise<Reminder[]> => {
   }
 
   try {
-    const querySnapshot = await getDocs(collection(firestore, "users/" + auth.currentUser.uid + "/reminders"));
+    const querySnapshot = await getDocs(
+      collection(firestore, "users/" + auth.currentUser.uid + "/reminders"),
+    );
     const reminders = querySnapshot.docs.map((doc) => {
       const data = doc.data();
       return {
@@ -26,7 +28,7 @@ export const getAllReminders = async (): Promise<Reminder[]> => {
         userID: data.userID as DocumentReference,
         title: data.title,
         date: data.date.toDate(), // Assuming 'date' is a Firestore Timestamp
-        type: data.type,
+        recurringEach: data.recurringEach,
         description: data.description,
       } as Reminder;
     });
@@ -46,7 +48,11 @@ export const getReminderById = async (id: string): Promise<Reminder | null> => {
   }
 
   try {
-    const docRef = doc(firestore, "users/" + auth.currentUser.uid + "/reminders", id);
+    const docRef = doc(
+      firestore,
+      "users/" + auth.currentUser.uid + "/reminders",
+      id,
+    );
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
@@ -56,7 +62,7 @@ export const getReminderById = async (id: string): Promise<Reminder | null> => {
         userID: data.userID as DocumentReference,
         title: data.title,
         date: data.date.toDate(), // Assuming 'date' is a Firestore Timestamp
-        type: data.type,
+        recurringEach: data.recurringEach,
         description: data.description,
       } as Reminder;
     } else {
@@ -75,9 +81,15 @@ export const createReminder = async (reminder: Reminder): Promise<void> => {
   }
 
   try {
-    reminder.userID = doc(firestore, "users", auth.currentUser.uid) as DocumentReference,
-    await addDoc(collection(firestore, "users/" + auth.currentUser.uid + "/reminders"), reminder);
-    console.log("success")
+    reminder.userID = doc(
+      firestore,
+      "users",
+      auth.currentUser.uid,
+    ) as DocumentReference;
+    await addDoc(
+      collection(firestore, "users/" + auth.currentUser.uid + "/reminders"),
+      reminder,
+    );
   } catch (error) {
     console.error("Error creating reminder:", error);
     throw new Error("Internal Server Error");
@@ -94,7 +106,11 @@ export const updateReminder = async (
   }
 
   try {
-    const docRef = doc(firestore, "users/" + auth.currentUser.uid + "/reminders", id);
+    const docRef = doc(
+      firestore,
+      "users/" + auth.currentUser.uid + "/reminders",
+      id,
+    );
     await updateDoc(docRef, updatedReminder);
   } catch (error) {
     console.error("Error updating reminder:", error);
@@ -109,7 +125,11 @@ export const deleteReminder = async (id: string): Promise<void> => {
   }
 
   try {
-    const docRef = doc(firestore, "users/" + auth.currentUser.uid + "/reminders", id);
+    const docRef = doc(
+      firestore,
+      "users/" + auth.currentUser.uid + "/reminders",
+      id,
+    );
     await deleteDoc(docRef);
   } catch (error) {
     console.error("Error deleting reminder:", error);

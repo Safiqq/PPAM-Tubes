@@ -4,15 +4,54 @@ import {
   Pressable,
   ScrollView,
   View,
+  TouchableOpacity,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LexendText, LexendTextInput } from "@/components/StyledText";
 import Spacer from "@/components/Spacer";
 import { useState } from "react";
-import BlackButton from "@/components/BlackButton";
+import { useRouter } from "expo-router";
+import { InputKalkulatorDanaDarurat } from "@/constants/Types";
+import kalkulatorDanaDarurat from "@/utils/danaDarurat";
+import { handleInputChange } from "@/utils/utils";
 
 export default function DanaDaruratScreen() {
+  const router = useRouter();
+
+  const [pengeluaranWajibPerBulan, setPengeluaranWajibPerBulan] =
+    useState<string>("");
   const [sudahMenikah, setSudahMenikah] = useState("Sudah");
+  const [jumlahTanggungan, setJumlahTanggungan] = useState<string>("");
+  const [lamaMengumpulkan, setLamaMengumpulkan] = useState<string>("");
+  const [uangSaatIni, setUangSaatIni] = useState<string>("");
+  const [targetInvestasiPerBulan, setTargetInvestasiPerBulan] =
+    useState<string>("");
+  const [returnInvestasi, setReturnInvestasi] = useState<string>("");
+
+  const handleButton = () => {
+    try {
+      const input: InputKalkulatorDanaDarurat = {
+        pengeluaranWajibPerBulan: parseInt(pengeluaranWajibPerBulan) || 0,
+        sudahMenikah: sudahMenikah == "Sudah",
+        jumlahTanggungan: parseInt(jumlahTanggungan) || 0,
+        lamaMengumpulkan: parseInt(lamaMengumpulkan) || 0,
+        uangSaatIni: parseInt(uangSaatIni) || 0,
+        targetInvestasiPerBulan: parseInt(targetInvestasiPerBulan) || 0,
+        returnInvestasi: parseFloat(returnInvestasi) || 0,
+      };
+
+      const result = kalkulatorDanaDarurat(input);
+      router.push({
+        pathname: "/danadarurat-analisa",
+        params: {
+          input: JSON.stringify(input),
+          result: JSON.stringify(result),
+        },
+      });
+    } catch (error) {
+      alert(error);
+    }
+  };
 
   return (
     <SafeAreaView className="flex-1 bg-white">
@@ -36,6 +75,9 @@ export default function DanaDaruratScreen() {
           <LexendTextInput
             className="h-9 rounded-[8px] border border-[#C5C5C5] px-3"
             placeholder="0"
+            value={pengeluaranWajibPerBulan}
+            onChangeText={handleInputChange(setPengeluaranWajibPerBulan)}
+            keyboardType="numeric"
           />
           <Spacer size={20} />
           <LexendText bold={true}>Apakah sudah menikah</LexendText>
@@ -77,6 +119,9 @@ export default function DanaDaruratScreen() {
             <LexendTextInput
               className="h-9 w-28 rounded-[8px] border border-[#C5C5C5] px-3"
               placeholder="0"
+              value={jumlahTanggungan}
+              onChangeText={handleInputChange(setJumlahTanggungan)}
+              keyboardType="numeric"
             />
             <LexendText>orang</LexendText>
           </View>
@@ -87,6 +132,9 @@ export default function DanaDaruratScreen() {
             <LexendTextInput
               className="h-9 w-28 rounded-[8px] border border-[#C5C5C5] px-3"
               placeholder="0"
+              value={lamaMengumpulkan}
+              onChangeText={handleInputChange(setLamaMengumpulkan)}
+              keyboardType="numeric"
             />
             <LexendText>bulan</LexendText>
           </View>
@@ -98,6 +146,9 @@ export default function DanaDaruratScreen() {
           <LexendTextInput
             className="h-9 rounded-[8px] border border-[#C5C5C5] px-3"
             placeholder="0"
+            value={uangSaatIni}
+            onChangeText={handleInputChange(setUangSaatIni)}
+            keyboardType="numeric"
           />
           <Spacer size={20} />
           <LexendText bold={true}>Target investasi setiap bulan</LexendText>
@@ -105,6 +156,9 @@ export default function DanaDaruratScreen() {
           <LexendTextInput
             className="h-9 rounded-[8px] border border-[#C5C5C5] px-3"
             placeholder="0"
+            value={targetInvestasiPerBulan}
+            onChangeText={handleInputChange(setTargetInvestasiPerBulan)}
+            keyboardType="numeric"
           />
           <Spacer size={20} />
           <LexendText bold={true}>
@@ -115,14 +169,24 @@ export default function DanaDaruratScreen() {
             <LexendTextInput
               className="h-9 w-28 rounded-[8px] border border-[#C5C5C5] px-3"
               placeholder="0"
+              value={returnInvestasi}
+              onChangeText={handleInputChange(setReturnInvestasi)}
+              keyboardType="numeric"
             />
             <LexendText>% / tahun</LexendText>
           </View>
           <Spacer size={32} />
-          <BlackButton
-            text="Lihat Hasil Strategi"
-            href="/danadarurat-analisa"
-          />
+          <TouchableOpacity
+            className="h-11 rounded-[12px] bg-black"
+            onPress={handleButton}
+          >
+            <LexendText
+              bold={true}
+              className="py-3 text-center text-[16px] text-white"
+            >
+              Lihat Hasil Strategi
+            </LexendText>
+          </TouchableOpacity>
           <Spacer size={32} />
         </View>
       </ScrollView>

@@ -5,21 +5,20 @@ import {
   OutputKalkulatorInvestasi,
 } from "@/constants/Types";
 
-function kalkulatorInvestasi(input: InputKalkulatorInvestasi): OutputKalkulatorInvestasi {
+function kalkulatorInvestasi(
+  input: InputKalkulatorInvestasi,
+): OutputKalkulatorInvestasi {
   const {
     jumlahTarget,
-    waktuMengumpulkan,
+    lamaMengumpulkan,
     uangSaatIni,
     menabungSetiap,
     targetInvestasiPerBulan,
-    returnProduk,
+    returnInvestasi,
   } = input;
   const n =
-    menabungSetiap === "Bulan"
-      ? waktuMengumpulkan * 12
-      : waktuMengumpulkan;
-  const r =
-    returnProduk / 100 / (menabungSetiap === "Bulan" ? 12 : 1);
+    menabungSetiap === "Bulan" ? lamaMengumpulkan * 12 : lamaMengumpulkan;
+  const r = returnInvestasi / 100 / (menabungSetiap === "Bulan" ? 12 : 1);
 
   let FV = uangSaatIni * Math.pow(1 + r, n);
   for (let i = 1; i <= n; i++) {
@@ -29,14 +28,12 @@ function kalkulatorInvestasi(input: InputKalkulatorInvestasi): OutputKalkulatorI
   }
 
   const strategiCocok = FV >= jumlahTarget;
-  const resultInvestasi = FV;
+  const hasilInvestasi = FV;
   const totalPokokInvestasi =
     uangSaatIni + (targetInvestasiPerBulan ? targetInvestasiPerBulan * n : 0);
-  const totalBungaInvestasi = resultInvestasi - totalPokokInvestasi;
-  const persentasePokokInvestasi =
-    (totalPokokInvestasi / resultInvestasi) * 100;
-  const persentaseBungaInvestasi =
-    (totalBungaInvestasi / resultInvestasi) * 100;
+  const totalBungaInvestasi = hasilInvestasi - totalPokokInvestasi;
+  const persentasePokokInvestasi = (totalPokokInvestasi / hasilInvestasi) * 100;
+  const persentaseBungaInvestasi = (totalBungaInvestasi / hasilInvestasi) * 100;
 
   let rekomendasiInvestasiPerBulan;
   let rekomendasiDurasiInvestasi;
@@ -94,17 +91,22 @@ function kalkulatorInvestasi(input: InputKalkulatorInvestasi): OutputKalkulatorI
 
   const rekomendasiPilihanInvestasi = pilihanInvestasi.filter(
     (inv) =>
-      inv.returnTahunan >= returnProduk - 2 &&
-      inv.returnTahunan <= returnProduk + 2,
+      inv.returnTahunan >= returnInvestasi - 2 &&
+      inv.returnTahunan <= returnInvestasi + 2,
   );
 
-  return {
-    strategiCocok,
-    resultInvestasi,
+  const breakdownInvestasi = {
     totalPokokInvestasi,
     persentasePokokInvestasi,
     totalBungaInvestasi,
     persentaseBungaInvestasi,
+  };
+
+  return {
+    totalUangDibutuhkan: jumlahTarget,
+    strategiCocok,
+    hasilInvestasi,
+    breakdownInvestasi,
     rekomendasiInvestasiPerBulan,
     rekomendasiDurasiInvestasi,
     rekomendasiBreakdownNominal,
@@ -115,10 +117,10 @@ function kalkulatorInvestasi(input: InputKalkulatorInvestasi): OutputKalkulatorI
 
 // const inputContoh: InputKalkulatorInvestasi = {
 //   jumlahTarget: 10_000_000, // Target mencapai 100 juta
-//   waktuMengumpulkan: 1, // Waktu mengumpulkan 10 tahun
+//   lamaMengumpulkan: 1, // Waktu mengumpulkan 10 tahun
 //   uangSaatIni: 400_000, // Uang yang dimiliki saat ini 20 juta
 //   menabungSetiap: "Bulan", // Menabung setiap bulan
-//   returnProduk: 5, // Return investasi 5% per tahun
+//   returnInvestasi: 5, // Return investasi 5% per tahun
 //   targetInvestasiPerBulan: 200_000, // Nominal investasi per bulan 1 juta
 // };
 
@@ -129,7 +131,7 @@ function kalkulatorInvestasi(input: InputKalkulatorInvestasi): OutputKalkulatorI
 //   "Apakah strateginya cocok? ",
 //   result.strategiCocok ? "Ya" : "Tidak",
 // );
-// console.log("result investasi: ", result.resultInvestasi);
+// console.log("result investasi: ", result.hasilInvestasi);
 // console.log("Total pokok investasi: ", result.totalPokokInvestasi);
 // console.log(
 //   "Persentase pokok investasi: ",

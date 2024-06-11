@@ -3,27 +3,13 @@ import { ScrollView, View, Text, Image, Pressable } from "react-native";
 import ArticleListItem from "@/components/ArticleListItem"; // Adjust the import path as necessary
 import { LexendText } from "@/components/StyledText";
 import BottomNavBar from "@/components/BottomNavBar";
-import { createFinancialEducationResource, getAllFinancialEducationResources } from "@/services/FinancialEducationService";
+import {
+  createFinancialEducationResource,
+  getAllFinancialEducationResources,
+} from "@/services/FinancialEducationService";
 import { FinancialEducation } from "@/constants/Types";
 
 const EdukasiKeuanganScreen = () => {
-  // const articles = [
-  //   {
-  //     id: 1,
-  //     title: "Pentingnya Melek Keuangan",
-  //     imageSrc: require("@/assets/images/dummyimage.png"),
-  //   },
-  //   {
-  //     id: 2,
-  //     title: "Top 10 Instrumen Investasi yang Bikin Cepet Kaya!",
-  //     imageSrc: require("@/assets/images/dummyimage.png"),
-  //   },
-  //   {
-  //     id: 3,
-  //     title: "3 Crypto ini Akan Membuat Kamu Bisa Beli McLaren Besok!",
-  //     imageSrc: require("@/assets/images/dummyimage.png"),
-  //   },
-  // ];
   const [articles, setArticles] = useState<FinancialEducation[]>([]);
 
   useEffect(() => {
@@ -98,7 +84,7 @@ const EdukasiKeuanganScreen = () => {
     getArticles();
   }, []);
 
-  https: return (
+  return (
     <View>
       <ScrollView className="min-h-full bg-white px-5 pt-11">
         <Text className="mb-4 text-2xl font-bold">Edukasi Keuangan</Text>

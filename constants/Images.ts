@@ -5,6 +5,7 @@ export default {
   heroanalisa3: require("@/assets/images/hero-analisa-3.png"),
   heroanalisa4: require("@/assets/images/hero-analisa-4.png"),
   // green
+  makandanminum: require("@/assets/images/logo/makandanminum.png"),
   bahanmakanan: require("@/assets/images/logo/bahanmakanan.png"),
   diskon: require("@/assets/images/logo/diskon.png"),
   gaji: require("@/assets/images/logo/gaji.png"),
@@ -13,7 +14,6 @@ export default {
   kesehatan: require("@/assets/images/logo/kesehatan.png"),
   koin: require("@/assets/images/logo/koin.png"),
   list: require("@/assets/images/logo/list.png"),
-  makandanminum: require("@/assets/images/logo/makandanminum.png"),
   piala: require("@/assets/images/logo/piala.png"),
   tabungan: require("@/assets/images/logo/tabungan.png"),
   // navbar

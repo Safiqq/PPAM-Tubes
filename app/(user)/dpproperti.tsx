@@ -1,15 +1,58 @@
 import {
   ImageBackground,
   Image,
-  Pressable,
   ScrollView,
   View,
+  TouchableOpacity,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LexendText, LexendTextInput } from "@/components/StyledText";
 import Spacer from "@/components/Spacer";
+import { useRouter } from "expo-router";
+import { InputKalkulatorDPProperti } from "@/constants/Types";
+import { handleInputChange } from "@/utils/utils";
+import { useState } from "react";
+import kalkulatorDPProperti from "@/utils/dpProperti";
 
 export default function DPPropertiScreen() {
+  const router = useRouter();
+
+  const [lamaMengumpulkan, setLamaMengumpulkan] = useState<string>("");
+  const [hargaProperti, setHargaProperti] = useState<string>("");
+  const [persenDP, setPersenDP] = useState<string>("");
+  const [inflasiProperti, setInflasiProperti] = useState<string>("");
+  const [uangSaatIni, setUangSaatIni] = useState<string>("");
+  const [targetInvestasiPerBulan, setTargetInvestasiPerBulan] =
+    useState<string>("");
+  const [returnInvestasi, setReturnInvestasi] = useState<string>("");
+
+  const kpr = 60;
+
+  const handleButton = () => {
+    try {
+      const input: InputKalkulatorDPProperti = {
+        lamaMengumpulkan: parseInt(lamaMengumpulkan) || 0,
+        hargaProperti: parseInt(hargaProperti) || 0,
+        persenDP: parseFloat(persenDP) || 0,
+        inflasiProperti: parseFloat(inflasiProperti) || 0,
+        uangSaatIni: parseInt(uangSaatIni) || 0,
+        targetInvestasiPerBulan: parseInt(targetInvestasiPerBulan) || 0,
+        returnInvestasi: parseFloat(returnInvestasi) || 0,
+      };
+
+      const result = kalkulatorDPProperti(input);
+      router.push({
+        pathname: "/dpproperti-analisa",
+        params: {
+          input: JSON.stringify(input),
+          result: JSON.stringify(result),
+        },
+      });
+    } catch (error) {
+      alert(error);
+    }
+  };
+
   return (
     <SafeAreaView className="flex-1 bg-white">
       <ScrollView className="flex-1">
@@ -33,6 +76,9 @@ export default function DPPropertiScreen() {
             <LexendTextInput
               className="h-9 w-28 rounded-[8px] border border-[#C5C5C5] px-3"
               placeholder="0"
+              value={lamaMengumpulkan}
+              onChangeText={handleInputChange(setLamaMengumpulkan)}
+              keyboardType="numeric"
             />
             <LexendText>tahun</LexendText>
           </View>
@@ -42,6 +88,9 @@ export default function DPPropertiScreen() {
           <LexendTextInput
             className="h-9 rounded-[8px] border border-[#C5C5C5] px-3"
             placeholder="0"
+            value={hargaProperti}
+            onChangeText={handleInputChange(setHargaProperti)}
+            keyboardType="numeric"
           />
           <Spacer size={20} />
           <LexendText bold={true}>% DP yang Diinginkan</LexendText>
@@ -50,6 +99,9 @@ export default function DPPropertiScreen() {
             <LexendTextInput
               className="h-9 w-28 rounded-[8px] border border-[#C5C5C5] px-3"
               placeholder="0"
+              value={persenDP}
+              onChangeText={handleInputChange(setPersenDP)}
+              keyboardType="numeric"
             />
             <LexendText>%</LexendText>
           </View>
@@ -59,20 +111,20 @@ export default function DPPropertiScreen() {
               <LexendText bold={true}>DP setara dengan</LexendText>
               <Spacer size={8} />
               <LexendText className="rounded-[8px] bg-[#D9D9D9] px-3 py-2.5 text-center">
-                Rp400.000
+                Rp{(parseInt(persenDP) * parseInt(hargaProperti)) / 100}
               </LexendText>
               <Spacer size={20} />
               <LexendText bold={true}>KPR / pokok utang</LexendText>
               <Spacer size={8} />
               <LexendText className="rounded-[8px] bg-[#D9D9D9] px-3 py-2.5 text-center">
-                Rp600.000.000
+                Rp{(kpr * parseInt(hargaProperti)) / 100}
               </LexendText>
             </View>
             <View>
               <LexendText bold={true}>% KPR</LexendText>
               <Spacer size={8} />
               <LexendText className="w-12 rounded-[8px] bg-[#D9D9D9] px-3 py-2.5 text-center">
-                60%
+                {kpr}%
               </LexendText>
               <Spacer size={20} />
               <LexendText bold={true}>Asumsi inflasi properti</LexendText>
@@ -81,6 +133,9 @@ export default function DPPropertiScreen() {
                 <LexendTextInput
                   className="h-9 w-28 rounded-[8px] border border-[#C5C5C5] px-3"
                   placeholder="0"
+                  value={inflasiProperti}
+                  onChangeText={handleInputChange(setInflasiProperti)}
+                  keyboardType="numeric"
                 />
                 <LexendText>%</LexendText>
               </View>
@@ -94,13 +149,20 @@ export default function DPPropertiScreen() {
           <LexendTextInput
             className="h-9 rounded-[8px] border border-[#C5C5C5] px-3"
             placeholder="0"
+            value={uangSaatIni}
+            onChangeText={handleInputChange(setUangSaatIni)}
+            keyboardType="numeric"
           />
           <Spacer size={20} />
           <LexendText bold={true}>Target investasi setiap bulan</LexendText>
           <Spacer size={8} />
+          Investasi
           <LexendTextInput
             className="h-9 rounded-[8px] border border-[#C5C5C5] px-3"
             placeholder="0"
+            value={targetInvestasiPerBulan}
+            onChangeText={handleInputChange(setTargetInvestasiPerBulan)}
+            keyboardType="numeric"
           />
           <Spacer size={20} />
           <LexendText bold={true}>
@@ -111,24 +173,24 @@ export default function DPPropertiScreen() {
             <LexendTextInput
               className="h-9 w-28 rounded-[8px] border border-[#C5C5C5] px-3"
               placeholder="0"
+              value={returnInvestasi}
+              onChangeText={handleInputChange(setReturnInvestasi)}
+              keyboardType="numeric"
             />
             <LexendText>% / tahun</LexendText>
           </View>
-          <Spacer size={20} />
-          <LexendText bold={true}>Akan rutin berinvestasi selama</LexendText>
-          <Spacer size={8} />
-          <LexendText className="w-20 rounded-[8px] bg-[#d9d9d9] p-2 text-center">
-            10 tahun
-          </LexendText>
           <Spacer size={32} />
-          <Pressable className="h-11 rounded-[12px] bg-black">
+          <TouchableOpacity
+            className="h-11 rounded-[12px] bg-black"
+            onPress={handleButton}
+          >
             <LexendText
               bold={true}
               className="py-3 text-center text-[16px] text-white"
             >
               Lihat Hasil Strategi
             </LexendText>
-          </Pressable>
+          </TouchableOpacity>
           <Spacer size={32} />
         </View>
       </ScrollView>

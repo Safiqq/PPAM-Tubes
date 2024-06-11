@@ -2,59 +2,64 @@ import { View, Image } from "react-native";
 import { LexendText } from "@/components/StyledText";
 import Spacer from "@/components/Spacer";
 import { Shadow } from "react-native-shadow-2";
+import { getAllTransactions } from "@/services/TransactionService";
+import { useState, useEffect } from "react";
+import { Transaction } from "@/constants/Types";
+import Images from "@/constants/Images";
 
 const RiwayatTransaksi = () => {
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+
+  useEffect(() => {
+    async function fetchTransactions() {
+      const fetchedTransactions = await getAllTransactions();
+      setTransactions(fetchedTransactions);
+    }
+
+    fetchTransactions();
+  }, []);
+
+  const getCategoryImage = (category: string) => {
+    return (
+      Images[category.replaceAll(" ", "").toLowerCase()] ||
+      require("@/assets/images/logo/list.png")
+    );
+  };
+
   return (
     <View className="mx-5">
-      <LexendText className="text-[#C5C5C5]">14 Apr 2024</LexendText>
-      <Spacer size={4} />
-      <Shadow className="flex w-full flex-row items-center justify-between rounded-[16px] px-4 py-4">
-        <View className="flex flex-row items-center gap-3">
-          <Image source={require("@/assets/images/logo/makandanminum.png")} />
-          <View>
-            <LexendText bold={true} className="text-[16px]">
-              Makan siang
-            </LexendText>
-            <Spacer size={4} />
-            <LexendText className="text-[10px]">Makan dan minum</LexendText>
-          </View>
-        </View>
-        <LexendText className="text-[16px] text-[#EF4E4E]">
-          - Rp50.000
-        </LexendText>
-      </Shadow>
-      <Spacer size={20} />
-      <LexendText className="text-[#C5C5C5]">13 Apr 2024</LexendText>
-      <Spacer size={4} />
-      <Shadow className="w-full rounded-[16px] px-4 py-4">
-        <View className="flex flex-row items-center justify-between">
-          <View className="flex flex-row items-center gap-3">
-            <Image source={require("@/assets/images/logo/gaji.png")} />
-            <View>
-              <LexendText bold={true} className="text-[16px]">
-                Design
-              </LexendText>
-              <Spacer size={4} />
-              <LexendText className="text-[10px]">Gaji</LexendText>
-            </View>
-          </View>
-          <LexendText className="text-[16px] text-[#76C063]">
-            + Rp50.000
+      {transactions.map((transaction) => (
+        <View key={transaction.id}>
+          <LexendText className="text-[#C5C5C5]">
+            {transaction.date.toDateString()}
           </LexendText>
-        </View>
-        <Spacer size={28} />
-        <View className="flex flex-row items-center justify-between">
-          <View className="flex flex-row items-center gap-3">
-            <Image source={require("@/assets/images/logo/tabungan.png")} />
-            <View>
-              <LexendText bold={true} className="text-[16px]">
-                Tabungan
-              </LexendText>
+          <Spacer size={4} />
+          <Shadow className="flex w-full flex-row items-center justify-between rounded-[16px] px-4 py-4">
+            <View className="flex flex-row items-center gap-3">
+              <Image source={getCategoryImage(transaction.category)} />
+              <View>
+                <LexendText bold={true} className="text-[16px]">
+                  {transaction.description}
+                </LexendText>
+                <Spacer size={4} />
+                <LexendText className="text-[10px]">
+                  {transaction.category}
+                </LexendText>
+              </View>
             </View>
-          </View>
-          <LexendText className="text-[16px]">+ Rp600.000</LexendText>
+            <LexendText
+              className={`text-[16px] ${transaction.type === "Pendapatan" ? "text-[#76C063]" : transaction.type == "Pengeluaran" ? "text-[#EF4E4E]" : ""}`}
+            >
+              {transaction.type === "Pendapatan" ||
+              transaction.type == "Tabungan"
+                ? "+"
+                : "-"}
+              Rp{transaction.amount.toLocaleString("id")}
+            </LexendText>
+          </Shadow>
+          <Spacer size={20} />
         </View>
-      </Shadow>
+      ))}
     </View>
   );
 };

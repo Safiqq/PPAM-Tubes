@@ -4,10 +4,20 @@ import { Picker } from "@react-native-picker/picker";
 import { LexendText } from "@/components/StyledText";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import { Transaction } from "@/constants/Types";
+import { useRouter } from "expo-router";
 
-const Tabungan = ({ intervals }: { intervals: string[] }) => {
-  const [amount, setAmount] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState(null);
+const Tabungan = ({
+  categories,
+  intervals,
+}: {
+  categories: string[];
+  intervals: string[];
+}) => {
+  const router = useRouter();
+
+  const [amount, setAmount] = useState<string>("");
+  const [selectedCategory, setSelectedCategory] = useState<string>(null);
   const [date, setDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [recurring, setRecurring] = useState(false);
@@ -18,26 +28,28 @@ const Tabungan = ({ intervals }: { intervals: string[] }) => {
   const [description, setDescription] = useState("");
 
   const handleTambah = () => {
-    const data = {
-      nominal: amount,
-      kategori: selectedCategory,
-      tanggal: date.toLocaleDateString(),
+    const transaction = {
+      type: "Tabungan",
+      amount: parseFloat(amount) || 0,
+      category: selectedCategory,
+      isRecurring: recurring,
       ...(recurring && {
-        berulangSetiap: repeatInterval,
-        berulangHingga: repeatUntil.toLocaleDateString(),
+        recurringEach: repeatInterval,
+        recurringUntil: repeatUntil,
       }),
-      keterangan: description,
+      date,
+      description,
     };
 
-    if (data.nominal === "") {
-      Alert.alert("Data transaksi BELUM LENGKAP!");
+    if (transaction.amount === 0) {
+      Alert.alert("Data transaksi belum lengkap!");
       console.log("data transaksi belum lengkap");
     } else {
-      // console.log("dordor")
-      console.log(JSON.stringify(data));
-      Alert.alert("Data transaksi BERHASIL DITAMBAHKAN!");
+      console.log(JSON.stringify(transaction));
+      createTransaction(transaction as Transaction);
+      alert("Berhasil menambahkan ke pengingat pembayaran!");
+      router.navigate("/transaksi");
     }
-    // Alert.alert("Data Submitted", JSON.stringify(data, null, 2));
   };
 
   return (
@@ -50,6 +62,30 @@ const Tabungan = ({ intervals }: { intervals: string[] }) => {
         onChangeText={setAmount}
         keyboardType="numeric"
       />
+
+      <LexendText className="mb-2 text-lg">Kategori</LexendText>
+      <View className="mb-4 flex-row flex-wrap">
+        {categories.map((category, index) => (
+          <Pressable
+            key={index}
+            className={`m-1 rounded-full border p-2 ${
+              selectedCategory === category
+                ? "border-green-500 bg-[#76C063]"
+                : "border-gray-400"
+            }`}
+            onPress={() => setSelectedCategory(category)}
+          >
+            <LexendText
+              className={
+                selectedCategory === category ? "text-white" : "text-gray-600"
+              }
+            >
+              {category}
+            </LexendText>
+          </Pressable>
+        ))}
+      </View>
+
       <LexendText className="mb-2 text-lg">Tanggal</LexendText>
       <Pressable
         className="mb-4 rounded-lg border border-gray-400 p-2"
@@ -154,3 +190,6 @@ const Tabungan = ({ intervals }: { intervals: string[] }) => {
 };
 
 export default Tabungan;
+function createTransaction(arg0: Transaction) {
+  throw new Error("Function not implemented.");
+}

@@ -13,50 +13,45 @@ import { useState } from "react";
 import { InputKalkulatorInvestasi } from "@/constants/Types";
 import kalkulatorInvestasi from "@/utils/kalkulatorInvestasi";
 import { useRouter } from "expo-router";
+import { handleInputChange } from "@/utils/utils";
 
 export default function KalkulatorInvestasiScreen() {
-  const [jumlahTarget, setJumlahTarget] = useState<string>("100000000");
-  const [waktuMengumpulkan, setWaktuMengumpulkan] = useState<string>("5");
-  const [uangSaatIni, setUangSaatIni] = useState<string>("5000000");
+  const router = useRouter();
+
+  const [jumlahTarget, setJumlahTarget] = useState<string>("");
+  const [lamaMengumpulkan, setlamaMengumpulkan] = useState<string>("");
+  const [uangSaatIni, setUangSaatIni] = useState<string>("");
   const [menabungSetiap, setMenabungSetiap] = useState<"Bulan" | "Tahun">(
     "Bulan",
   );
   const [menambahPada, setMenambahPada] = useState<"Awal" | "Akhir">("Awal");
   const [targetInvestasiPerBulan, setTargetInvestasiPerBulan] =
-    useState<string>("1000000");
-  const [returnProduk, setReturnProduk] = useState<string>("7.35");
-
-  const router = useRouter();
+    useState<string>("");
+  const [returnProduk, setReturnProduk] = useState<string>("");
 
   const handleButton = () => {
-    const input: InputKalkulatorInvestasi = {
-      jumlahTarget: parseInt(jumlahTarget) || 0,
-      waktuMengumpulkan: parseInt(waktuMengumpulkan) || 0,
-      uangSaatIni: parseInt(uangSaatIni) || 0,
-      menabungSetiap: menabungSetiap,
-      targetInvestasiPerBulan: parseInt(targetInvestasiPerBulan) || 0,
-      returnProduk: parseFloat(returnProduk) || 0,
-    };
+    try {
+      const input: InputKalkulatorInvestasi = {
+        jumlahTarget: parseInt(jumlahTarget) || 0,
+        lamaMengumpulkan: parseInt(lamaMengumpulkan) || 0,
+        uangSaatIni: parseInt(uangSaatIni) || 0,
+        menabungSetiap: menabungSetiap,
+        targetInvestasiPerBulan: parseInt(targetInvestasiPerBulan) || 0,
+        returnInvestasi: parseFloat(returnProduk) || 0,
+      };
 
-    const result = kalkulatorInvestasi(input);
-    router.push({
-      pathname: "/kalkulatorinvestasi-analisa",
-      params: { input: JSON.stringify(input), result: JSON.stringify(result) },
-    });
+      const result = kalkulatorInvestasi(input);
+      router.push({
+        pathname: "/kalkulatorinvestasi-analisa",
+        params: {
+          input: JSON.stringify(input),
+          result: JSON.stringify(result),
+        },
+      });
+    } catch (error) {
+      alert(error);
+    }
   };
-
-  const validateNumberInput = (input: string): boolean => {
-    const regex = /^[0-9.]*$/;
-    return regex.test(input);
-  };
-
-  const handleInputChange =
-    (setter: React.Dispatch<React.SetStateAction<string>>) =>
-    (text: string) => {
-      if (validateNumberInput(text)) {
-        setter(text);
-      }
-    };
 
   return (
     <SafeAreaView className="flex-1 bg-white">
@@ -77,8 +72,10 @@ export default function KalkulatorInvestasiScreen() {
         </ImageBackground>
         <View className="px-7">
           <Spacer size={24} />
+
           <LexendText bold={true}>Jumlah uang yang ingin dicapai</LexendText>
           <Spacer size={8} />
+
           <LexendTextInput
             className="h-9 rounded-[8px] border border-[#C5C5C5] px-3"
             placeholder="0"
@@ -87,21 +84,25 @@ export default function KalkulatorInvestasiScreen() {
             keyboardType="numeric"
           />
           <Spacer size={20} />
+
           <LexendText bold={true}>Waktu mengumpulkan uang</LexendText>
           <Spacer size={8} />
+
           <View className="flex flex-row items-center gap-3">
             <LexendTextInput
               className="h-9 w-28 rounded-[8px] border border-[#C5C5C5] px-3"
               placeholder="0"
-              value={waktuMengumpulkan}
-              onChangeText={handleInputChange(setWaktuMengumpulkan)}
+              value={lamaMengumpulkan}
+              onChangeText={handleInputChange(setlamaMengumpulkan)}
               keyboardType="numeric"
             />
             <LexendText>tahun lagi</LexendText>
           </View>
           <Spacer size={20} />
+
           <LexendText bold={true}>Uang yang dimiliki saat ini</LexendText>
           <Spacer size={8} />
+
           <LexendTextInput
             className="h-9 rounded-[8px] border border-[#C5C5C5] px-3"
             placeholder="0"
@@ -110,8 +111,10 @@ export default function KalkulatorInvestasiScreen() {
             keyboardType="numeric"
           />
           <Spacer size={20} />
+
           <LexendText bold={true}>Akan menabung setiap</LexendText>
           <Spacer size={8} />
+
           <View className="flex flex-row gap-4">
             <Pressable
               className={`px-3 py-2 ${
@@ -143,8 +146,10 @@ export default function KalkulatorInvestasiScreen() {
             </Pressable>
           </View>
           <Spacer size={20} />
+
           <LexendText bold={true}>Akan menambahkan dana pada</LexendText>
           <Spacer size={8} />
+
           <View className="flex flex-row gap-4">
             <Pressable
               className={`px-3 py-2 ${
@@ -176,10 +181,12 @@ export default function KalkulatorInvestasiScreen() {
             </Pressable>
           </View>
           <Spacer size={20} />
+
           <LexendText bold={true}>
             Target investasi setiap {menabungSetiap.toLowerCase()}
           </LexendText>
           <Spacer size={8} />
+
           <LexendTextInput
             className="h-9 rounded-[8px] border border-[#C5C5C5] px-3"
             placeholder="0"
@@ -188,10 +195,12 @@ export default function KalkulatorInvestasiScreen() {
             keyboardType="numeric"
           />
           <Spacer size={20} />
+
           <LexendText bold={true}>
             Berinvestasi di produk yang returnnya
           </LexendText>
           <Spacer size={8} />
+
           <View className="flex flex-row items-center gap-3">
             <LexendTextInput
               className="h-9 w-28 rounded-[8px] border border-[#C5C5C5] px-3"
@@ -203,6 +212,7 @@ export default function KalkulatorInvestasiScreen() {
             <LexendText>% / tahun</LexendText>
           </View>
           <Spacer size={32} />
+
           <TouchableOpacity
             className="h-11 rounded-[12px] bg-black"
             onPress={handleButton}

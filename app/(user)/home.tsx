@@ -8,9 +8,36 @@ import { Shadow } from "react-native-shadow-2";
 import { Link } from "expo-router";
 import BottomNavBar from "@/components/BottomNavBar";
 import Spacer from "@/components/Spacer";
+import { useEffect, useState } from "react";
+import { getUserDataOnce } from "@/services/AuthService";
+import { User } from "@/constants/Types";
+import { getBalance } from "@/services/TransactionService";
 
 export default function HomeScreen() {
   const insets = useSafeAreaInsets();
+  const formatter = new Intl.DateTimeFormat("id-ID", {
+    year: "numeric",
+    month: "long",
+  });
+
+  const [userData, setUserData] = useState<User>();
+  const [userBalance, setUserBalance] = useState<{
+    Pendapatan: number;
+    Pengeluaran: number;
+    Tabungan: number;
+  }>();
+
+  useEffect(() => {
+    async function fetchData() {
+      const usrData = await getUserDataOnce();
+      if (usrData) setUserData(usrData);
+
+      const usrBalance = await getBalance();
+      if (usrBalance) setUserBalance(usrBalance);
+    }
+
+    fetchData();
+  }, []);
 
   return (
     <View>
@@ -25,7 +52,7 @@ export default function HomeScreen() {
         <View className="mx-8">
           <LexendText className="text-[20px] text-[#C5C5C5]">Hello,</LexendText>
           <LexendText bold={true} className="text-[20px]">
-            Hilmi Baskara Radanto
+            {userData?.name}
           </LexendText>
         </View>
         <Spacer size={24} />
@@ -37,11 +64,15 @@ export default function HomeScreen() {
           >
             <View style={{ backgroundColor: "transparent" }}>
               <LexendText bold={true} className="text-[24px]">
-                Rp600.000
+                Rp{(
+                  userBalance.Pendapatan +
+                  userBalance.Tabungan -
+                  userBalance.Pengeluaran
+                ).toLocaleString("id")}
               </LexendText>
               <LexendText>Total Saldo</LexendText>
             </View>
-            <LexendText>April 2024</LexendText>
+            <LexendText>{formatter.format(new Date())}</LexendText>
           </ImageBackground>
         </View>
         <Spacer size={24} />

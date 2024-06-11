@@ -95,6 +95,7 @@ export default function DetailPengingatScreen() {
                   {reminder.date.getDate()}{" "}
                   {reminder.date.toLocaleString("default", { month: "short" })}{" "}
                   {reminder.date.getFullYear()}
+                  {" "}({reminder.recurringEach})
                 </LexendText>
                 <LexendText bold={true}>{reminder.title}</LexendText>
                 <LexendText>{reminder.description}</LexendText>

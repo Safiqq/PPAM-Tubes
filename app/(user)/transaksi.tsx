@@ -1,21 +1,26 @@
-import {
-  ImageBackground,
-  ScrollView,
-  View,
-  Image,
-  Pressable,
-} from "react-native";
+import { ScrollView, View, Image, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LexendText } from "@/components/StyledText";
 import { Shadow } from "react-native-shadow-2";
 import Spacer from "@/components/Spacer";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TransaksiBerulang from "@/components/TransaksiBerulang";
 import RiwayatTransaksi from "@/components/RiwayatTransaksi";
 import BottomNavBar from "@/components/BottomNavBar";
+import { getBalance } from "@/services/TransactionService";
 
 export default function TransaksiScreen() {
   const [tab, setTab] = useState("Riwayat Transaksi");
+  const [userBalance, setUserBalance] = useState<any>();
+
+  useEffect(() => {
+    async function fetchData() {
+      const usrBalance = await getBalance();
+      setUserBalance(usrBalance);
+    }
+
+    fetchData();
+  }, []);
 
   return (
     <SafeAreaView className="flex-1 bg-white">
@@ -33,9 +38,16 @@ export default function TransaksiScreen() {
           <View className="items-center">
             <LexendText className="text-[16px]">Total Balance</LexendText>
             <Spacer size={4} />
-            <LexendText bold={true} className="text-[40px]">
-              Rp600.000
-            </LexendText>
+            {userBalance && (
+              <LexendText bold={true} className="text-[40px]">
+                Rp
+                {(
+                  userBalance.Pendapatan +
+                  userBalance.Tabungan -
+                  userBalance.Pengeluaran
+                ).toLocaleString("id")}
+              </LexendText>
+            )}
           </View>
           <Spacer size={16} />
           <View className="mx-5">
@@ -51,7 +63,7 @@ export default function TransaksiScreen() {
                   </LexendText>
                 </View>
                 <LexendText bold={true} className="text-[14px] text-[#76C063]">
-                  Rp50.000
+                  Rp{userBalance.Pendapatan.toLocaleString("id")}
                 </LexendText>
               </View>
               <View className="items-center">
@@ -69,7 +81,7 @@ export default function TransaksiScreen() {
                   bold={true}
                   style={{ color: "#EF4E4E", fontSize: 14 }}
                 >
-                  Rp50.000
+                  Rp{userBalance.Pengeluaran.toLocaleString("id")}
                 </LexendText>
               </View>
               <View className="items-center">
@@ -83,7 +95,7 @@ export default function TransaksiScreen() {
                   </LexendText>
                 </View>
                 <LexendText bold={true} className="text-[14px]">
-                  Rp600.000
+                  Rp{userBalance.Tabungan.toLocaleString("id")}
                 </LexendText>
               </View>
             </Shadow>
@@ -117,7 +129,7 @@ export default function TransaksiScreen() {
         <Spacer size={20} />
 
         {tab == "Riwayat Transaksi" && <RiwayatTransaksi />}
-        {tab == "Riwayat Transaksi" && <TransaksiBerulang />}
+        {tab == "Transaksi Berulang" && <TransaksiBerulang />}
         <Spacer size={100} />
       </ScrollView>
       <BottomNavBar />

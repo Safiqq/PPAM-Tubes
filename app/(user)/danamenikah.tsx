@@ -4,20 +4,50 @@ import {
   Pressable,
   ScrollView,
   View,
+  TouchableOpacity,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LexendText, LexendTextInput } from "@/components/StyledText";
 import Spacer from "@/components/Spacer";
 import { useState } from "react";
+import { useRouter } from "expo-router";
+import { InputKalkulatorDanaMenikah } from "@/constants/Types";
+import kalkulatorDanaMenikah from "@/utils/danaMenikah";
 
 export default function DanaMenikahScreen() {
-  const [totalBiaya, setTotalBiaya] = useState('');
-  const [menikahDalam, setMenikahDalam] = useState('');
-  const [asumsiInflasi, setAsumsiInflasi] = useState('');
-  const [uangDiperlukan, setUangDiperlukan] = useState('');
-  const [uangDimiliki, setUangDimiliki] = useState('');
-  const [targetInvestasi, setTargetInvestasi] = useState('');
-  const [returnInvestasi, setReturnInvestasi] = useState('');
+  const router = useRouter();
+
+  const [totalBiayaPernikahan, setTotalBiayaPernikahan] = useState<string>("");
+  const [lamaMengumpulkan, setLamaMengumpulkan] = useState<string>("");
+  const [asumsiInflasi, setAsumsiInflasi] = useState<string>("");
+  const [uangSaatIni, setUangSaatIni] = useState<string>("");
+  const [targetInvestasiPerBulan, setTargetInvestasiPerBulan] =
+    useState<string>("");
+  const [returnInvestasi, setReturnInvestasi] = useState<string>("");
+
+  const handleButton = () => {
+    try {
+      const input: InputKalkulatorDanaMenikah = {
+        totalBiayaPernikahan: parseInt(totalBiayaPernikahan) || 0,
+        lamaMengumpulkan: parseInt(lamaMengumpulkan) || 0,
+        asumsiInflasi: parseInt(asumsiInflasi) || 0,
+        uangSaatIni: parseInt(uangSaatIni) || 0,
+        targetInvestasiPerBulan: parseInt(targetInvestasiPerBulan) || 0,
+        returnInvestasi: parseInt(returnInvestasi) || 0,
+      };
+
+      const result = kalkulatorDanaMenikah(input);
+      router.push({
+        pathname: "/danamenikah-analisa",
+        params: {
+          input: JSON.stringify(input),
+          result: JSON.stringify(result),
+        },
+      });
+    } catch (error) {
+      alert(error);
+    }
+  };
 
   return (
     <SafeAreaView className="flex-1 bg-white">
@@ -41,8 +71,8 @@ export default function DanaMenikahScreen() {
           <LexendTextInput
             className="h-9 rounded-[8px] border border-[#C5C5C5] px-3"
             placeholder="0"
-            value={totalBiaya}
-            onChangeText={setTotalBiaya}
+            value={totalBiayaPernikahan}
+            onChangeText={setTotalBiayaPernikahan}
           />
           <Spacer size={20} />
           <LexendText bold={true}>Akan menikah dalam</LexendText>
@@ -51,8 +81,8 @@ export default function DanaMenikahScreen() {
             <LexendTextInput
               className="h-9 w-28 rounded-[8px] border border-[#C5C5C5] px-3"
               placeholder="0"
-              value={menikahDalam}
-              onChangeText={setMenikahDalam}
+              value={lamaMengumpulkan}
+              onChangeText={setLamaMengumpulkan}
             />
             <LexendText>tahun</LexendText>
           </View>
@@ -70,15 +100,21 @@ export default function DanaMenikahScreen() {
           </View>
           <Spacer size={20} />
           <LexendText bold={true}>
-            Total uang yang diperlukan 5 tahun lagi sebesar
+            Total uang yang diperlukan {parseInt(lamaMengumpulkan)} tahun lagi
+            sebesar
           </LexendText>
           <Spacer size={8} />
-          <LexendTextInput
-            className="h-9 rounded-[8px] border border-[#C5C5C5] px-3"
-            placeholder="0"
-            value={uangDiperlukan}
-            onChangeText={setUangDiperlukan}
-          />
+
+          <LexendText className="w-20 rounded-[8px] bg-[#d9d9d9] p-2 text-center">
+            Rp
+            {(
+              parseInt(totalBiayaPernikahan) *
+              Math.pow(
+                1 + parseInt(asumsiInflasi) / 100,
+                parseInt(lamaMengumpulkan),
+              )
+            ).toLocaleString("id")}
+          </LexendText>
           <Spacer size={20} />
           <LexendText bold={true}>
             Uang yang dimiliki saat ini untuk menikah sebesar
@@ -87,8 +123,8 @@ export default function DanaMenikahScreen() {
           <LexendTextInput
             className="h-9 rounded-[8px] border border-[#C5C5C5] px-3"
             placeholder="0"
-            value={uangDimiliki}
-            onChangeText={setUangDimiliki}
+            value={uangSaatIni}
+            onChangeText={setUangSaatIni}
           />
           <Spacer size={20} />
           <LexendText bold={true}>Target investasi setiap bulan</LexendText>
@@ -96,8 +132,8 @@ export default function DanaMenikahScreen() {
           <LexendTextInput
             className="h-9 rounded-[8px] border border-[#C5C5C5] px-3"
             placeholder="0"
-            value={targetInvestasi}
-            onChangeText={setTargetInvestasi}
+            value={targetInvestasiPerBulan}
+            onChangeText={setTargetInvestasiPerBulan}
           />
           <Spacer size={20} />
           <LexendText bold={true}>
@@ -113,21 +149,18 @@ export default function DanaMenikahScreen() {
             />
             <LexendText>% / tahun</LexendText>
           </View>
-          <Spacer size={20} />
-          <LexendText bold={true}>Akan rutin berinvestasi selama</LexendText>
-          <Spacer size={8} />
-          <LexendText className="w-20 rounded-[8px] bg-[#d9d9d9] p-2 text-center">
-            5 tahun
-          </LexendText>
           <Spacer size={32} />
-          <Pressable className="h-11 rounded-[12px] bg-black">
+          <TouchableOpacity
+            className="h-11 rounded-[12px] bg-black"
+            onPress={handleButton}
+          >
             <LexendText
               bold={true}
               className="py-3 text-center text-[16px] text-white"
             >
               Lihat Hasil Strategi
             </LexendText>
-          </Pressable>
+          </TouchableOpacity>
           <Spacer size={32} />
         </View>
       </ScrollView>

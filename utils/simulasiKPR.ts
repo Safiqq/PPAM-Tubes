@@ -57,8 +57,23 @@ function hitungSimulasiKPR(input: InputSimulasiKPR): OutputSimulasiKPR {
   const rasioPembayaran = totalBungaKPR / lamaKPRBulan / penghasilanBulanan;
   const kategoriRasioPembayaran = rasioPembayaran > 0.3 ? "Berbahaya" : "Aman";
 
+  const biayaAJB = 0.01 * hargaPropertiImpian;
+  const biayaBalikNama = 0.01 * hargaPropertiImpian;
+  const biayaNotaris =
+    ((hargaPropertiImpian <= 100_000_000
+      ? 2.5
+      : hargaPropertiImpian <= 1_000_000_000
+        ? 1.5
+        : 1) /
+      100) *
+    hargaPropertiImpian;
+  const appraisal = 1_000_000;
+  const administrasi = 1_000_000;
+  const provinsi = 0.007 * hargaPropertiImpian;
+  const biayaBank = appraisal + administrasi + provinsi;
+  const totalBiayaLain = biayaAJB + biayaBalikNama + biayaNotaris + biayaBank;
+
   return {
-    totalBungaKPR,
     periodeBungaFloating,
     pokokPinjaman,
     jumlahPeriode: lamaKPRBulan,
@@ -70,21 +85,29 @@ function hitungSimulasiKPR(input: InputSimulasiKPR): OutputSimulasiKPR {
     sisaPokokPinjamanSetelahPeriodeFix: sisaPokokPinjaman,
     totalBungaKPRYangHarusDibayar,
     kategoriRasioPembayaran,
+    totalBiayaLain,
+    biayaAJB,
+    biayaBalikNama,
+    biayaNotaris,
+    biayaBank,
+    appraisal,
+    administrasi,
+    provinsi,
   };
 }
 
 // Contoh penggunaan:
-const input: InputSimulasiKPR = {
-  hargaPropertiImpian: 1000000000,
-  persentaseDP: 20,
-  penghasilanBulanan: 20000000,
-  lamaKPRBulan: 240,
-  persenBungaFix: 5,
-  periodeBungaFixBulan: 60,
-  persenBungaFloating: 7,
-};
+// const input: InputSimulasiKPR = {
+//   hargaPropertiImpian: 1000000000,
+//   persentaseDP: 20,
+//   penghasilanBulanan: 20000000,
+//   lamaKPRBulan: 240,
+//   persenBungaFix: 5,
+//   periodeBungaFixBulan: 60,
+//   persenBungaFloating: 7,
+// };
 
-const hasil = hitungSimulasiKPR(input);
-console.log(hasil);
+// const hasil = hitungSimulasiKPR(input);
+// console.log(hasil);
 
 export default hitungSimulasiKPR;

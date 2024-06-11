@@ -13,13 +13,13 @@ function kalkulatorDanaDarurat(
     pengeluaranWajibPerBulan,
     sudahMenikah,
     jumlahTanggungan,
-    targetLamaMengumpulkan,
-    danaSaatIni,
+    lamaMengumpulkan,
+    uangSaatIni,
     targetInvestasiPerBulan,
     returnInvestasi,
   } = input;
   const rInvestasi = returnInvestasi / 100 / 12;
-  const n = targetLamaMengumpulkan;
+  const n = lamaMengumpulkan;
 
   // Menghitung total uang yang dibutuhkan
   let totalUangDibutuhkan =
@@ -29,14 +29,14 @@ function kalkulatorDanaDarurat(
   }
 
   // Menghitung nilai akhir investasi
-  let FV = danaSaatIni * Math.pow(1 + rInvestasi, n);
+  let FV = uangSaatIni * Math.pow(1 + rInvestasi, n);
   for (let i = 1; i <= n; i++) {
     FV += targetInvestasiPerBulan * Math.pow(1 + rInvestasi, n - i);
   }
 
   const strategiCocok = FV >= totalUangDibutuhkan;
   const hasilInvestasi = FV;
-  const totalPokokInvestasi = danaSaatIni + targetInvestasiPerBulan * n;
+  const totalPokokInvestasi = uangSaatIni + targetInvestasiPerBulan * n;
   const totalBungaInvestasi = hasilInvestasi - totalPokokInvestasi;
   const persentasePokokInvestasi = (totalPokokInvestasi / hasilInvestasi) * 100;
   const persentaseBungaInvestasi = (totalBungaInvestasi / hasilInvestasi) * 100;
@@ -63,7 +63,7 @@ function kalkulatorDanaDarurat(
 
     // Breakdown nominal rekomendasi
     const totalPokokRekomendasiNominal =
-      danaSaatIni + rekomendasiInvestasiPerBulan * n;
+      uangSaatIni + rekomendasiInvestasiPerBulan * n;
     const totalBungaRekomendasiNominal =
       totalUangDibutuhkan - totalPokokRekomendasiNominal;
     rekomendasiBreakdownNominal = {
@@ -76,11 +76,11 @@ function kalkulatorDanaDarurat(
     };
 
     // Cari durasi investasi dengan nominal yang sama agar mencapai target
-    let tempFV = danaSaatIni;
+    let tempFV = uangSaatIni;
     let tempN = 0;
     while (tempFV < totalUangDibutuhkan) {
       tempN++;
-      tempFV = danaSaatIni * Math.pow(1 + rInvestasi, tempN);
+      tempFV = uangSaatIni * Math.pow(1 + rInvestasi, tempN);
       for (let i = 1; i <= tempN; i++) {
         tempFV += targetInvestasiPerBulan * Math.pow(1 + rInvestasi, tempN - i);
       }
@@ -89,7 +89,7 @@ function kalkulatorDanaDarurat(
 
     // Breakdown durasi rekomendasi
     const totalPokokRekomendasiDurasi =
-      danaSaatIni + targetInvestasiPerBulan * rekomendasiDurasiInvestasi;
+      uangSaatIni + targetInvestasiPerBulan * rekomendasiDurasiInvestasi;
     const totalBungaRekomendasiDurasi =
       totalUangDibutuhkan - totalPokokRekomendasiDurasi;
     rekomendasiBreakdownDurasi = {
@@ -128,92 +128,92 @@ function kalkulatorDanaDarurat(
   };
 }
 
-const inputContoh: InputKalkulatorDanaDarurat = {
-  pengeluaranWajibPerBulan: 5_000_000, // Pengeluaran wajib per bulan 5 juta
-  sudahMenikah: true, // Sudah menikah
-  jumlahTanggungan: 1, // Jumlah tanggungan 1 orang
-  targetLamaMengumpulkan: 12, // Target lama mengumpulkan 12 bulan
-  danaSaatIni: 20_000_000, // Jumlah dana yang dimiliki saat ini 20 juta
-  targetInvestasiPerBulan: 2_000_000, // Target investasi setiap bulan 2 juta
-  returnInvestasi: 8, // Return investasi per tahun 8%
-};
+// const inputContoh: InputKalkulatorDanaDarurat = {
+//   pengeluaranWajibPerBulan: 5_000_000, // Pengeluaran wajib per bulan 5 juta
+//   sudahMenikah: true, // Sudah menikah
+//   jumlahTanggungan: 1, // Jumlah tanggungan 1 orang
+//   lamaMengumpulkan: 12, // Target lama mengumpulkan 12 bulan
+//   uangSaatIni: 20_000_000, // Jumlah dana yang dimiliki saat ini 20 juta
+//   targetInvestasiPerBulan: 2_000_000, // Target investasi setiap bulan 2 juta
+//   returnInvestasi: 8, // Return investasi per tahun 8%
+// };
 
-const hasil = kalkulatorDanaDarurat(inputContoh);
+// const hasil = kalkulatorDanaDarurat(inputContoh);
 
-console.log("=========== NEW TEST CASE ==============");
-console.log("Apakah strateginya cocok? ", hasil.strategiCocok ? "Ya" : "Tidak");
-console.log("Total uang yang dibutuhkan: ", hasil.totalUangDibutuhkan);
-console.log("Hasil investasi: ", hasil.hasilInvestasi);
-console.log(
-  "Breakdown total pokok investasi: ",
-  hasil.breakdownInvestasi.totalPokokInvestasi,
-);
-console.log(
-  "Persentase pokok investasi: ",
-  hasil.breakdownInvestasi.persentasePokokInvestasi.toFixed(2),
-  "%",
-);
-console.log(
-  "Total bunga investasi: ",
-  hasil.breakdownInvestasi.totalBungaInvestasi,
-);
-console.log(
-  "Persentase bunga investasi: ",
-  hasil.breakdownInvestasi.persentaseBungaInvestasi.toFixed(2),
-  "%",
-);
+// console.log("=========== NEW TEST CASE ==============");
+// console.log("Apakah strateginya cocok? ", hasil.strategiCocok ? "Ya" : "Tidak");
+// console.log("Total uang yang dibutuhkan: ", hasil.totalUangDibutuhkan);
+// console.log("Hasil investasi: ", hasil.hasilInvestasi);
+// console.log(
+//   "Breakdown total pokok investasi: ",
+//   hasil.breakdownInvestasi.totalPokokInvestasi,
+// );
+// console.log(
+//   "Persentase pokok investasi: ",
+//   hasil.breakdownInvestasi.persentasePokokInvestasi.toFixed(2),
+//   "%",
+// );
+// console.log(
+//   "Total bunga investasi: ",
+//   hasil.breakdownInvestasi.totalBungaInvestasi,
+// );
+// console.log(
+//   "Persentase bunga investasi: ",
+//   hasil.breakdownInvestasi.persentaseBungaInvestasi.toFixed(2),
+//   "%",
+// );
 
-if (!hasil.strategiCocok) {
-  console.log("Investasi kurang: ", hasil.investasiKurang);
-  console.log(
-    "Rekomendasi nominal investasi per bulan: ",
-    hasil.rekomendasiInvestasiPerBulan,
-  );
-  console.log(
-    "Rekomendasi breakdown pokok investasi (nominal): ",
-    hasil.rekomendasiBreakdownNominal?.totalPokokInvestasi,
-  );
-  console.log(
-    "Rekomendasi persentase pokok investasi (nominal): ",
-    hasil.rekomendasiBreakdownNominal?.persentasePokokInvestasi.toFixed(2),
-    "%",
-  );
-  console.log(
-    "Rekomendasi total bunga investasi (nominal): ",
-    hasil.rekomendasiBreakdownNominal?.totalBungaInvestasi,
-  );
-  console.log(
-    "Rekomendasi persentase bunga investasi (nominal): ",
-    hasil.rekomendasiBreakdownNominal?.persentaseBungaInvestasi.toFixed(2),
-    "%",
-  );
-  console.log(
-    "Rekomendasi durasi lama investasi (bulan): ",
-    hasil.rekomendasiDurasiInvestasi,
-  );
-  console.log(
-    "Rekomendasi breakdown pokok investasi (durasi): ",
-    hasil.rekomendasiBreakdownDurasi?.totalPokokInvestasi,
-  );
-  console.log(
-    "Rekomendasi persentase pokok investasi (durasi): ",
-    hasil.rekomendasiBreakdownDurasi?.persentasePokokInvestasi.toFixed(2),
-    "%",
-  );
-  console.log(
-    "Rekomendasi total bunga investasi (durasi): ",
-    hasil.rekomendasiBreakdownDurasi?.totalBungaInvestasi,
-  );
-  console.log(
-    "Rekomendasi persentase bunga investasi (durasi): ",
-    hasil.rekomendasiBreakdownDurasi?.persentaseBungaInvestasi.toFixed(2),
-    "%",
-  );
-}
+// if (!hasil.strategiCocok) {
+//   console.log("Investasi kurang: ", hasil.investasiKurang);
+//   console.log(
+//     "Rekomendasi nominal investasi per bulan: ",
+//     hasil.rekomendasiInvestasiPerBulan,
+//   );
+//   console.log(
+//     "Rekomendasi breakdown pokok investasi (nominal): ",
+//     hasil.rekomendasiBreakdownNominal?.totalPokokInvestasi,
+//   );
+//   console.log(
+//     "Rekomendasi persentase pokok investasi (nominal): ",
+//     hasil.rekomendasiBreakdownNominal?.persentasePokokInvestasi.toFixed(2),
+//     "%",
+//   );
+//   console.log(
+//     "Rekomendasi total bunga investasi (nominal): ",
+//     hasil.rekomendasiBreakdownNominal?.totalBungaInvestasi,
+//   );
+//   console.log(
+//     "Rekomendasi persentase bunga investasi (nominal): ",
+//     hasil.rekomendasiBreakdownNominal?.persentaseBungaInvestasi.toFixed(2),
+//     "%",
+//   );
+//   console.log(
+//     "Rekomendasi durasi lama investasi (bulan): ",
+//     hasil.rekomendasiDurasiInvestasi,
+//   );
+//   console.log(
+//     "Rekomendasi breakdown pokok investasi (durasi): ",
+//     hasil.rekomendasiBreakdownDurasi?.totalPokokInvestasi,
+//   );
+//   console.log(
+//     "Rekomendasi persentase pokok investasi (durasi): ",
+//     hasil.rekomendasiBreakdownDurasi?.persentasePokokInvestasi.toFixed(2),
+//     "%",
+//   );
+//   console.log(
+//     "Rekomendasi total bunga investasi (durasi): ",
+//     hasil.rekomendasiBreakdownDurasi?.totalBungaInvestasi,
+//   );
+//   console.log(
+//     "Rekomendasi persentase bunga investasi (durasi): ",
+//     hasil.rekomendasiBreakdownDurasi?.persentaseBungaInvestasi.toFixed(2),
+//     "%",
+//   );
+// }
 
-console.log("Rekomendasi pilihan investasi sesuai return:");
-hasil.rekomendasiPilihanInvestasi.forEach((investasi) => {
-  console.log(`- ${investasi.nama} (${investasi.returnTahunan}%)`);
-});
+// console.log("Rekomendasi pilihan investasi sesuai return:");
+// hasil.rekomendasiPilihanInvestasi.forEach((investasi) => {
+//   console.log(`- ${investasi.nama} (${investasi.returnTahunan}%)`);
+// });
 
 export default kalkulatorDanaDarurat;

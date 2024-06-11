@@ -21,7 +21,8 @@ export default function LandingScreen() {
         const password = await AsyncStorage.getItem("password");
         console.log(email, password);
         if (email !== null && password !== null) {
-          await signIn({ email, password });
+          const a=await signIn({ email, password });
+          console.log(a)
           setShouldNavigate(true);
         }
       } catch (e) {

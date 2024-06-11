@@ -3,6 +3,9 @@ import { Pressable, TextInput, View, Text, Alert } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { LexendText } from "@/components/StyledText";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { createTransaction } from "@/services/TransactionService";
+import { Transaction } from "@/constants/Types";
+import { useRouter } from "expo-router";
 // import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const Pengeluaran = ({
@@ -12,40 +15,42 @@ const Pengeluaran = ({
   categories: string[];
   intervals: string[];
 }) => {
-  const [amount, setAmount] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  const [date, setDate] = useState(new Date());
-  const [showDatePicker, setShowDatePicker] = useState(false);
-  const [recurring, setRecurring] = useState(false);
-  const [repeatInterval, setRepeatInterval] = useState("");
-  const [repeatUntil, setRepeatUntil] = useState(new Date());
+  const router = useRouter();
+
+  const [amount, setAmount] = useState<string>("");
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [date, setDate] = useState<Date>(new Date());
+  const [showDatePicker, setShowDatePicker] = useState<boolean>(false);
+  const [recurring, setRecurring] = useState<boolean>(false);
+  const [repeatInterval, setRepeatInterval] = useState<string>("");
+  const [repeatUntil, setRepeatUntil] = useState<Date>(new Date());
   const [showRepeatUntilDatePicker, setShowRepeatUntilDatePicker] =
-    useState(false);
-  const [description, setDescription] = useState("");
+    useState<boolean>(false);
+  const [description, setDescription] = useState<string>("");
 
   const handleTambah = () => {
-    const data = {
-      nominal: amount,
-      kategori: selectedCategory,
-      tanggal: date.toLocaleDateString(),
+    const transaction = {
+      type: "Pengeluaran",
+      amount: parseFloat(amount) || 0,
+      category: selectedCategory,
+      isRecurring: recurring,
       ...(recurring && {
-        berulangSetiap: repeatInterval,
-        berulangHingga: repeatUntil.toLocaleDateString(),
+        recurringEach: repeatInterval,
+        recurringUntil: repeatUntil,
       }),
-      keterangan: description,
+      date,
+      description,
     };
 
-    if (data.nominal === "" || data.kategori === null) {
-      Alert.alert("Data transaksi BELUM LENGKAP!");
-      console.log("data transaksi belum lengkap");
+    if (transaction.amount === 0 || transaction.category === null) {
+      Alert.alert("Data transaksi belum lengkap!");
+      console.log("Data transaksi belum lengkap");
     } else {
-      // console.log("dordor")
-      console.log(JSON.stringify(data));
-      Alert.alert("Data transaksi BERHASIL DITAMBAHKAN!");
+      console.log(JSON.stringify(transaction));
+      createTransaction(transaction as Transaction);
+      alert("Berhasil menambahkan ke pengingat pembayaran!");
+      router.navigate("/transaksi");
     }
-
-    console.log(JSON.stringify(data, null, 2));
-    // Alert.alert("Data Submitted", JSON.stringify(data, null, 2));
   };
 
   return (

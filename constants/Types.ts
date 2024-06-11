@@ -22,24 +22,42 @@ export type User = {
   referralCode: string;
 };
 
+export type Balance = {
+  Pendapatan: number;
+  Pengeluaran: number;
+  Tabungan: number;
+};
+
 // Transaction
 export type Transaction = {
   id: string;
-  accountID: DocumentReference;
-  type: string;
+  userID: DocumentReference;
+  type: "Pengeluaran" | "Pendapatan" | "Tabungan";
   amount: number;
-  category: string;
+  category:
+    | "Makan dan Minum" // Pengeluaran
+    | "Bahan Makanan"
+    | "Belanja"
+    | "Bensin"
+    | "Transportasi"
+    | "Hiburan"
+    | "Liburan"
+    | "Keluarga dan Teman"
+    | "Tagihan"
+    | "Investasi"
+    | "Gaji" // Pendapatan
+    | "Bonus"
+    | "Hasil Investasi"
+    | "Lainnya"
+    | "Deposito" // Tabungan
+    | "Reksa Dana"
+    | "Emas"
+    | "Lainnya";
   isRecurring: boolean;
-  recurringEach: string;
+  recurringEach?: "Hari" | "Minggu" | "Bulan" | "Tahun";
+  recurringUntil?: Date;
   date: Date;
   description: string;
-};
-
-// Account
-export type Account = {
-  id: string;
-  name: string;
-  balance: number;
 };
 
 // Reminder
@@ -47,18 +65,9 @@ export type Reminder = {
   id: string;
   userID: DocumentReference;
   title: string;
-  type: string;
+  recurringEach: "Bulan" | "Tahun";
   date: Date;
   description: string;
-};
-
-// Simulation
-export type Simulation = {
-  id: string;
-  userID: DocumentReference;
-  type: string;
-  input: JSON;
-  result: JSON;
 };
 
 // Tutorial
@@ -74,14 +83,6 @@ export type FinancialEducation = {
   title: string;
   contentLink: string;
   imageSrc: string;
-};
-
-// Financial Report
-export type FinancialReport = {
-  id: string;
-  userID: string;
-  date: Date;
-  content: string;
 };
 
 // Investasi
@@ -102,8 +103,8 @@ export type InputKalkulatorDanaDarurat = {
   pengeluaranWajibPerBulan: number;
   sudahMenikah: boolean;
   jumlahTanggungan: number;
-  targetLamaMengumpulkan: number; // dalam bulan
-  danaSaatIni: number;
+  lamaMengumpulkan: number; // dalam bulan
+  uangSaatIni: number;
   targetInvestasiPerBulan: number;
   returnInvestasi: number; // return tahunan dalam persen
 };
@@ -122,19 +123,19 @@ export type OutputKalkulatorDanaDarurat = {
 };
 
 // Dana Menikah
-export type InputKalkulatorMenikah = {
+export type InputKalkulatorDanaMenikah = {
   totalBiayaPernikahan: number;
-  waktuMenikah: number; // dalam tahun
+  lamaMengumpulkan: number; // dalam tahun
   asumsiInflasi: number; // dalam persen
   uangSaatIni: number;
   targetInvestasiPerBulan: number;
   returnInvestasi: number; // return tahunan dalam persen
 };
 
-export type OutputKalkulatorMenikah = {
+export type OutputKalkulatorDanaMenikah = {
   strategiCocok: boolean;
-  totalBiayaPernikahanDenganInflasi: number;
-  result1Investasi: number;
+  totalUangDibutuhkan: number;
+  hasilInvestasi: number;
   breakdownInvestasi: BreakdownInvestasi;
   rekomendasiInvestasiPerBulan?: number;
   rekomendasiDurasiInvestasi?: number;
@@ -144,17 +145,18 @@ export type OutputKalkulatorMenikah = {
 };
 
 // Dana Pensiun
-export type InputKalkulatorPensiun = {
+export type InputKalkulatorDanaPensiun = {
   pengeluaranPerBulan: number;
   usiaSekarang: number;
   usiaPensiun: number;
+  lamaMengumpulkan: number;
   asumsiInflasiTahunan: number;
-  danaPensiunSaatIni: number;
+  uangSaatIni: number;
   targetInvestasiPerBulan: number;
-  targetReturnInvestasi: number; // return tahunan dalam persen
+  returnInvestasi: number; // return tahunan dalam persen
 };
 
-export type OutputKalkulatorPensiun = {
+export type OutputKalkulatorDanaPensiun = {
   strategiCocok: boolean;
   totalUangDibutuhkan: number;
   hasilInvestasi: number;
@@ -169,17 +171,17 @@ export type OutputKalkulatorPensiun = {
 };
 
 // DP Properti
-export type InputKalkulatorProperti = {
-  tahunMimpi: number;
+export type InputKalkulatorDPProperti = {
+  lamaMengumpulkan: number;
   hargaProperti: number;
   persenDP: number;
   inflasiProperti: number;
-  danaSaatIni: number;
+  uangSaatIni: number;
   targetInvestasiPerBulan: number;
   returnInvestasi: number; // return tahunan dalam persen
 };
 
-export type OutputKalkulatorProperti = {
+export type OutputKalkulatorDPProperti = {
   strategiCocok: boolean;
   totalUangDibutuhkan: number;
   hasilInvestasi: number;
@@ -200,20 +202,18 @@ export type OutputKalkulatorProperti = {
 // Kalkulator Investasi
 export type InputKalkulatorInvestasi = {
   jumlahTarget: number;
-  waktuMengumpulkan: number; // dalam tahun atau bulan
+  lamaMengumpulkan: number; // dalam tahun atau bulan
   uangSaatIni: number;
   menabungSetiap: "Bulan" | "Tahun";
   targetInvestasiPerBulan: number; // tambahan nominal investasi per bulan
-  returnProduk: number; // return tahunan dalam persen
+  returnInvestasi: number; // return tahunan dalam persen
 };
 
 export type OutputKalkulatorInvestasi = {
+  totalUangDibutuhkan: number;
   strategiCocok: boolean;
-  resultInvestasi: number;
-  totalPokokInvestasi: number;
-  persentasePokokInvestasi: number;
-  totalBungaInvestasi: number;
-  persentaseBungaInvestasi: number;
+  hasilInvestasi: number;
+  breakdownInvestasi: BreakdownInvestasi;
   rekomendasiInvestasiPerBulan?: number;
   rekomendasiDurasiInvestasi?: number;
   rekomendasiBreakdownNominal?: BreakdownInvestasi;
@@ -233,7 +233,6 @@ export type InputSimulasiKPR = {
 };
 
 export type OutputSimulasiKPR = {
-  totalBungaKPR: number;
   periodeBungaFloating: number;
   pokokPinjaman: number;
   jumlahPeriode: number;
@@ -245,4 +244,26 @@ export type OutputSimulasiKPR = {
   sisaPokokPinjamanSetelahPeriodeFix: number;
   totalBungaKPRYangHarusDibayar: number;
   kategoriRasioPembayaran: string;
+  totalBiayaLain: number;
+  biayaAJB: number;
+  biayaBalikNama: number;
+  biayaNotaris: number;
+  biayaBank: number;
+  appraisal: number;
+  administrasi: number;
+  provinsi: number;
 };
+
+export type InputGabungan =
+  | InputKalkulatorDanaDarurat
+  | InputKalkulatorDanaMenikah
+  | InputKalkulatorInvestasi
+  | InputKalkulatorDanaPensiun
+  | InputKalkulatorDPProperti;
+
+export type OutputGabungan =
+  | OutputKalkulatorInvestasi
+  | OutputKalkulatorDanaDarurat
+  | OutputKalkulatorDanaMenikah
+  | OutputKalkulatorDanaPensiun
+  | OutputKalkulatorDPProperti;

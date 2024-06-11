@@ -6,7 +6,7 @@ import Spacer from "@/components/Spacer";
 const TimelineInvestasi = ({
   uangSaatIni,
   rekomendasiPilihanInvestasi,
-  resultInvestasi,
+  hasilInvestasi,
 }) => {
   return (
     <View>
@@ -48,7 +48,7 @@ const TimelineInvestasi = ({
           <LexendText className="text-center text-[8px]">
             Hasil Investasi{"\n"}
             <LexendText bold={true} className="text-center text-[8px]">
-              Rp{Math.ceil(resultInvestasi).toLocaleString("id")}
+              Rp{Math.ceil(hasilInvestasi).toLocaleString("id")}
             </LexendText>
           </LexendText>
         </View>
