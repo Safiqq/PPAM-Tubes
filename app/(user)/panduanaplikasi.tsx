@@ -1,9 +1,18 @@
-import { ImageBackground, Image, ScrollView, View } from "react-native";
+import {
+  ImageBackground,
+  Image,
+  ScrollView,
+  View,
+  Pressable,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LexendText } from "@/components/StyledText";
 import Spacer from "@/components/Spacer";
+import { useRouter } from "expo-router";
 
 export default function PanduanAplikasiScreen() {
+  const router = useRouter();
+
   return (
     <SafeAreaView className="flex-1 bg-white">
       <ScrollView>
@@ -11,10 +20,12 @@ export default function PanduanAplikasiScreen() {
           className="h-[100px] items-center justify-center"
           source={require("@/assets/images/gradientgreen-block.png")}
         >
-          <Image
-            className="absolute left-7 top-11"
-            source={require("@/assets/images/logo/backbutton.png")}
-          />
+          <Pressable
+            className="absolute left-3 top-7 p-4"
+            onPress={() => router.back()}
+          >
+            <Image source={require("@/assets/images/logo/backbutton.png")} />
+          </Pressable>
           <LexendText bold={true} className="text-[20px]">
             Panduan Aplikasi
           </LexendText>

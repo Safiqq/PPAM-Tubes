@@ -15,21 +15,21 @@ import { Reminder } from "@/constants/Types";
 import { createReminder } from "@/services/ReminderService";
 import { useRouter } from "expo-router";
 
-export default function TambahTransaksiScreen() {
+export default function TambahPengingatScreen() {
   const router = useRouter();
-  
+
   const [title, setTitle] = useState("");
   const [date, setDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [repeatInterval, setRepeatInterval] = useState("");
+  const [repeatInterval, setRepeatInterval] = useState<"Bulan" | "Tahun">();
   const [description, setDescription] = useState("");
 
-  const intervals = ["Hari", "Minggu", "Bulan", "Tahun"];
+  const intervals = ["Bulan", "Tahun"];
 
   const handleAddReminder = () => {
     const reminder: Reminder = {
       title,
-      type: repeatInterval,
+      recurringEach: repeatInterval,
       date,
       description,
     };
@@ -42,10 +42,12 @@ export default function TambahTransaksiScreen() {
     <SafeAreaView className="flex-1 bg-white">
       <ScrollView className="flex-1">
         <View className="h-[100px] items-center justify-center">
-          <Image
-            className="absolute left-7 top-11"
-            source={require("@/assets/images/logo/backbutton.png")}
-          />
+          <Pressable
+            className="absolute left-3 top-7 p-4"
+            onPress={() => router.back()}
+          >
+            <Image source={require("@/assets/images/logo/backbutton.png")} />
+          </Pressable>
           <LexendText bold={true} className="text-[20px]">
             Tambah Pengingat
           </LexendText>

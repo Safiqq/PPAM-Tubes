@@ -56,10 +56,12 @@ export default function DanaMenikahScreen() {
           className="h-[100px] items-center justify-center"
           source={require("@/assets/images/gradientgreen-block.png")}
         >
-          <Image
-            className="absolute left-7 top-11"
-            source={require("@/assets/images/logo/backbutton.png")}
-          />
+          <Pressable
+            className="absolute left-3 top-7 p-4"
+            onPress={() => router.back()}
+          >
+            <Image source={require("@/assets/images/logo/backbutton.png")} />
+          </Pressable>
           <LexendText bold={true} className="text-[20px]">
             Dana Menikah
           </LexendText>
@@ -73,6 +75,7 @@ export default function DanaMenikahScreen() {
             placeholder="0"
             value={totalBiayaPernikahan}
             onChangeText={setTotalBiayaPernikahan}
+            keyboardType="numeric"
           />
           <Spacer size={20} />
           <LexendText bold={true}>Akan menikah dalam</LexendText>
@@ -83,6 +86,7 @@ export default function DanaMenikahScreen() {
               placeholder="0"
               value={lamaMengumpulkan}
               onChangeText={setLamaMengumpulkan}
+              keyboardType="numeric"
             />
             <LexendText>tahun</LexendText>
           </View>
@@ -95,6 +99,7 @@ export default function DanaMenikahScreen() {
               placeholder="0"
               value={asumsiInflasi}
               onChangeText={setAsumsiInflasi}
+              keyboardType="numeric"
             />
             <LexendText>% / tahun</LexendText>
           </View>
@@ -109,10 +114,10 @@ export default function DanaMenikahScreen() {
             Rp
             {(
               parseInt(totalBiayaPernikahan) *
-              Math.pow(
-                1 + parseInt(asumsiInflasi) / 100,
-                parseInt(lamaMengumpulkan),
-              )
+                Math.pow(
+                  1 + parseInt(asumsiInflasi) / 100,
+                  parseInt(lamaMengumpulkan),
+                ) || 0
             ).toLocaleString("id")}
           </LexendText>
           <Spacer size={20} />
@@ -125,6 +130,7 @@ export default function DanaMenikahScreen() {
             placeholder="0"
             value={uangSaatIni}
             onChangeText={setUangSaatIni}
+            keyboardType="numeric"
           />
           <Spacer size={20} />
           <LexendText bold={true}>Target investasi setiap bulan</LexendText>
@@ -134,6 +140,7 @@ export default function DanaMenikahScreen() {
             placeholder="0"
             value={targetInvestasiPerBulan}
             onChangeText={setTargetInvestasiPerBulan}
+            keyboardType="numeric"
           />
           <Spacer size={20} />
           <LexendText bold={true}>
@@ -146,6 +153,7 @@ export default function DanaMenikahScreen() {
               placeholder="0"
               value={returnInvestasi}
               onChangeText={setReturnInvestasi}
+              keyboardType="numeric"
             />
             <LexendText>% / tahun</LexendText>
           </View>

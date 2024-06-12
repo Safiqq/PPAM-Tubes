@@ -23,20 +23,22 @@ export const getBalance = async (): Promise<{
 
   try {
     const transactions = await getAllTransactions();
-    return transactions.reduce(
-      (acc, transaction) => {
-        if (!acc[transaction.category]) {
-          acc[transaction.category] = 0;
-        }
-        acc[transaction.category] += transaction.amount;
-        return acc;
-      },
-      {
-        Pendapatan: 0,
-        Pengeluaran: 0,
-        Tabungan: 0,
-      } as { [key: string]: number },
-    );
+    let res = {
+      Pendapatan: 0,
+      Pengeluaran: 0,
+      Tabungan: 0,
+    };
+    for (let i = 0; i < transactions.length; i++) {
+      if (transactions[i].type == "Pendapatan") {
+        res.Pendapatan += transactions[i].amount;
+      } else if (transactions[i].type == "Pengeluaran") {
+        res.Pengeluaran += transactions[i].amount;
+      } else {
+        res.Tabungan += transactions[i].amount;
+      }
+    }
+
+    return res;
   } catch (error) {
     console.error("Failed to get balances:", error);
     throw new Error("Internal Server Error");

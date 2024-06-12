@@ -102,27 +102,35 @@ const Rekomendasi = ({
             title="Jumlah investasi / bulan"
             content={`Rp${input.targetInvestasiPerBulan.toLocaleString("id")}`}
             content2={
-              tab == "Nominal" && result.rekomendasiInvestasiPerBulan
+              tab == "Nominal" &&
+              !result.strategiCocok &&
+              result.rekomendasiInvestasiPerBulan
                 ? `Rp${result.rekomendasiInvestasiPerBulan.toLocaleString("id")}`
                 : ""
             }
-            type={tab == "Nominal" ? 2 : 1}
+            type={tab == "Nominal" && !result.strategiCocok ? 2 : 1}
           />
           <AnalisaRow
             image="diskon"
             title="Return investasi"
             content={`${input.returnInvestasi}% / tahun`}
+            content2={
+              tab == "Return" && !result.strategiCocok
+                ? `${(result as OutputKalkulatorDPProperti | OutputKalkulatorDanaPensiun).rekomendasiReturnBaru}% / tahun`
+                : ""
+            }
+            type={tab == "Return" && !result.strategiCocok ? 2 : 1}
           />
           <AnalisaRow
             image="jam"
             title="Lama investasi"
             content={`${input.lamaMengumpulkan} tahun`}
             content2={
-              tab == "Durasi" && result.rekomendasiDurasiInvestasi
+              tab == "Durasi" && !result.strategiCocok
                 ? `${result.rekomendasiDurasiInvestasi} tahun`
                 : ""
             }
-            type={tab == "Durasi" ? 2 : 1}
+            type={tab == "Durasi" && !result.strategiCocok ? 2 : 1}
           />
           <AnalisaRow
             image="piala"

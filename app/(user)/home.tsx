@@ -2,7 +2,7 @@ import { StyleSheet, ImageBackground, ScrollView } from "react-native";
 import { Image } from "expo-image";
 
 import { View } from "@/components/Themed";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { LexendText } from "@/components/StyledText";
 import { Shadow } from "react-native-shadow-2";
 import { Link } from "expo-router";
@@ -10,8 +10,9 @@ import BottomNavBar from "@/components/BottomNavBar";
 import Spacer from "@/components/Spacer";
 import { useEffect, useState } from "react";
 import { getUserDataOnce } from "@/services/AuthService";
-import { User } from "@/constants/Types";
+import { Reminder, User } from "@/constants/Types";
 import { getBalance } from "@/services/TransactionService";
+import { getAllReminders } from "@/services/ReminderService";
 
 export default function HomeScreen() {
   const insets = useSafeAreaInsets();
@@ -25,22 +26,42 @@ export default function HomeScreen() {
     Pendapatan: number;
     Pengeluaran: number;
     Tabungan: number;
-  }>();
+  }>({
+    Pendapatan: 0,
+    Pengeluaran: 0,
+    Tabungan: 0,
+  });
+  const [reminders, setReminders] = useState<Reminder[]>([]);
 
   useEffect(() => {
+    console.log("here");
     async function fetchData() {
       const usrData = await getUserDataOnce();
       if (usrData) setUserData(usrData);
 
       const usrBalance = await getBalance();
       if (usrBalance) setUserBalance(usrBalance);
+
+      const reminderList = await getAllReminders();
+      if (reminderList)
+        setReminders(
+          reminderList
+            .sort((a, b) => a.date.getTime() - b.date.getTime())
+            .slice(0, 3),
+        );
+      console.log(reminderList);
     }
 
-    fetchData();
+    const intervalId = setInterval(fetchData, 5000);
+
+    return () => clearInterval(intervalId);
   }, []);
 
+  const totalBalance =
+    userBalance.Pendapatan + userBalance.Tabungan - userBalance.Pengeluaran;
+
   return (
-    <View>
+    <SafeAreaView className="flex-1">
       <ScrollView
         style={{ backgroundColor: "white", paddingTop: insets.top }}
         contentContainerStyle={{
@@ -63,13 +84,12 @@ export default function HomeScreen() {
             source={require("@/assets/images/gradientgreen.png")}
           >
             <View style={{ backgroundColor: "transparent" }}>
-              <LexendText bold={true} className="text-[24px]">
-                Rp{(
-                  userBalance.Pendapatan +
-                  userBalance.Tabungan -
-                  userBalance.Pengeluaran
-                ).toLocaleString("id")}
-              </LexendText>
+              {userBalance && (
+                <LexendText bold={true} className="text-[24px]">
+                  {totalBalance < 0 && "-"}Rp
+                  {Math.abs(totalBalance).toLocaleString("id")}
+                </LexendText>
+              )}
               <LexendText>Total Saldo</LexendText>
             </View>
             <LexendText>{formatter.format(new Date())}</LexendText>
@@ -87,7 +107,7 @@ export default function HomeScreen() {
             <View>
               <LexendText className="text-[#C5C5C5]">Pendapatan</LexendText>
               <LexendText bold={true} className="text-[16px]">
-                Rp50.000
+                Rp{userBalance?.Pendapatan.toLocaleString("id")}
               </LexendText>
             </View>
           </View>
@@ -101,7 +121,7 @@ export default function HomeScreen() {
             <View>
               <LexendText className="text-[#C5C5C5]">Pengeluaran</LexendText>
               <LexendText bold={true} className="text-[16px]">
-                Rp50.000
+                Rp{userBalance?.Pengeluaran.toLocaleString("id")}
               </LexendText>
             </View>
           </View>
@@ -119,26 +139,33 @@ export default function HomeScreen() {
             </Link>
           </View>
           <Spacer size={20} />
-          <View className="flex flex-row gap-3">
-            <View className="h-24 w-2 bg-[#76C063]"></View>
-            <View className="flex-1 gap-3">
-              {/* Loop reminders */}
-              <View className="flex flex-row items-center justify-between">
-                <View>
-                  <LexendText bold={true}>18 Apr 2024</LexendText>
-                  <LexendText>Tabungan Pensiun</LexendText>
-                </View>
-                <View className="mx-3 h-3 w-3 rounded-[24px] bg-[#D9D9D9]"></View>
-              </View>
-              <View className="flex flex-row items-center justify-between">
-                <View>
-                  <LexendText bold={true}>18 Apr 2024</LexendText>
-                  <LexendText>Dana Darurat</LexendText>
-                </View>
-                <View className="mx-3 h-3 w-3 rounded-[24px] bg-[#D9D9D9]"></View>
+          {reminders.length > 0 && (
+            <View className="flex flex-row gap-3">
+              <View
+                className={`${reminders.length == 1 ? "h-16" : reminders.length == 2 ? "h-28" : "h-36"} w-2 bg-[#76C063]`}
+              ></View>
+              <View className="flex-1 gap-3">
+                {reminders.map((reminder) => (
+                  <View
+                    key={reminder.id}
+                    className="flex flex-row items-center justify-between"
+                  >
+                    <View>
+                      <LexendText bold={true}>
+                        {reminder.date.toLocaleDateString("id-ID", {
+                          day: "numeric",
+                          month: "short",
+                          year: "numeric",
+                        })}
+                      </LexendText>
+                      <LexendText>{reminder.title}</LexendText>
+                    </View>
+                    <View className="mx-3 h-3 w-3 rounded-[24px] bg-[#D9D9D9]"></View>
+                  </View>
+                ))}
               </View>
             </View>
-          </View>
+          )}
         </View>
         <Spacer size={32} />
         <View className="mx-6">
@@ -219,7 +246,7 @@ export default function HomeScreen() {
         <Spacer size={100} />
       </ScrollView>
       <BottomNavBar />
-    </View>
+    </SafeAreaView>
   );
 }
 

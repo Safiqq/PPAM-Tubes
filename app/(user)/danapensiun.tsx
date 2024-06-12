@@ -4,6 +4,7 @@ import {
   ScrollView,
   View,
   TouchableOpacity,
+  Pressable,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LexendText, LexendTextInput } from "@/components/StyledText";
@@ -59,10 +60,12 @@ export default function DanaPensiunScreen() {
           className="h-[100px] items-center justify-center"
           source={require("@/assets/images/gradientgreen-block.png")}
         >
-          <Image
-            className="absolute left-7 top-11"
-            source={require("@/assets/images/logo/backbutton.png")}
-          />
+          <Pressable
+            className="absolute left-3 top-7 p-4"
+            onPress={() => router.back()}
+          >
+            <Image source={require("@/assets/images/logo/backbutton.png")} />
+          </Pressable>
           <LexendText bold={true} className="text-[20px]">
             Dana Pensiun
           </LexendText>

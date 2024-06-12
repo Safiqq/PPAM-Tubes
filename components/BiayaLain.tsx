@@ -4,7 +4,8 @@ import AnalisaRow from "@/components/AnalisaRow";
 import React from "react";
 import AnalisaSubRow from "./AnalisaSubRow";
 import AnalisaGreenHero3 from "./Hero/AnalisaGreenHero3";
-import { OutputGabungan, OutputSimulasiKPR } from "@/constants/Types";
+import { InputSimulasiKPR, OutputGabungan, OutputSimulasiKPR } from "@/constants/Types";
+import { LexendText } from "./StyledText";
 
 const BiayaLain = ({
   result,

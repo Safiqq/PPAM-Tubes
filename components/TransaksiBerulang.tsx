@@ -32,7 +32,7 @@ const TransaksiBerulang = () => {
   };
 
   return (
-    <ScrollView className="mx-5">
+    <View className="mx-5">
       {recurringTransactions.map((transaction) => (
         <View key={transaction.id}>
           <LexendText className="text-[#C5C5C5]">
@@ -51,7 +51,7 @@ const TransaksiBerulang = () => {
                   {transaction.category}
                 </LexendText>
                 <Spacer size={4} />
-                <View className="flex flex-row gap-1">
+                <View className="flex flex-row items-center gap-1">
                   <Image source={require("@/assets/images/logo/refresh.png")} />
                   <LexendText className="text-[10px] text-[#C5C5C5]">
                     Berulang setiap {transaction.recurringEach}
@@ -78,7 +78,7 @@ const TransaksiBerulang = () => {
           <Spacer size={20} />
         </View>
       ))}
-    </ScrollView>
+    </View>
   );
 };
 

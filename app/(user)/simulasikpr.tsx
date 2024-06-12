@@ -4,12 +4,13 @@ import {
   ScrollView,
   View,
   TouchableOpacity,
+  Pressable,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LexendText, LexendTextInput } from "@/components/StyledText";
 import Spacer from "@/components/Spacer";
 import { useRouter } from "expo-router";
-import { float, handleInputChange, handleInputCurrencyChange, int } from "@/utils/utils";
+import { float, handleInputChange, int } from "@/utils/utils";
 import { useState } from "react";
 import { InputSimulasiKPR } from "@/constants/Types";
 import hitungSimulasiKPR from "@/utils/simulasiKPR";
@@ -19,7 +20,6 @@ export default function SimulasiKPRScreen() {
 
   const [hargaPropertiImpian, setHargaPropertiImpian] = useState<string>("");
   const [persentaseDP, setPersentaseDP] = useState<string>("");
-  const [jumlahPinjamanPokok, setJumlahPinjamanPokok] = useState<string>("");
   const [penghasilanBulanan, setPenghasilanBulanan] = useState<string>("");
   const [lamaKPRBulan, setLamaKPRBulan] = useState<string>("");
   const [persenBungaFix, setPersenBungaFix] = useState<string>("");
@@ -28,7 +28,7 @@ export default function SimulasiKPRScreen() {
 
   const getPeriodeBungaFloating = () => {
     let res = parseInt(lamaKPRBulan) - parseInt(periodeBungaFixBulan) || 0;
-    if (res < 0) res = 0
+    if (res < 0) res = 0;
     return res;
   };
 
@@ -36,7 +36,6 @@ export default function SimulasiKPRScreen() {
     if (
       hargaPropertiImpian == "" ||
       persentaseDP == "" ||
-      jumlahPinjamanPokok == "" ||
       penghasilanBulanan == "" ||
       lamaKPRBulan == "" ||
       persenBungaFix == "" ||
@@ -78,10 +77,12 @@ export default function SimulasiKPRScreen() {
           className="h-[100px] items-center justify-center"
           source={require("@/assets/images/gradientgreen-block.png")}
         >
-          <Image
-            className="absolute left-7 top-11"
-            source={require("@/assets/images/logo/backbutton.png")}
-          />
+          <Pressable
+            className="absolute left-3 top-7 p-4"
+            onPress={() => router.back()}
+          >
+            <Image source={require("@/assets/images/logo/backbutton.png")} />
+          </Pressable>
           <LexendText bold={true} className="text-[20px]">
             Simulasi KPR
           </LexendText>
@@ -96,7 +97,7 @@ export default function SimulasiKPRScreen() {
             className="h-9 rounded-[8px] border border-[#C5C5C5] px-3"
             placeholder="0"
             value={hargaPropertiImpian}
-            onChangeText={handleInputCurrencyChange(setHargaPropertiImpian)}
+            onChangeText={handleInputChange(setHargaPropertiImpian)}
             keyboardType="numeric"
           />
           <Spacer size={20} />
@@ -109,7 +110,7 @@ export default function SimulasiKPRScreen() {
               className="h-9 w-28 rounded-[8px] border border-[#C5C5C5] px-3"
               placeholder="0"
               value={persentaseDP}
-              onChangeText={handleInputCurrencyChange(setPersentaseDP)}
+              onChangeText={handleInputChange(setPersentaseDP)}
               keyboardType="numeric"
             />
             <LexendText>%</LexendText>
@@ -119,13 +120,13 @@ export default function SimulasiKPRScreen() {
           <LexendText bold={true}>Jumlah Pinjaman Pokok</LexendText>
           <Spacer size={8} />
 
-          <LexendTextInput
-            className="h-9 rounded-[8px] border border-[#C5C5C5] px-3"
-            placeholder="0"
-            value={jumlahPinjamanPokok}
-            onChangeText={handleInputChange(setJumlahPinjamanPokok)}
-            keyboardType="numeric"
-          />
+          <LexendText className="w-40 rounded-[8px] bg-[#d9d9d9] p-2 text-center">
+            Rp
+            {(
+              (parseInt(hargaPropertiImpian) * parseFloat(persentaseDP)) /
+                100 || 0
+            ).toLocaleString("id")}
+          </LexendText>
           <Spacer size={20} />
 
           <LexendText bold={true}>Penghasilan Bulanan</LexendText>

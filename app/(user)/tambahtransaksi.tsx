@@ -83,6 +83,7 @@ export default function TambahTransaksiScreen() {
           selectedSegment={transactionType}
           setSelectedSegment={setTransactionType}
         />
+        <Spacer size={20}/>
         {renderComponent()}
       </View>
     </ScrollView>

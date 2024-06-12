@@ -4,6 +4,7 @@ import {
   ScrollView,
   View,
   TouchableOpacity,
+  Pressable,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LexendText, LexendTextInput } from "@/components/StyledText";
@@ -25,8 +26,6 @@ export default function DPPropertiScreen() {
   const [targetInvestasiPerBulan, setTargetInvestasiPerBulan] =
     useState<string>("");
   const [returnInvestasi, setReturnInvestasi] = useState<string>("");
-
-  const kpr = 60;
 
   const handleButton = () => {
     try {
@@ -60,10 +59,12 @@ export default function DPPropertiScreen() {
           className="h-[100px] items-center justify-center"
           source={require("@/assets/images/gradientgreen-block.png")}
         >
-          <Image
-            className="absolute left-7 top-11"
-            source={require("@/assets/images/logo/backbutton.png")}
-          />
+          <Pressable
+            className="absolute left-3 top-7 p-4"
+            onPress={() => router.back()}
+          >
+            <Image source={require("@/assets/images/logo/backbutton.png")} />
+          </Pressable>
           <LexendText bold={true} className="text-[20px]">
             DP Properti
           </LexendText>
@@ -111,20 +112,22 @@ export default function DPPropertiScreen() {
               <LexendText bold={true}>DP setara dengan</LexendText>
               <Spacer size={8} />
               <LexendText className="rounded-[8px] bg-[#D9D9D9] px-3 py-2.5 text-center">
-                Rp{(parseInt(persenDP) * parseInt(hargaProperti)) / 100}
+                Rp{(parseInt(persenDP) * parseInt(hargaProperti)) / 100 || 0}
               </LexendText>
               <Spacer size={20} />
               <LexendText bold={true}>KPR / pokok utang</LexendText>
               <Spacer size={8} />
               <LexendText className="rounded-[8px] bg-[#D9D9D9] px-3 py-2.5 text-center">
-                Rp{(kpr * parseInt(hargaProperti)) / 100}
+                Rp
+                {((100 - parseFloat(persenDP)) * parseInt(hargaProperti)) / 100 ||
+                  0}
               </LexendText>
             </View>
             <View>
               <LexendText bold={true}>% KPR</LexendText>
               <Spacer size={8} />
-              <LexendText className="w-12 rounded-[8px] bg-[#D9D9D9] px-3 py-2.5 text-center">
-                {kpr}%
+              <LexendText className="w-16 rounded-[8px] bg-[#D9D9D9] px-3 py-2.5 text-center">
+                {100 - parseFloat(persenDP) || 0}%
               </LexendText>
               <Spacer size={20} />
               <LexendText bold={true}>Asumsi inflasi properti</LexendText>
@@ -156,7 +159,6 @@ export default function DPPropertiScreen() {
           <Spacer size={20} />
           <LexendText bold={true}>Target investasi setiap bulan</LexendText>
           <Spacer size={8} />
-          Investasi
           <LexendTextInput
             className="h-9 rounded-[8px] border border-[#C5C5C5] px-3"
             placeholder="0"

@@ -40,6 +40,7 @@ export default function SimulasiKPRAnalisa() {
   return (
     <SafeAreaView className="flex-1 bg-white">
       <Spacer size={40} />
+
       <AnalisaHeader tab={tab} setTab={setTab} type={2} />
 
       {tab == "Strategi" && (

@@ -1,6 +1,6 @@
 import Spacer from "@/components/Spacer";
 import React, { useState } from "react";
-import { ScrollView, TouchableOpacity } from "react-native";
+import { TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AnalisaHeader from "@/components/AnalisaHeader";
 import Strategi from "@/components/Strategi";
@@ -53,44 +53,43 @@ export default function DanaMenikahAnalisa() {
 
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <ScrollView className="flex-1">
-        <Spacer size={40} />
-        <AnalisaHeader tab={tab} setTab={setTab} />
+      <Spacer size={40} />
 
-        {tab == "Strategi" && (
-          <Strategi
-            nama="danamenikah"
-            input={parsedInput}
-            result={parsedResult}
-          />
-        )}
-        {tab == "Rekomendasi" && (
-          <Rekomendasi
-            nama="danamenikah"
-            input={parsedInput}
-            result={parsedResult}
-          />
-        )}
+      <AnalisaHeader tab={tab} setTab={setTab} />
 
-        {((tab == "Strategi" && parsedResult.strategiCocok) ||
-          tab == "Rekomendasi") && (
-          <>
-            <Spacer size={16} />
-            <TouchableOpacity
-              className="mx-4 rounded-[12px] bg-black py-3"
-              onPress={handleAddReminder}
+      {tab == "Strategi" && (
+        <Strategi
+          nama="danamenikah"
+          input={parsedInput}
+          result={parsedResult}
+        />
+      )}
+      {tab == "Rekomendasi" && (
+        <Rekomendasi
+          nama="danamenikah"
+          input={parsedInput}
+          result={parsedResult}
+        />
+      )}
+
+      {((tab == "Strategi" && parsedResult.strategiCocok) ||
+        tab == "Rekomendasi") && (
+        <>
+          <Spacer size={16} />
+          <TouchableOpacity
+            className="mx-4 rounded-[12px] bg-black py-3"
+            onPress={handleAddReminder}
+          >
+            <LexendText
+              bold={true}
+              className="text-center text-[16px] text-white"
             >
-              <LexendText
-                bold={true}
-                className="text-center text-[16px] text-white"
-              >
-                Tambah ke Pengingat Pembayaran
-              </LexendText>
-            </TouchableOpacity>
-            <Spacer size={16} />
-          </>
-        )}
-      </ScrollView>
+              Tambah ke Pengingat Pembayaran
+            </LexendText>
+          </TouchableOpacity>
+          <Spacer size={16} />
+        </>
+      )}
     </SafeAreaView>
   );
 }

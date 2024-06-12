@@ -30,7 +30,7 @@ const AnalisaBreakdown = ({
             }}
           >
             <LexendText bold={true} className="text-center text-[10px]">
-              {pokok_percentage.toFixed(2)}%
+              {(pokok_percentage || 0).toFixed(2)}%
             </LexendText>
           </View>
           <View
@@ -42,7 +42,7 @@ const AnalisaBreakdown = ({
             }}
           >
             <LexendText bold={true} className="text-center text-[10px]">
-              {bunga_percentage.toFixed(2)}%
+              {(bunga_percentage || 0).toFixed(2)}%
             </LexendText>
           </View>
         </View>

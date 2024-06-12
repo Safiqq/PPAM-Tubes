@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Pressable, TextInput, View, Text, Alert } from "react-native";
+import { Pressable, View, Text } from "react-native";
 import { Picker } from "@react-native-picker/picker";
-import { LexendText } from "@/components/StyledText";
+import { LexendText, LexendTextInput } from "@/components/StyledText";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { Transaction } from "@/constants/Types";
@@ -17,7 +17,7 @@ const Tabungan = ({
   const router = useRouter();
 
   const [amount, setAmount] = useState<string>("");
-  const [selectedCategory, setSelectedCategory] = useState<string>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [date, setDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [recurring, setRecurring] = useState(false);
@@ -41,13 +41,17 @@ const Tabungan = ({
       description,
     };
 
-    if (transaction.amount === 0) {
-      Alert.alert("Data transaksi belum lengkap!");
+    if (
+      transaction.amount === 0 ||
+      transaction.category === null ||
+      transaction.description === ""
+    ) {
+      alert("Data transaksi belum lengkap!");
       console.log("data transaksi belum lengkap");
     } else {
       console.log(JSON.stringify(transaction));
       createTransaction(transaction as Transaction);
-      alert("Berhasil menambahkan ke pengingat pembayaran!");
+      alert("Berhasil menambahkan ke daftar transaksi!");
       router.navigate("/transaksi");
     }
   };
@@ -55,7 +59,7 @@ const Tabungan = ({
   return (
     <View className="mb-4">
       <LexendText className="mb-2 text-lg">Nominal</LexendText>
-      <TextInput
+      <LexendTextInput
         className="mb-4 rounded-lg border border-gray-400 p-2"
         placeholder="0"
         value={amount}
@@ -172,7 +176,7 @@ const Tabungan = ({
       )}
 
       <LexendText className="mb-2 text-lg">Keterangan</LexendText>
-      <TextInput
+      <LexendTextInput
         className="mb-4 rounded-lg border border-gray-400 p-2"
         placeholder="Deskripsi singkat"
         value={description}

@@ -26,11 +26,11 @@ const AnalisaSubHeader = ({tab, setTab, type = 1}) => {
       </Pressable>
       {type == 2 && (
         <Pressable
-          className={`flex-1 rounded-[8px] ${tab == "Durasi" ? "bg-black" : "bg-[#C5C5C5] "}`}
+          className={`flex-1 rounded-[8px] ${tab == "Return" ? "bg-black" : "bg-[#C5C5C5] "}`}
           onPress={() => setTab("Return")}
         >
           <LexendText
-            className={`py-2 text-center ${tab == "Durasi" ? "text-white" : "text-[#8E8E8E]"} `}
+            className={`py-2 text-center ${tab == "Return" ? "text-white" : "text-[#8E8E8E]"} `}
           >
             Return
           </LexendText>

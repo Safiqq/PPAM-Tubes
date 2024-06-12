@@ -36,8 +36,15 @@ export default function DetailPengingatScreen() {
       [
         {
           text: "Delete",
-          onPress: () => deleteReminder(reminder.id),
-          style: "cancel",
+          onPress: async () => {
+            await deleteReminder(reminder.id);
+            setReminders((prevReminders) =>
+              prevReminders
+                ? prevReminders.filter((r) => r.id !== reminder.id)
+                : [],
+            );
+          },
+          style: "destructive",
         },
       ],
       {
@@ -50,10 +57,12 @@ export default function DetailPengingatScreen() {
     <SafeAreaView className="flex-1 bg-white">
       <ScrollView className="flex-1 bg-white">
         <View className="h-[100px] items-center justify-center">
-          <Image
-            className="absolute left-7 top-11"
-            source={require("@/assets/images/logo/backbutton.png")}
-          />
+          <Pressable
+            className="absolute left-3 top-7 p-4"
+            onPress={() => router.back()}
+          >
+            <Image source={require("@/assets/images/logo/backbutton.png")} />
+          </Pressable>
           <LexendText bold={true} className="text-[20px]">
             Pengingat
           </LexendText>
@@ -94,8 +103,7 @@ export default function DetailPengingatScreen() {
                 <LexendText bold={true}>
                   {reminder.date.getDate()}{" "}
                   {reminder.date.toLocaleString("default", { month: "short" })}{" "}
-                  {reminder.date.getFullYear()}
-                  {" "}({reminder.recurringEach})
+                  {reminder.date.getFullYear()} ({reminder.recurringEach})
                 </LexendText>
                 <LexendText bold={true}>{reminder.title}</LexendText>
                 <LexendText>{reminder.description}</LexendText>

@@ -11,7 +11,15 @@ import { getBalance } from "@/services/TransactionService";
 
 export default function TransaksiScreen() {
   const [tab, setTab] = useState("Riwayat Transaksi");
-  const [userBalance, setUserBalance] = useState<any>();
+  const [userBalance, setUserBalance] = useState<{
+    Pendapatan: number;
+    Pengeluaran: number;
+    Tabungan: number;
+  }>({
+    Pendapatan: 0,
+    Tabungan: 0,
+    Pengeluaran: 0,
+  });
 
   useEffect(() => {
     async function fetchData() {
@@ -21,6 +29,9 @@ export default function TransaksiScreen() {
 
     fetchData();
   }, []);
+
+  const totalBalance =
+    userBalance.Pendapatan + userBalance.Tabungan - userBalance.Pengeluaran;
 
   return (
     <SafeAreaView className="flex-1 bg-white">
@@ -40,12 +51,8 @@ export default function TransaksiScreen() {
             <Spacer size={4} />
             {userBalance && (
               <LexendText bold={true} className="text-[40px]">
-                Rp
-                {(
-                  userBalance.Pendapatan +
-                  userBalance.Tabungan -
-                  userBalance.Pengeluaran
-                ).toLocaleString("id")}
+                {totalBalance < 0 && "-"}Rp
+                {Math.abs(totalBalance).toLocaleString("id")}
               </LexendText>
             )}
           </View>
@@ -63,7 +70,7 @@ export default function TransaksiScreen() {
                   </LexendText>
                 </View>
                 <LexendText bold={true} className="text-[14px] text-[#76C063]">
-                  Rp{userBalance.Pendapatan.toLocaleString("id")}
+                  Rp{userBalance?.Pendapatan.toLocaleString("id")}
                 </LexendText>
               </View>
               <View className="items-center">
@@ -81,7 +88,7 @@ export default function TransaksiScreen() {
                   bold={true}
                   style={{ color: "#EF4E4E", fontSize: 14 }}
                 >
-                  Rp{userBalance.Pengeluaran.toLocaleString("id")}
+                  Rp{userBalance?.Pengeluaran.toLocaleString("id")}
                 </LexendText>
               </View>
               <View className="items-center">
@@ -95,7 +102,7 @@ export default function TransaksiScreen() {
                   </LexendText>
                 </View>
                 <LexendText bold={true} className="text-[14px]">
-                  Rp{userBalance.Tabungan.toLocaleString("id")}
+                  Rp{userBalance?.Tabungan.toLocaleString("id")}
                 </LexendText>
               </View>
             </Shadow>
